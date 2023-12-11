@@ -16,7 +16,7 @@ class Flower extends Group {
             twirl: 0,
         };
 
-        // Load object      
+        // Load object
 
         // Frog by Poly by Google [CC-BY] via Poly Pizza
         const loader = new GLTFLoader();
@@ -63,8 +63,8 @@ class Flower extends Group {
         }
         if (this.state.twirl > 0) {
             // Lazy implementation of twirl
-            this.state.twirl -= Math.PI / 8;
-            this.rotation.y += Math.PI / 8;
+            // this.state.twirl -= Math.PI / 8;
+            // this.rotation.y += Math.PI / 8;
         }
 
         // Advance tween animations, if any exist
