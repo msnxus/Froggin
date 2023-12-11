@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Frog, LillyPad, Pond } from 'objects';
+import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
 
 class SeedScene extends Scene {
@@ -11,24 +11,22 @@ class SeedScene extends Scene {
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 1,
+            rotationSpeed: 0,
             updateList: [],
         };
-
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
 
         // Add meshes to scene
-        const lillypad = new LillyPad();
+        const lillyPadGenerator = new LillyPadGenerator();
         this.frog = new Frog(this);
         const lights = new BasicLights();
-        const pond  = new Pond();
-        this.add(lillypad, this.frog, lights, pond);
+        const pond = new Pond();
+        this.add(lillyPadGenerator, this.frog, lights);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
-        
 
         // Event listeners
         this.keyDownTime = 0;
@@ -73,7 +71,7 @@ class SeedScene extends Scene {
             const duration = keyUpTime - this.keyDownTime;
 
             // Assuming flower is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.spin(duration);  // Adjust this line as per your code structure
+            this.frog.spin(duration); // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
         }
