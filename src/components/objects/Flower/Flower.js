@@ -14,6 +14,11 @@ class Flower extends Group {
             bob: true,
             spin: () => this.spin(), // or this.spin.bind(this)
             twirl: 0,
+            reset: () => {
+                this.position.x = 0;
+                this.position.y = 0;
+                this.position.z = 0;
+            },
         };
 
         // Load object
@@ -33,6 +38,7 @@ class Flower extends Group {
         // Populate GUI
         this.state.gui.add(this.state, 'bob');
         this.state.gui.add(this.state, 'spin');
+        this.state.gui.add(this.state, 'reset');
     }
 
     spin() {
