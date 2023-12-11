@@ -1,7 +1,7 @@
 import { Group } from 'three';
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './frog.fbx';
+import MODEL from './Frog.glb';
 
 class Flower extends Group {
     constructor(parent) {
@@ -12,17 +12,19 @@ class Flower extends Group {
         this.state = {
             gui: parent.state.gui,
             bob: true,
-            spin: (() => this.spin()), // or this.spin.bind(this)
+            spin: () => this.spin(), // or this.spin.bind(this)
             twirl: 0,
         };
 
-        // Load object
-        const loader = new FBXLoader();
+        // Load object      
+
+        // Frog by Poly by Google [CC-BY] via Poly Pizza
+        const loader = new GLTFLoader();
 
         this.name = 'flower';
-        loader.load(MODEL, (fbx) => {
-            
-            this.add(fbx);
+        loader.load(MODEL, (gltf) => {
+            gltf.scene.scale.set(0.01, 0.01, 0.01);
+            this.add(gltf.scene);
         });
 
         // Add self to parent's update list
