@@ -1,7 +1,7 @@
 import { Group } from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './flower.gltf';
+import MODEL from './frog.fbx';
 
 class Flower extends Group {
     constructor(parent) {
@@ -17,11 +17,12 @@ class Flower extends Group {
         };
 
         // Load object
-        const loader = new GLTFLoader();
+        const loader = new FBXLoader();
 
         this.name = 'flower';
-        loader.load(MODEL, (gltf) => {
-            this.add(gltf.scene);
+        loader.load(MODEL, (fbx) => {
+            
+            this.add(fbx);
         });
 
         // Add self to parent's update list
