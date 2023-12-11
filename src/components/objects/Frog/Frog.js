@@ -12,7 +12,7 @@ class Frog extends Group {
         this.state = {
             gui: parent.state.gui,
             bob: true,
-            spin: (power) => this.spin(power), // or this.spin.bind(this)
+            jump: (power) => this.jump(power), // or this.jump.bind(this)
             twirl: 0,
             reset: () => {
                 this.position.x = 0;
@@ -37,11 +37,11 @@ class Frog extends Group {
 
         // Populate GUI
         this.state.gui.add(this.state, 'bob');
-        this.state.gui.add(this.state, 'spin');
+        this.state.gui.add(this.state, 'jump');
         this.state.gui.add(this.state, 'reset');
     }
 
-    spin(power) {
+    jump(power) {
         // Add a simple twirl
         this.state.twirl += 6 * Math.PI;
 

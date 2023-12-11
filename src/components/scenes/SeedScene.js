@@ -73,7 +73,7 @@ class SeedScene extends Scene {
             const duration = keyUpTime - this.keyDownTime;
 
             // Assuming flower is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.spin(duration);  // Adjust this line as per your code structure
+            this.frog.jump(duration);  // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
         }
