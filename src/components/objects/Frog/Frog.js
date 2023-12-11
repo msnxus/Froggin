@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './Frog.glb';
 
-class Flower extends Group {
+class Frog extends Group {
     constructor(parent) {
         // Call parent Group() constructor
         super();
@@ -12,7 +12,7 @@ class Flower extends Group {
         this.state = {
             gui: parent.state.gui,
             bob: true,
-            spin: () => this.spin(), // or this.spin.bind(this)
+            spin: (power) => this.spin(power), // or this.spin.bind(this)
             twirl: 0,
             reset: () => {
                 this.position.x = 0;
@@ -26,7 +26,7 @@ class Flower extends Group {
         // Frog by Poly by Google [CC-BY] via Poly Pizza
         const loader = new GLTFLoader();
 
-        this.name = 'flower';
+        this.name = 'frog';
         loader.load(MODEL, (gltf) => {
             gltf.scene.scale.set(0.01, 0.01, 0.01);
             this.add(gltf.scene);
@@ -41,7 +41,7 @@ class Flower extends Group {
         this.state.gui.add(this.state, 'reset');
     }
 
-    spin() {
+    spin(power) {
         // Add a simple twirl
         this.state.twirl += 6 * Math.PI;
 
@@ -49,7 +49,7 @@ class Flower extends Group {
         // TweenJS guide: http://learningthreejs.com/blog/2011/08/17/tweenjs-for-smooth-animation/
         // Possible easings: http://sole.github.io/tween.js/examples/03_graphs.html
         const jumpUp = new TWEEN.Tween(this.position)
-            .to({ y: this.position.y + 1 }, 300)
+            .to({ y: this.position.y + power/400 }, 300)
             .easing(TWEEN.Easing.Quadratic.Out);
         const fallDown = new TWEEN.Tween(this.position)
             .to({ y: 0 }, 300)
@@ -78,4 +78,4 @@ class Flower extends Group {
     }
 }
 
-export default Flower;
+export default Frog;
