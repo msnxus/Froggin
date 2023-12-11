@@ -32,20 +32,17 @@ class LillyPadGenerator extends Group {
         }
     }
 
-    setNextLillyPads() {
-        while (this.next.length < 5) {
-            const lillyPad = new LillyPad();
-            this.add(lillyPad);
-        }
+    setNextLillyPad() {
+        const newNext = this.next[this.next.length - 1].generateNextPad();
+        this.previous.push(this.current);
+        this.current = this.next[0];
+        this.next.push(newNext);
+        this.add(newNext);
     }
 
     handleA(event) {
         if (event.key === 'a') {
-            const newNext = this.next[this.next.length - 1].generateNextPad();
-            this.previous.push(this.current);
-            this.current = this.next[0];
-            this.next.push(newNext);
-            this.add(newNext);
+            this.setNextLillyPad();
         }
     }
 }
