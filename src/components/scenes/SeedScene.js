@@ -30,7 +30,7 @@ class SeedScene extends Scene {
         window.addEventListener('keyup', function (event) {
             // Ignore keypresses typed into a text box
             if (event.target.tagName === 'INPUT') return;
-            console.log(event.key);
+
             // if 'I' was released, download the image
             if (event.key === ' ') {
                 flower.spin();
