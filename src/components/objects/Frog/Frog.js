@@ -12,7 +12,7 @@ class Frog extends Group {
         this.state = {
             gui: parent.state.gui,
             bob: true,
-            jump: (power) => this.jump(power), // or this.jump.bind(this)
+            jump: (power) => this.jump(power), // or this.jump.bind(this) we good
             twirl: 0,
             reset: () => {
                 this.position.x = 0;
