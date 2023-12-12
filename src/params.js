@@ -1,4 +1,4 @@
-"use strict";
+import { Vector3 } from 'three';
 
 const SceneParams = {
   // Variables for simulation state; 
@@ -23,6 +23,14 @@ const SceneParams = {
   
     // Are we in a first person POV
     FIRSTPERSON: false,
+
+    // bounding spheres
+    DEBUGGING: false,
+    FROG_RADIUS: 1.2,
+    LILYPAD_RADIUS: 2.2,
+    LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
+
+
 }
 
 export default SceneParams;

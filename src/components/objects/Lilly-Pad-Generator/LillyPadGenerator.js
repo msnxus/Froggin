@@ -16,6 +16,13 @@ class LillyPadGenerator extends Group {
         this.initPads(2);
     }
 
+    getPads() {
+        let pads = [];
+        pads = pads.concat(this.next);
+        pads.push(this.current);
+        return pads;
+    }
+
     initPads(amount) {
         let curr = this.current;
         for (let i = 0; i < amount; i++) {
