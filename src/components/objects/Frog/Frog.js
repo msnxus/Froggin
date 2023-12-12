@@ -13,7 +13,7 @@ class Frog extends Group {
         this.state = {
             gui: parent.state.gui,
             bob: true,
-            holdingJump: false,
+            holdingTurn: false,
             jump: (power) => this.jump(power), // or this.jump.bind(this)
             twirl: 0,
             turn: (degrees) => this.turn(degrees),
@@ -87,7 +87,7 @@ class Frog extends Group {
                 .easing(TWEEN.Easing.Quadratic.In);
             // Fall down after little hop
             upMovement.onComplete(() => downMovement.start());
-            upMovement.start();
+            //upMovement.start();
         }
     }
 
