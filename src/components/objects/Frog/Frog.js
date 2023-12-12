@@ -29,6 +29,8 @@ class Frog extends Group {
             turn: (degrees) => this.turn(degrees),
             move: (distance) => this.move(distance),
             reset: () => {
+                this.velocity = new Vector3();
+                this.onGround = true;
                 this.position.x = 0;
                 this.position.y = 0;
                 this.position.z = 0;
@@ -160,6 +162,7 @@ class Frog extends Group {
             upMovement.start();
         }
     }
+
     collide(pad) {
         this.position.y = pad.position.y;
         this.velocity = new Vector3(0, 0, 0);
@@ -185,8 +188,15 @@ class Frog extends Group {
         }
 
         this.boundingSphere.center.copy(this.position);
-        // Prevent the frog from going below ground level
         TWEEN.update();
+
+        if (this.position.y < -5) {
+            // TODO: trigger lose screen
+
+            // reset position: 
+            this.state.reset();
+
+        }
     }
 }
 

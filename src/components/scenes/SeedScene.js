@@ -25,7 +25,7 @@ class SeedScene extends Scene {
         this.frog = new Frog(this, this.lillyPadGenerator);
         const lights = new BasicLights();
         const pond = new Pond();
-        this.add(this.lillyPadGenerator, this.frog, lights);
+        this.add(this.lillyPadGenerator, this.frog, lights, pond);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);

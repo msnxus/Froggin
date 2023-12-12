@@ -74,7 +74,7 @@ class LillyPad extends Group {
 
     generateNextPad() {
         const radius = 15;
-        const angle = Math.random() * (Math.PI / 2);
+        const angle = Math.random() * (Math.PI / 2) - Math.PI / 4;
 
         const offset = new Vector3(radius, 0, 0).applyAxisAngle(
             new Vector3(0, 1, 0),
