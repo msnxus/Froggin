@@ -115,7 +115,7 @@ class Frog extends Group {
                 .to({ y: this.position.y + hopHeight }, hopDuration)
                 .easing(TWEEN.Easing.Quadratic.Out);
             const downMovement = new TWEEN.Tween(this.position)
-                .to({ y: 0 }, hopDurati1on)
+                .to({ y: this.position.y }, hopDuration)
                 .easing(TWEEN.Easing.Quadratic.In);
             // Fall down after little hop
             upMovement.onComplete(() => downMovement.start());
