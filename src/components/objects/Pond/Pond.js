@@ -12,8 +12,11 @@ class Pond extends Group {
         this.name = 'pond';
         // Lilly Pad by Jarlan Perez [CC-BY] via Poly Pizza
         loader.load(MODEL, (gltf) => {
-            let scale = 10
+            let scale = 100
+
             gltf.scene.scale.set(scale, scale, scale);
+            gltf.scene.position.set(0, -4, 0);
+            gltf.scene.rotation.y = Math.PI
             this.add(gltf.scene);
         });
     }

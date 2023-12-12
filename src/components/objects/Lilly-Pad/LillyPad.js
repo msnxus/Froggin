@@ -11,13 +11,15 @@ import MODEL from './lilly-pad.glb';
 import SceneParams from '../../../params';
 
 class LillyPad extends Group {
-    constructor(initialPos) {
+    constructor(initialPos, index) {
         // Call parent Group() constructor
         super();
 
         const loader = new GLTFLoader();
 
+        // Properties
         this.name = 'lilly-pad';
+        this.index = index;
         if (initialPos) {
             this.position = initialPos;
         }
@@ -63,13 +65,16 @@ class LillyPad extends Group {
         const worldPosition = new Vector3();
         this.getWorldPosition(worldPosition);
         worldPosition.add(SceneParams.LILYPAD_BOUNDING_OFFSET);
-        const boundingSphereWorld = new Sphere(worldPosition, SceneParams.LILYPAD_RADIUS); // Use the same radius as your local bounding sphere
+        const boundingSphereWorld = new Sphere(
+            worldPosition,
+            SceneParams.LILYPAD_RADIUS
+        ); // Use the same radius as your local bounding sphere
         return boundingSphereWorld;
     }
 
     generateNextPad() {
         const radius = 15;
-        const angle = Math.random() * (Math.PI / 2);
+        const angle = Math.random() * (Math.PI / 2) - Math.PI / 4;
 
         const offset = new Vector3(radius, 0, 0).applyAxisAngle(
             new Vector3(0, 1, 0),
@@ -78,6 +83,7 @@ class LillyPad extends Group {
 
         const newPad = this.clone();
         newPad.addToPosition(offset);
+        newPad.index = this.index + 1;
         return newPad;
     }
 }

@@ -29,12 +29,17 @@ class Frog extends Group {
             turn: (degrees) => this.turn(degrees),
             move: (distance) => this.move(distance),
             reset: () => {
+                this.tweens.forEach((tween) => tween.stop())
+                this.tweens = [];
+                this.velocity = new Vector3();
+                this.onGround = true;
                 this.position.x = 0;
                 this.position.y = 0;
                 this.position.z = 0;
             },
         };
-
+        // tweens
+        this.tweens = [];
         // connecting lilly pad generator
         this.lillyPadGenerator = lillyPadGenerator;
 
@@ -78,6 +83,8 @@ class Frog extends Group {
 
     jump(power) {
         if (this.onGround) {
+            this.tweens.forEach((tween) => tween.stop());
+            this.tweens = [];
             let totalRotation = this.rotation.y - Math.PI / 2;
             let pow = power * SceneParams.JUMP_POWER;
             this.velocity.add(
@@ -108,7 +115,7 @@ class Frog extends Group {
                 .to({ y: this.position.y + hopHeight }, hopDuration)
                 .easing(TWEEN.Easing.Quadratic.Out);
             const downMovement = new TWEEN.Tween(this.position)
-                .to({ y: 0 }, hopDuration)
+                .to({ y: 0 }, hopDurati1on)
                 .easing(TWEEN.Easing.Quadratic.In);
             // Fall down after little hop
             upMovement.onComplete(() => downMovement.start());
@@ -154,12 +161,14 @@ class Frog extends Group {
             const downMovement = new TWEEN.Tween(this.position)
                 .to({ y: 0 }, hopDuration)
                 .easing(TWEEN.Easing.Quadratic.In);
-
+            
             // Fall down after little hop
             upMovement.onComplete(() => downMovement.start());
             upMovement.start();
+            this.tweens.push(moveXTween, moveYTween, upMovement, downMovement)
         }
     }
+
     collide(pad) {
         this.position.y = pad.position.y;
         this.velocity = new Vector3(0, 0, 0);
@@ -185,8 +194,15 @@ class Frog extends Group {
         }
 
         this.boundingSphere.center.copy(this.position);
-        // Prevent the frog from going below ground level
         TWEEN.update();
+
+        if (this.position.y < -5) {
+            // TODO: trigger lose screen
+
+            // reset position: 
+            this.state.reset();
+
+        }
     }
 }
 
