@@ -1,5 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Camera } from 'three';
+import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
 
@@ -41,11 +42,11 @@ class SeedScene extends Scene {
     handleKeyDown(event) {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
-            this.frog.rotation.z = 0.05
+            // Frog tiltup TWEEN
+            this.frog.tiltUp.start();
         }
         else if (event.key === ' ') {
             let duration = Math.min(700, new Date().getTime() - this.keyDownTime);
-            this.frog.rotation.z = 0.001 * duration;
         }
 
         const keyMap = {
@@ -105,6 +106,7 @@ class SeedScene extends Scene {
             const keyUpTime = new Date().getTime();
             let duration = Math.min(700, keyUpTime - this.keyDownTime);
 
+            this.frog.tiltUp.stop();
             this.frog.rotation.z = 0;
 
             // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately

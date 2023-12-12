@@ -9,6 +9,9 @@ class Frog extends Group {
         // Call parent Group() constructor
         super();
 
+        // TiltUp animation
+        this.tiltUp = new TWEEN.Tween(this.rotation).to({z: 0.7}, 700);
+
         // Init state
         this.state = {
             gui: parent.state.gui,
