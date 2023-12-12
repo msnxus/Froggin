@@ -53,7 +53,7 @@ class SeedScene extends Scene {
             ArrowLeft: 'ArrowLeft',
             ArrowRight: 'ArrowRight',
         };
-        const rotationAmount = Math.PI / 40;
+        const rotationAmount = Math.PI / 20;
         const movementAmount = 0.5;
 
         if (Object.keys(keyMap).find((v) => v == event.key)) {
@@ -64,10 +64,16 @@ class SeedScene extends Scene {
                 // this.frog.position.x += movementAmount;
                 this.frog.move(movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowLeft) {
-                this.frog.turn(rotationAmount);
+                if(this.frog.state.holdingTurn) {
+                    this.frog.turn(rotationAmount * 4)
+                }
+                else {
+                    this.frog.state.holdingTurn = true;
+                    this.frog.turn(rotationAmount);
+                }
             } else if (event.key == keyMap.ArrowRight) {
                 this.frog.turn(-rotationAmount);
-            }
+            } 
         }
 
         if (event.key === ' ') {
