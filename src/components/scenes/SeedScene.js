@@ -69,10 +69,9 @@ class SeedScene extends Scene {
         if (event.key === ' ') {
             const keyUpTime = new Date().getTime();
             const duration = keyUpTime - this.keyDownTime;
-
-            // Assuming flower is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.spin(duration); // Adjust this line as per your code structure
-
+            
+            // Activate frog jump using duration as a variable
+            this.frog.jump(duration);  
             this.keyDownTime = 0; // Reset the keyDownTime
         }
     }
