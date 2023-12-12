@@ -23,8 +23,8 @@ class SeedScene extends Scene {
         const lillypad = new LillyPad();
         this.frog = new Frog(this);
         const lights = new BasicLights();
-        const pond  = new Pond();
-        this.add(lillypad, this.frog, lights, pond);
+        // const pond  = new Pond();
+        this.add(lillypad, this.frog, lights);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -71,10 +71,9 @@ class SeedScene extends Scene {
         if (event.key === ' ') {
             const keyUpTime = new Date().getTime();
             const duration = keyUpTime - this.keyDownTime;
-
-            // Assuming flower is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.spin(duration);  // Adjust this line as per your code structure
-
+            
+            // Activate frog jump using duration as a variable
+            this.frog.jump(duration);  
             this.keyDownTime = 0; // Reset the keyDownTime
         }
     }
