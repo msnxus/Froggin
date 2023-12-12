@@ -13,7 +13,7 @@ class Frog extends Group {
             gui: parent.state.gui,
             bob: true,
             jump: (power) => this.jump(power), // or this.jump.bind(this)
-            twirl: 10,
+            twirl: 0,
             turn: (degrees) => this.turn(degrees),
             move: (distance) => this.move(distance),
             reset: () => {
@@ -45,7 +45,7 @@ class Frog extends Group {
 
     jump(power) {
         // Add a simple twirl
-        this.state.twirl += 6 * Math.PI;
+        // this.state.twirl += 6 * Math.PI;
 
         // Use timing library for more precice "bounce" animation
         // TweenJS guide: http://learningthreejs.com/blog/2011/08/17/tweenjs-for-smooth-animation/
@@ -65,7 +65,7 @@ class Frog extends Group {
     }
 
     turn(degrees) {
-        const turnDuration = 500; // milliseconds to turn
+        const turnDuration = 1500; // milliseconds to turn
         const turning = new TWEEN.Tween(this.rotation)
         .to({ y: this.rotation.y + degrees}, turnDuration)
         .easing(TWEEN.Easing.Exponential.Out)
@@ -74,7 +74,7 @@ class Frog extends Group {
     }
 
     move(distance, totalRotation) {
-        const moveDuration = 500;
+        const moveDuration = 1000;
         totalRotation -= Math.PI / 2;
         const moveXTween = new TWEEN.Tween(this.position)
         .to({x: this.position.x + distance * -Math.sin(totalRotation)}, moveDuration)
@@ -86,7 +86,6 @@ class Frog extends Group {
         .easing(TWEEN.Easing.Exponential.Out)
         .start();
 
-
         // add a little hop to the movement
         const hopHeight = 0.5;
         const hopDuration = 100;
@@ -95,7 +94,7 @@ class Frog extends Group {
         .easing(TWEEN.Easing.Quadratic.Out);
         const downMovement = new TWEEN.Tween(this.position)
         .to({y: 0}, hopDuration)
-        .easing(TWEEN.Easing.Quadratic.Out);
+        .easing(TWEEN.Easing.Quadratic.In);
 
         // Fall down after little hop
         upMovement.onComplete(() => downMovement.start());

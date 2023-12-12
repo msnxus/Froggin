@@ -14,10 +14,12 @@ import { SeedScene } from 'scenes';
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
+const cameraOffset = new Vector3(0, 5, -10);
 
-// Set up camera
-camera.position.set(6, 3, -10);
-camera.lookAt(new Vector3(0, 0, 0));
+// Set up camera 
+// ------------------------------ CHANGE CAMERA SETTINGS HERE ------------------------------
+// camera.position.set(0, 5, -10);
+// camera.lookAt(new Vector3(0, 0, 0));
 
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
@@ -31,6 +33,7 @@ document.body.appendChild(canvas);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
+controls.enabled = false;
 controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();
@@ -38,6 +41,14 @@ controls.update();
 // Render loop
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
+
+    // change camera settings
+    const frog = scene.getFrog();
+    const newPosition = new Vector3();
+    frog.getWorldPosition(newPosition);
+    camera.position.copy(newPosition).add(cameraOffset);
+    camera.lookAt(newPosition.clone());
+
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);

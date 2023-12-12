@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
+import { Scene, Color, Camera } from 'three';
 import { Frog, LillyPad, Pond } from 'objects';
 import { BasicLights } from 'lights';
 
@@ -57,8 +57,7 @@ class SeedScene extends Scene {
             ArrowRight: 'ArrowRight',
         };
         const rotationAmount = Math.PI / 10;
-        const movementAmount = 0.5;
-        const totalRotation = this.frog.rotation.y; 
+        const movementAmount = 2;
         
 
 
@@ -71,7 +70,6 @@ class SeedScene extends Scene {
                 this.frog.move(movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowLeft) {
                 this.frog.turn(rotationAmount);
-                
             } else if (event.key == keyMap.ArrowRight) {
                 this.frog.turn(-rotationAmount);
             } 
@@ -81,7 +79,7 @@ class SeedScene extends Scene {
             const keyUpTime = new Date().getTime();
             const duration = keyUpTime - this.keyDownTime;
 
-            // Assuming flower is accessible here, otherwise you need to pass it or reference it appropriately
+            // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
             this.frog.jump(duration);  // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
@@ -92,10 +90,14 @@ class SeedScene extends Scene {
         this.state.updateList.push(object);
     }
 
+    getFrog() {
+        return this.frog;
+    }
+
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * timeStamp) / 10000;
-
+        this.rotation.y = -this.frog.rotation.y - (Math.PI / 2);
+        
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
