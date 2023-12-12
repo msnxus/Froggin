@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, Camera } from 'three';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
+import SceneParams from '../../params';
 
 class SeedScene extends Scene {
     constructor() {
@@ -41,6 +42,8 @@ class SeedScene extends Scene {
     handleKeyDown(event) {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
+        } else if (event.key === 'f') {
+            SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
         }
     }
 
@@ -58,10 +61,8 @@ class SeedScene extends Scene {
 
         if (Object.keys(keyMap).find((v) => v == event.key)) {
             if (event.key == keyMap.ArrowDown) {
-                // this.frog.position.x -= movementAmount;
                 this.frog.move(-movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowUp) {
-                // this.frog.position.x += movementAmount;
                 this.frog.move(movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowLeft) {
                 this.frog.turn(rotationAmount);

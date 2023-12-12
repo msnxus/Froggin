@@ -21,7 +21,8 @@ const SceneParams = {
     // This value was found experimentally to work well in this simulation.
     TIMESTEP: 18 / 1000,
   
-
+    // Are we in a first person POV
+    FIRSTPERSON: false,
 }
 
 export default SceneParams;
