@@ -55,8 +55,8 @@ class SeedScene extends Scene {
             ArrowLeft: 'ArrowLeft',
             ArrowRight: 'ArrowRight',
         };
-        const rotationAmount = Math.PI / 10;
-        const movementAmount = 2;
+        const rotationAmount = Math.PI / 20;
+        const movementAmount = 0.5;
         
 
 

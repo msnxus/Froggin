@@ -49,7 +49,15 @@ class Frog extends Group {
 
     jump(power) {
         if (this.onGround) {
-            this.velocity.add(new Vector3(0, power*SceneParams.JUMP_POWER, 0));
+            let totalRotation = this.rotation.y - Math.PI / 2;
+            let pow = power * SceneParams.JUMP_POWER;
+            this.velocity.add(
+                new Vector3(
+                    -Math.sin(totalRotation) * pow,
+                    pow,
+                    -Math.cos(totalRotation) * pow
+                )
+            );
             this.onGround = false;
         }
     }
@@ -57,65 +65,81 @@ class Frog extends Group {
     turn(degrees) {
         const turnDuration = 1500; // milliseconds to turn
         const turning = new TWEEN.Tween(this.rotation)
-        .to({ y: this.rotation.y + degrees}, turnDuration)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .start();
-        
+            .to({ y: this.rotation.y + degrees }, turnDuration)
+            .easing(TWEEN.Easing.Exponential.Out)
+            .start();
     }
 
     move(distance, totalRotation) {
-        const moveDuration = 1000;
-        totalRotation -= Math.PI / 2;
-        const moveXTween = new TWEEN.Tween(this.position)
-        .to({x: this.position.x + distance * -Math.sin(totalRotation)}, moveDuration)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .start();
+        if (this.onGround) {
+            const moveDuration = 1000;
+            totalRotation -= Math.PI / 2;
+            const moveXTween = new TWEEN.Tween(this.position)
+                .to(
+                    {
+                        x:
+                            this.position.x +
+                            distance * -Math.sin(totalRotation),
+                    },
+                    moveDuration
+                )
+                .easing(TWEEN.Easing.Exponential.Out)
+                .start();
 
-        const moveYTween = new TWEEN.Tween(this.position)
-        .to({z: this.position.z + distance * -Math.cos(totalRotation)}, moveDuration)
-        .easing(TWEEN.Easing.Exponential.Out)
-        .start();
+            const moveYTween = new TWEEN.Tween(this.position)
+                .to(
+                    {
+                        z:
+                            this.position.z +
+                            distance * -Math.cos(totalRotation),
+                    },
+                    moveDuration
+                )
+                .easing(TWEEN.Easing.Exponential.Out)
+                .start();
 
-        // add a little hop to the movement
-        const hopHeight = 0.5;
-        const hopDuration = 100;
-        const upMovement = new TWEEN.Tween(this.position)
-        .to({ y: this.position.y + hopHeight}, hopDuration)
-        .easing(TWEEN.Easing.Quadratic.Out);
-        const downMovement = new TWEEN.Tween(this.position)
-        .to({y: 0}, hopDuration)
-        .easing(TWEEN.Easing.Quadratic.In);
+            // add a little hop to the movement
+            const hopHeight = 0.5;
+            const hopDuration = 100;
+            const upMovement = new TWEEN.Tween(this.position)
+                .to({ y: this.position.y + hopHeight }, hopDuration)
+                .easing(TWEEN.Easing.Quadratic.Out);
+            const downMovement = new TWEEN.Tween(this.position)
+                .to({ y: 0 }, hopDuration)
+                .easing(TWEEN.Easing.Quadratic.In);
 
-        // Fall down after little hop
-        upMovement.onComplete(() => downMovement.start());
-        upMovement.start();
+            // Fall down after little hop
+            upMovement.onComplete(() => downMovement.start());
+            upMovement.start();
+        }
     }
-    
+
     update(timeStamp) {
         if (this.state.bob) {
             // Bob back and forth
             this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
         }
         // update position
-        this.position.add(this.velocity.clone().multiplyScalar(SceneParams.TIMESTEP))
+        this.position.add(
+            this.velocity.clone().multiplyScalar(SceneParams.TIMESTEP)
+        );
         // if in the air
         if (!this.onGround) {
             // apply gravity
             this.velocity.add(new Vector3(0, -SceneParams.GRAVITY, 0));
-            
         }
-        
+
         // check for collision with ground
+        // TODO: check this for lilypad
         if (this.position.y <= 0) {
             this.position.y = 0;
             this.velocity = new Vector3(0, 0, 0);
             this.onGround = true;
         } else {
-            console.log(this.velocity)
+            // console.log(this.velocity)
         }
         // Prevent the frog from going below ground level
-        // TODO: change this to checking lillypad
-        
+        TWEEN.update();
     }
 }
 
