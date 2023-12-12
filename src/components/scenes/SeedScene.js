@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Camera} from 'three';
+import { Scene, Color, Camera } from 'three';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
 
@@ -17,11 +17,10 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
-        
 
         // Add meshes to scene
         const lillyPadGenerator = new LillyPadGenerator();
-        this.frog = new Frog(this);
+        this.frog = new Frog(this, lillyPadGenerator);
         const lights = new BasicLights();
         const pond = new Pond();
         this.add(lillyPadGenerator, this.frog, lights);
@@ -43,7 +42,6 @@ class SeedScene extends Scene {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
         }
-
     }
 
     handleKeyUp(event, frog) {
@@ -57,8 +55,6 @@ class SeedScene extends Scene {
         };
         const rotationAmount = Math.PI / 20;
         const movementAmount = 0.5;
-        
-
 
         if (Object.keys(keyMap).find((v) => v == event.key)) {
             if (event.key == keyMap.ArrowDown) {
@@ -71,7 +67,7 @@ class SeedScene extends Scene {
                 this.frog.turn(rotationAmount);
             } else if (event.key == keyMap.ArrowRight) {
                 this.frog.turn(-rotationAmount);
-            } 
+            }
         }
 
         if (event.key === ' ') {
@@ -79,7 +75,7 @@ class SeedScene extends Scene {
             const duration = keyUpTime - this.keyDownTime;
 
             // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.jump(duration);  // Adjust this line as per your code structure
+            this.frog.jump(duration); // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
         }
@@ -95,8 +91,8 @@ class SeedScene extends Scene {
 
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = -this.frog.rotation.y - (Math.PI / 2);
-        
+        this.rotation.y = -this.frog.rotation.y - Math.PI / 2;
+
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);
