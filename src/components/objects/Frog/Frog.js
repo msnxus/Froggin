@@ -12,8 +12,10 @@ class Frog extends Group {
         this.state = {
             gui: parent.state.gui,
             bob: true,
-            jump: (power) => this.jump(power), // or this.jump.bind(this) we good
-            twirl: 0,
+            jump: (power) => this.jump(power), // or this.jump.bind(this)
+            twirl: 10,
+            turn: (degrees) => this.turn(degrees),
+            move: (distance) => this.move(distance),
             reset: () => {
                 this.position.x = 0;
                 this.position.y = 0;
@@ -62,15 +64,54 @@ class Frog extends Group {
         jumpUp.start();
     }
 
+    turn(degrees) {
+        const turnDuration = 500; // milliseconds to turn
+        const turning = new TWEEN.Tween(this.rotation)
+        .to({ y: this.rotation.y + degrees}, turnDuration)
+        .easing(TWEEN.Easing.Exponential.Out)
+        .start();
+        
+    }
+
+    move(distance, totalRotation) {
+        const moveDuration = 500;
+        totalRotation -= Math.PI / 2;
+        const moveXTween = new TWEEN.Tween(this.position)
+        .to({x: this.position.x + distance * -Math.sin(totalRotation)}, moveDuration)
+        .easing(TWEEN.Easing.Exponential.Out)
+        .start();
+
+        const moveYTween = new TWEEN.Tween(this.position)
+        .to({z: this.position.z + distance * -Math.cos(totalRotation)}, moveDuration)
+        .easing(TWEEN.Easing.Exponential.Out)
+        .start();
+
+
+        // add a little hop to the movement
+        const hopHeight = 0.5;
+        const hopDuration = 100;
+        const upMovement = new TWEEN.Tween(this.position)
+        .to({ y: this.position.y + hopHeight}, hopDuration)
+        .easing(TWEEN.Easing.Quadratic.Out);
+        const downMovement = new TWEEN.Tween(this.position)
+        .to({y: 0}, hopDuration)
+        .easing(TWEEN.Easing.Quadratic.Out);
+
+        // Fall down after little hop
+        upMovement.onComplete(() => downMovement.start());
+        upMovement.start();
+    }
+
     update(timeStamp) {
         if (this.state.bob) {
             // Bob back and forth
             this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
         }
+
         if (this.state.twirl > 0) {
             // Lazy implementation of twirl
-            // this.state.twirl -= Math.PI / 8;
-            // this.rotation.y += Math.PI / 8;
+            this.state.twirl -= Math.PI / 8;
+            this.rotation.y += Math.PI / 8;
         }
 
         // Advance tween animations, if any exist

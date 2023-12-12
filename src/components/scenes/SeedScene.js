@@ -11,13 +11,14 @@ class SeedScene extends Scene {
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 1,
+            rotationSpeed: 0,
             updateList: [],
         };
 
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
+        
 
         // Add meshes to scene
         const lillypad = new LillyPad();
@@ -28,7 +29,6 @@ class SeedScene extends Scene {
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
-        
 
         // Event listeners
         this.keyDownTime = 0;
@@ -44,6 +44,7 @@ class SeedScene extends Scene {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
         }
+
     }
 
     handleKeyUp(event, frog) {
@@ -55,17 +56,25 @@ class SeedScene extends Scene {
             ArrowLeft: 'ArrowLeft',
             ArrowRight: 'ArrowRight',
         };
+        const rotationAmount = Math.PI / 10;
+        const movementAmount = 0.5;
+        const totalRotation = this.frog.rotation.y; 
+        
+
 
         if (Object.keys(keyMap).find((v) => v == event.key)) {
             if (event.key == keyMap.ArrowDown) {
-                this.frog.position.x -= 1;
+                // this.frog.position.x -= movementAmount;
+                this.frog.move(-movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowUp) {
-                this.frog.position.x += 1;
+                // this.frog.position.x += movementAmount;
+                this.frog.move(movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowLeft) {
-                this.frog.position.z -= 1;
+                this.frog.turn(rotationAmount);
+                
             } else if (event.key == keyMap.ArrowRight) {
-                this.frog.position.z += 1;
-            }
+                this.frog.turn(-rotationAmount);
+            } 
         }
 
         if (event.key === ' ') {
