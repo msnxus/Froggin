@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Camera } from 'three';
+import { Scene, Color, Camera, Box3, Vector3 } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
@@ -20,11 +20,11 @@ class SeedScene extends Scene {
         this.background = new Color(0x7ec0ee);
 
         // Add meshes to scene
-        const lillyPadGenerator = new LillyPadGenerator();
-        this.frog = new Frog(this, lillyPadGenerator);
+        this.lillyPadGenerator = new LillyPadGenerator();
+        this.frog = new Frog(this, this.lillyPadGenerator);
         const lights = new BasicLights();
         const pond = new Pond();
-        this.add(lillyPadGenerator, this.frog, lights);
+        this.add(this.lillyPadGenerator, this.frog, lights);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -37,6 +37,8 @@ class SeedScene extends Scene {
         // Set up the event listhis.teners
         window.addEventListener('keydown', this.handleKeyDown);
         window.addEventListener('keyup', this.handleKeyUp);
+
+        
     }
 
     handleKeyDown(event) {
@@ -124,10 +126,35 @@ class SeedScene extends Scene {
         return this.frog;
     }
 
+    checkCollision(frog, lillyPads) {
+        for (let pad of lillyPads) {
+            let padWorldBoundingSphere = pad.getWorldBoundingSphere();
+            let frogWorldBoundingSphere = frog.getWorldBoundingSphere();
+
+            // let frogBox = new Box3().setFromObject(frog.boundingSphere);
+            // let lilypadBox = new Box3().setFromObject(pad.boundingSphere);
+            // frog.boundingSphere.intersectsSphere(pad.boundingSphere) 
+            if (frogWorldBoundingSphere.intersectsSphere(padWorldBoundingSphere)) {
+                // console.log(frog.boundingSphere.center)
+                if (
+                    frog.position.y - pad.position.y <= 0 &&
+                    frog.velocity.y <= 0
+                ) {
+                    frog.collide(pad);
+                    // Handle collision here (e.g., stop the frog, trigger a score increase, etc.)
+                    break;
+                }
+            }
+        }
+    }
+
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = -this.frog.rotation.y - Math.PI / 2;
 
+        if (!this.frog.onGround) {
+            this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
+        }
         // Call update for each object in the updateList
         for (const obj of updateList) {
             obj.update(timeStamp);

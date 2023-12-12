@@ -1,4 +1,11 @@
-import { Group, Vector3 } from 'three';
+import {
+    Group,
+    Vector3,
+    Sphere,
+    SphereGeometry,
+    MeshBasicMaterial,
+    Mesh,
+} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './Frog.glb';
@@ -35,6 +42,21 @@ class Frog extends Group {
         this.velocity = new Vector3(0, 0, 0);
         this.onGround = true;
 
+        // collisions
+        const radius = SceneParams.FROG_RADIUS;
+        this.boundingSphere = new Sphere(this.position, radius); // Adjust radius as needed
+
+        // For debugging: create a mesh to visualize the bounding sphere
+        if (SceneParams.DEBUGGING) {
+            const sphereGeom = new SphereGeometry(radius, 16, 16);
+            const sphereMat = new MeshBasicMaterial({
+                color: 0xff0000,
+                wireframe: true,
+            });
+            this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
+            this.add(this.boundingSphereMesh);
+            this.boundingSphereMesh.position.copy(this.position);
+        }
         // Load object
         // Frog by Poly by Google [CC-BY] via Poly Pizza
         const loader = new GLTFLoader();
@@ -138,6 +160,18 @@ class Frog extends Group {
             upMovement.start();
         }
     }
+    collide(pad) {
+        this.position.y = pad.position.y;
+        this.velocity = new Vector3(0, 0, 0);
+        this.onGround = true;
+    }
+
+    getWorldBoundingSphere() {
+        const worldPosition = new Vector3();
+        this.getWorldPosition(worldPosition);
+        const boundingSphereWorld = new Sphere(worldPosition, SceneParams.FROG_RADIUS); // Use the same radius as your local bounding sphere
+        return boundingSphereWorld;
+    }
 
     update(timeStamp) {
         // update position
@@ -150,15 +184,7 @@ class Frog extends Group {
             this.velocity.add(new Vector3(0, -SceneParams.GRAVITY, 0));
         }
 
-        // check for collision with ground
-        // TODO: check this for lilypad
-        if (this.position.y <= 0) {
-            this.position.y = 0;
-            this.velocity = new Vector3(0, 0, 0);
-            this.onGround = true;
-        } else {
-            // console.log(this.velocity)
-        }
+        this.boundingSphere.center.copy(this.position);
         // Prevent the frog from going below ground level
         TWEEN.update();
     }

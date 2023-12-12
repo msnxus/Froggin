@@ -1,4 +1,4 @@
-"use strict";
+import { Vector3 } from 'three';
 
 const SceneParams = {
   // Variables for simulation state; 
@@ -20,7 +20,13 @@ const SceneParams = {
     // Smaller values result in a more stable simulation, but becomes slower.
     // This value was found experimentally to work well in this simulation.
     TIMESTEP: 18 / 1000,
-  
+
+    // bounding spheres
+    DEBUGGING: false,
+    FROG_RADIUS: 1.2,
+    LILYPAD_RADIUS: 2.2,
+    LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
+
 
 }
 
