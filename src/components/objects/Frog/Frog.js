@@ -5,7 +5,7 @@ import MODEL from './Frog.glb';
 import SceneParams from '../../../params';
 
 class Frog extends Group {
-    constructor(parent) {
+    constructor(parent, lillyPadGenerator) {
         // Call parent Group() constructor
         super();
 
@@ -23,6 +23,9 @@ class Frog extends Group {
                 this.position.z = 0;
             },
         };
+
+        // connecting lilly pad generator
+        this.lillyPadGenerator = lillyPadGenerator;
 
         // for jumping
         this.velocity = new Vector3(0, 0, 0);
@@ -59,6 +62,7 @@ class Frog extends Group {
                 )
             );
             this.onGround = false;
+            this.lillyPadGenerator.setNextLillyPad();
         }
     }
 

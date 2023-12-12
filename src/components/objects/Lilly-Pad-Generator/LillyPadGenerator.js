@@ -14,12 +14,6 @@ class LillyPadGenerator extends Group {
 
         this.add(firstPad);
         this.initPads(2);
-
-        console.log(this);
-
-        window.addEventListener('keydown', (event) => {
-            this.handleA(event);
-        });
     }
 
     initPads(amount) {
@@ -38,12 +32,6 @@ class LillyPadGenerator extends Group {
         this.current = this.next[0];
         this.next.push(newNext);
         this.add(newNext);
-    }
-
-    handleA(event) {
-        if (event.key === 'a') {
-            this.setNextLillyPad();
-        }
     }
 }
 
