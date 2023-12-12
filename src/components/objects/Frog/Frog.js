@@ -137,10 +137,6 @@ class Frog extends Group {
     }
 
     update(timeStamp) {
-        if (this.state.bob) {
-            // Bob back and forth
-            this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        }
         // update position
         this.position.add(
             this.velocity.clone().multiplyScalar(SceneParams.TIMESTEP)

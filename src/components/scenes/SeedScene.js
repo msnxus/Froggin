@@ -41,6 +41,11 @@ class SeedScene extends Scene {
     handleKeyDown(event) {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
+            this.frog.rotation.z = 0.05
+        }
+        else if (event.key === ' ') {
+            let duration = Math.min(700, new Date().getTime() - this.keyDownTime);
+            this.frog.rotation.z = 0.001 * duration;
         }
 
         const keyMap = {
@@ -98,9 +103,9 @@ class SeedScene extends Scene {
 
         if (event.key === ' ') {
             const keyUpTime = new Date().getTime();
-            let duration = keyUpTime - this.keyDownTime;
+            let duration = Math.min(700, keyUpTime - this.keyDownTime);
 
-            if(duration > 700) duration = 700;
+            this.frog.rotation.z = 0;
 
             // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
             this.frog.jump(duration); // Adjust this line as per your code structure
