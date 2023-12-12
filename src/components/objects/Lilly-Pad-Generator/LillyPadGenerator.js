@@ -7,7 +7,7 @@ class LillyPadGenerator extends Group {
         super();
 
         // Construct initial lilly pad nodes
-        const firstPad = new LillyPad((index = 0));
+        const firstPad = new LillyPad(undefined, 0);
         this.previous = [];
         this.current = firstPad;
         this.next = [];
