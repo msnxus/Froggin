@@ -30,6 +30,8 @@ const SceneParams = {
     LILYPAD_RADIUS: 2.2,
     LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
 
+    LILYPAD_MAX_Y_OFF: 7,
+
 
 }
 

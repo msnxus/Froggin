@@ -80,6 +80,7 @@ class LillyPad extends Group {
             new Vector3(0, 1, 0),
             angle
         );
+        offset.add(new Vector3(0, Math.random() * SceneParams.LILYPAD_MAX_Y_OFF, 0))
 
         const newPad = this.clone();
         newPad.addToPosition(offset);
