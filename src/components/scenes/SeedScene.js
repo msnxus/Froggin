@@ -38,8 +38,6 @@ class SeedScene extends Scene {
         // Set up the event listhis.teners
         window.addEventListener('keydown', this.handleKeyDown);
         window.addEventListener('keyup', this.handleKeyUp);
-
-        
     }
 
     handleKeyDown(event) {
@@ -49,9 +47,11 @@ class SeedScene extends Scene {
             this.frog.tiltUp.start();
         } else if (event.key === 'f') {
             SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
-        }
-        else if (event.key === ' ') {
-            let duration = Math.min(700, new Date().getTime() - this.keyDownTime);
+        } else if (event.key === ' ') {
+            let duration = Math.min(
+                700,
+                new Date().getTime() - this.keyDownTime
+            );
         }
 
         const keyMap = {
@@ -70,22 +70,20 @@ class SeedScene extends Scene {
             } else if (event.key == keyMap.ArrowUp) {
                 this.frog.move(movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowLeft) {
-                if(this.frog.state.holdingTurn) {
-                    this.frog.turn(rotationAmount * 4)
-                }
-                else {
+                if (this.frog.state.holdingTurn) {
+                    this.frog.turn(rotationAmount * 4);
+                } else {
                     this.frog.state.holdingTurn = true;
                     this.frog.turn(rotationAmount);
                 }
             } else if (event.key == keyMap.ArrowRight) {
-                if(this.frog.state.holdingTurn) {
-                    this.frog.turn(-rotationAmount * 4)
-                }
-                else {
+                if (this.frog.state.holdingTurn) {
+                    this.frog.turn(-rotationAmount * 4);
+                } else {
                     this.frog.state.holdingTurn = true;
                     this.frog.turn(-rotationAmount);
                 }
-            } 
+            }
         }
     }
 
@@ -100,7 +98,10 @@ class SeedScene extends Scene {
         };
 
         if (Object.keys(keyMap).find((v) => v == event.key)) {
-            if (event.key == keyMap.ArrowLeft || event.key == keyMap.ArrowRight) {
+            if (
+                event.key == keyMap.ArrowLeft ||
+                event.key == keyMap.ArrowRight
+            ) {
                 this.frog.state.holdingTurn = false;
             }
         }
@@ -134,8 +135,10 @@ class SeedScene extends Scene {
 
             // let frogBox = new Box3().setFromObject(frog.boundingSphere);
             // let lilypadBox = new Box3().setFromObject(pad.boundingSphere);
-            // frog.boundingSphere.intersectsSphere(pad.boundingSphere) 
-            if (frogWorldBoundingSphere.intersectsSphere(padWorldBoundingSphere)) {
+            // frog.boundingSphere.intersectsSphere(pad.boundingSphere)
+            if (
+                frogWorldBoundingSphere.intersectsSphere(padWorldBoundingSphere)
+            ) {
                 // console.log(frog.boundingSphere.center)
                 if (
                     frog.position.y - pad.position.y <= 0 &&
@@ -143,6 +146,7 @@ class SeedScene extends Scene {
                 ) {
                     frog.collide(pad);
                     // Handle collision here (e.g., stop the frog, trigger a score increase, etc.)
+                    console.log(pad.index);
                     break;
                 }
             }

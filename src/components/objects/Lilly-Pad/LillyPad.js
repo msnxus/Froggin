@@ -83,7 +83,7 @@ class LillyPad extends Group {
 
         const newPad = this.clone();
         newPad.addToPosition(offset);
-        newPad.index += 1;
+        newPad.index = this.index + 1;
         return newPad;
     }
 }
