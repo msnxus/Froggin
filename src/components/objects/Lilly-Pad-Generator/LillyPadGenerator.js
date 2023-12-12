@@ -7,7 +7,7 @@ class LillyPadGenerator extends Group {
         super();
 
         // Construct initial lilly pad nodes
-        const firstPad = new LillyPad();
+        const firstPad = new LillyPad((index = 0));
         this.previous = [];
         this.current = firstPad;
         this.next = [];
@@ -17,10 +17,7 @@ class LillyPadGenerator extends Group {
     }
 
     getPads() {
-        let pads = [];
-        pads = pads.concat(this.next);
-        pads.push(this.current);
-        return pads;
+        return [...this.previous, this.current, ...this.next];
     }
 
     initPads(amount) {
