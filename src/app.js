@@ -6,7 +6,9 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, SphereGeometry,
+    MeshBasicMaterial,
+    Mesh, } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
 import SceneParams from './params';
@@ -15,9 +17,9 @@ import SceneParams from './params';
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
-const thirdPersonPOV = new Vector3(0, 5, -10);
+const thirdPersonPOV = new Vector3(0, 3, -10);
 const thirdPersonLook = new Vector3();
-const firstPersonPOV = new Vector3(0, 0, -1);
+const firstPersonPOV = new Vector3(0, 1, 0);
 const firstPersonLook = new Vector3()
 
 // Set up camera 
@@ -54,17 +56,22 @@ const onAnimationFrameHandler = (timeStamp) => {
     const cameraOffsetLook = new Vector3();
     if (SceneParams.FIRSTPERSON) {
         frog.getWorldPosition(frogPosition);
-        frogPosition.add(new Vector3(0, 1, 5));
-        cameraOffsetPOV.copy(firstPersonPOV);
-        cameraOffsetLook.copy(frogPosition);
+        // toggle either to change the jump pov works
+        cameraOffsetPOV.copy(firstPersonPOV.clone().add(new Vector3(0, frog.rotation.z, 0)));
+        // cameraOffsetPOV.copy(firstPersonPOV.clone().add(new Vector3(0, 0, -frog.rotation.z / 2)));
+        
+        const lookPosition = frogPosition.clone().add(new Vector3(0, 2 + frog.rotation.z * 2, 5));
+        cameraOffsetLook.copy(lookPosition);
     } else {
         frog.getWorldPosition(frogPosition);
         cameraOffsetPOV.copy(thirdPersonPOV);
-        cameraOffsetLook.copy(frogPosition);
+        
+        const lookPosition = frogPosition.clone().add(new Vector3(0, frog.rotation.z, 0));
+        cameraOffsetLook.copy(lookPosition);
     }
 
     camera.position.copy(frogPosition).add(cameraOffsetPOV);
-    camera.lookAt(cameraOffsetLook);
+    camera.lookAt(cameraOffsetLook);    
 
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);
