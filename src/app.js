@@ -9,12 +9,16 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
+import SceneParams from './params';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
-const cameraOffset = new Vector3(0, 5, -10);
+const thirdPersonPOV = new Vector3(0, 5, -10);
+const thirdPersonLook = new Vector3();
+const firstPersonPOV = new Vector3(0, 0, -1);
+const firstPersonLook = new Vector3()
 
 // Set up camera 
 // ------------------------------ CHANGE CAMERA SETTINGS HERE ------------------------------
@@ -44,10 +48,23 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     // change camera settings
     const frog = scene.getFrog();
-    const newPosition = new Vector3();
-    frog.getWorldPosition(newPosition);
-    camera.position.copy(newPosition).add(cameraOffset);
-    camera.lookAt(newPosition.clone());
+    
+    const frogPosition = new Vector3();
+    const cameraOffsetPOV = new Vector3();
+    const cameraOffsetLook = new Vector3();
+    if (SceneParams.FIRSTPERSON) {
+        frog.getWorldPosition(frogPosition);
+        frogPosition.add(new Vector3(0, 1, 5));
+        cameraOffsetPOV.copy(firstPersonPOV);
+        cameraOffsetLook.copy(frogPosition);
+    } else {
+        frog.getWorldPosition(frogPosition);
+        cameraOffsetPOV.copy(thirdPersonPOV);
+        cameraOffsetLook.copy(frogPosition);
+    }
+
+    camera.position.copy(frogPosition).add(cameraOffsetPOV);
+    camera.lookAt(cameraOffsetLook);
 
     renderer.render(scene, camera);
     scene.update && scene.update(timeStamp);

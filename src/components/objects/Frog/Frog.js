@@ -93,7 +93,7 @@ class Frog extends Group {
     }
 
     turn(degrees) {
-        const turnDuration = 1500; // milliseconds to turn
+        const turnDuration = 500; // milliseconds to turn
         const turning = new TWEEN.Tween(this.rotation)
             .to({ y: this.rotation.y + degrees }, turnDuration)
             .easing(TWEEN.Easing.Exponential.Out)

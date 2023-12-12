@@ -3,6 +3,7 @@ import { Scene, Color, Camera, Box3, Vector3 } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
+import SceneParams from '../../params';
 
 class SeedScene extends Scene {
     constructor() {
@@ -46,6 +47,8 @@ class SeedScene extends Scene {
             this.keyDownTime = new Date().getTime();
             // Frog tiltup TWEEN
             this.frog.tiltUp.start();
+        } else if (event.key === 'f') {
+            SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
         }
         else if (event.key === ' ') {
             let duration = Math.min(700, new Date().getTime() - this.keyDownTime);
@@ -63,10 +66,8 @@ class SeedScene extends Scene {
 
         if (Object.keys(keyMap).find((v) => v == event.key)) {
             if (event.key == keyMap.ArrowDown) {
-                // this.frog.position.x -= movementAmount;
                 this.frog.move(-movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowUp) {
-                // this.frog.position.x += movementAmount;
                 this.frog.move(movementAmount, this.frog.rotation.y);
             } else if (event.key == keyMap.ArrowLeft) {
                 if(this.frog.state.holdingTurn) {

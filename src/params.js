@@ -20,6 +20,9 @@ const SceneParams = {
     // Smaller values result in a more stable simulation, but becomes slower.
     // This value was found experimentally to work well in this simulation.
     TIMESTEP: 18 / 1000,
+  
+    // Are we in a first person POV
+    FIRSTPERSON: false,
 
     // bounding spheres
     DEBUGGING: false,
