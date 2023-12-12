@@ -68,10 +68,27 @@ class Frog extends Group {
             .to({ y: this.rotation.y + degrees }, turnDuration)
             .easing(TWEEN.Easing.Exponential.Out)
             .start();
+
+        // add a little hop to the movement
+        if(this.onGround) {
+            this.onGround = false;
+            const hopHeight = 0.5;
+            const hopDuration = 100;
+            const upMovement = new TWEEN.Tween(this.position)
+                .to({ y: this.position.y + hopHeight }, hopDuration)
+                .easing(TWEEN.Easing.Quadratic.Out);
+            const downMovement = new TWEEN.Tween(this.position)
+                .to({ y: 0 }, hopDuration)
+                .easing(TWEEN.Easing.Quadratic.In);
+            // Fall down after little hop
+            upMovement.onComplete(() => downMovement.start());
+            upMovement.start();
+        }
     }
 
     move(distance, totalRotation) {
         if (this.onGround) {
+            this.onGround = false;
             const moveDuration = 1000;
             totalRotation -= Math.PI / 2;
             const moveXTween = new TWEEN.Tween(this.position)
