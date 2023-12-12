@@ -78,3 +78,16 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 
 ## License
 [MIT](./LICENSE)
+
+## TODO: 
+- title screen.
+- high score.
+- generator optimization.
+- procedural generation infinite scene. 
+- death screen.
+- hammer.
+- flies. 
+- parabola. RYAN
+- moving / disappearing lilypads. AYO
+- dragonfly. TYLER
+- gun. NICO
