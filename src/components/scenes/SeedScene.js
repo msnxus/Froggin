@@ -47,11 +47,14 @@ class SeedScene extends Scene {
             this.frog.tiltUp.start();
         } else if (event.key === 'f') {
             SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
+            SceneParams.ENABLEPANNING = !SceneParams.ENABLEPANNING;
         } else if (event.key === ' ') {
             let duration = Math.min(
                 700,
                 new Date().getTime() - this.keyDownTime
             );
+        } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
+            this.frog.moveDot(0.2, event.key);
         }
 
         const keyMap = {
@@ -122,10 +125,6 @@ class SeedScene extends Scene {
 
     addToUpdateList(object) {
         this.state.updateList.push(object);
-    }
-
-    getFrog() {
-        return this.frog;
     }
 
     checkCollision(frog, lillyPads) {

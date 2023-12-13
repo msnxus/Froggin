@@ -21,8 +21,11 @@ const SceneParams = {
     // This value was found experimentally to work well in this simulation.
     TIMESTEP: 18 / 1000,
   
-    // Are we in a first person POV
+    // Camera setting
     FIRSTPERSON: false,
+    THIRDPERSONPOV: new Vector3(0, 3, -10),
+    FIRSTPERSONPOV: new Vector3(0, 1, 0),
+    ENABLEPANNING: false,
 
     // bounding spheres
     DEBUGGING: false,
