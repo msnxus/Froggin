@@ -13,17 +13,20 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene } from 'scenes';
 import SceneParams from './params';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
+import * as pages from "./pages.js"
 
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
-const thirdPersonPOV = new Vector3(0, 3, -10);
-const thirdPersonLook = new Vector3();
-const firstPersonPOV = new Vector3(0, 1, 0);
-const firstPersonLook = new Vector3();
-let cameraChangeComplete = true;
+
+// menu scene
+const menuScene = new MenuScene();
+const menuCamera = new PerspectiveCamera();
+const menuRenderer = new WebGLRenderer({antialias: true});
+const menuCanvas = menuRenderer.domElement;
+menuCanvas.id = 'menuCanvas';
 
 
 // Set up camera 
@@ -37,7 +40,7 @@ const canvas = renderer.domElement;
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
-document.body.appendChild(canvas);
+document.body.appendChild(menuCanvas);
 
 // Set up controls
 const controls = new OrbitControls(camera, canvas);
@@ -67,3 +70,5 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+pages.init_fonts(document);
+pages.init_pages(document, menuCanvas);
