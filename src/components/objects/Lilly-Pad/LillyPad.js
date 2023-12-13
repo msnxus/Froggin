@@ -62,8 +62,8 @@ class LillyPad extends Group {
         this.initTweens();
 
         if (Math.round(Math.random()) > 0.5 && this.index != 0) {
-            // this.moving = true;
-            // this.startMovement();
+            this.moving = true;
+            this.startMovement();
         }
 
         // this.material.transparent = true;
