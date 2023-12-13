@@ -18,7 +18,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { SeedScene, MenuScene } from 'scenes';
 import SceneParams from './params';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import * as pages from './pages.js';
+import * as pages from './pages/';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
@@ -74,4 +74,4 @@ const windowResizeHandler = () => {
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 pages.init_fonts(document);
-pages.init_pages(window, document, canvas);
+pages.init_pages(window, document);
