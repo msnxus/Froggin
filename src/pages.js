@@ -2,12 +2,12 @@ import MENU from './menu.html';
 
 // initialize menu
 export function init_pages(document, menuCanvas) {
-    document.body.innerHTML = '';
+    document.body.innerHTML = MENU;
     document.body.appendChild(menuCanvas);
-    let menu = document.createElement('div');
-    menu.id = 'menu';
-    menu.innerHTML = MENU;
-    document.body.appendChild(menu);
+    // let menu = document.createElement('div');
+    // // menu.id = 'menu';
+    // // menu.innerHTML = MENU;
+    // // document.body.appendChild(menu);
 }
 
 export function init_fonts(document) {

@@ -27,10 +27,10 @@ const renderer = new WebGLRenderer({ antialias: true });
 
 // menu scene
 const menuScene = new MenuScene();
-const menuCamera = new PerspectiveCamera();
-const menuRenderer = new WebGLRenderer({ antialias: true });
-const menuCanvas = menuRenderer.domElement;
-menuCanvas.id = 'menuCanvas';
+// const menuCamera = new PerspectiveCamera();
+// const menuRenderer = new WebGLRenderer({ antialias: true });
+// const menuCanvas = renderer.domElement;
+// menuCanvas.id = 'menuCanvas';
 
 // Set up camera
 // ------------------------------ CHANGE CAMERA SETTINGS HERE ------------------------------
@@ -43,7 +43,7 @@ const canvas = renderer.domElement;
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
-document.body.appendChild(menuCanvas);
+document.body.appendChild(canvas);
 
 // Set up controls
 const controls = new OrbitControls(camera, canvas);
@@ -74,4 +74,4 @@ const windowResizeHandler = () => {
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 pages.init_fonts(document);
-pages.init_pages(document, menuCanvas);
+pages.init_pages(document, canvas);
