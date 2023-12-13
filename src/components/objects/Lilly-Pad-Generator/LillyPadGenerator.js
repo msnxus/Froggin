@@ -1,6 +1,7 @@
 import { Group } from 'three';
 import LillyPad from '../Lilly-Pad/LillyPad';
 import { Scene } from 'three';
+import SceneParams from '../../../params';
 
 class LillyPadGenerator extends Group {
     constructor() {
@@ -13,10 +14,14 @@ class LillyPadGenerator extends Group {
         this.next = [];
 
         this.add(firstPad);
-        this.initPads(2);
+        this.initPads(SceneParams.NUM_INITIAL_PADS);
     }
 
     getPads() {
+        console.log(
+            this.previous.map((p) => p.index),
+            'FUCK'
+        );
         return [...this.previous, this.current, ...this.next];
     }
 
@@ -30,12 +35,34 @@ class LillyPadGenerator extends Group {
         }
     }
 
-    setNextLillyPad() {
-        const newNext = this.next[this.next.length - 1].generateNextPad();
-        this.previous.push(this.current);
-        this.current = this.next[0];
-        this.next.push(newNext);
-        this.add(newNext);
+    reset() {
+        this.next =
+            this.current.index != 0
+                ? [...this.previous.slice(1), this.current, ...this.next]
+                : [...this.previous.slice(1), ...this.next];
+        this.current =
+            this.previous.length > 0 ? this.previous[0] : this.current;
+        this.previous = [];
+    }
+
+    setNextLillyPad(newCurrent) {
+        if (this.current !== newCurrent) {
+            // Generate new pad at the end of the range
+            const newNext = this.next[this.next.length - 1].generateNextPad();
+
+            // Add current pad to previous as well as any skipped pads
+            const delta = newCurrent.index - this.current.index;
+            if (delta > 0) {
+                this.previous.push(this.current);
+                for (let i = 0; i < delta - 1; i++) {
+                    this.previous.push(this.next[i]);
+                }
+            } else if (delta < 0) {
+            }
+
+            this.next.push(newNext);
+            this.add(newNext);
+        }
     }
 }
 

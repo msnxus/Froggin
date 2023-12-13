@@ -53,7 +53,13 @@ class SeedScene extends Scene {
                 700,
                 new Date().getTime() - this.keyDownTime
             );
-        } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
+        } else if (
+            event.key === 'w' ||
+            event.key === 'a' ||
+            event.key === 's' ||
+            event.key === 'd' ||
+            event.key === 'r'
+        ) {
             this.frog.moveDot(0.2, event.key);
         }
 
@@ -145,7 +151,9 @@ class SeedScene extends Scene {
                 ) {
                     frog.collide(pad);
                     // Handle collision here (e.g., stop the frog, trigger a score increase, etc.)
+                    this.lillyPadGenerator.setNextLillyPad(pad);
                     console.log(pad.index);
+                    pad.stopMovement();
                     break;
                 }
             }

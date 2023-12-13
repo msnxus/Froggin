@@ -1,7 +1,7 @@
 import { Vector3 } from 'three';
 
 const SceneParams = {
-  // Variables for simulation state; 
+    // Variables for simulation state;
     // ====================================================================
     //                     Physical Constants
     // ====================================================================
@@ -9,7 +9,7 @@ const SceneParams = {
     DAMPING: 0.03,
 
     // Mass of our frog
-    MASS:0.1,
+    MASS: 0.1,
 
     // Jump scalar
     JUMP_POWER: 0.1,
@@ -20,7 +20,7 @@ const SceneParams = {
     // Smaller values result in a more stable simulation, but becomes slower.
     // This value was found experimentally to work well in this simulation.
     TIMESTEP: 18 / 1000,
-  
+
     // Camera setting
     FIRSTPERSON: false,
     THIRDPERSONPOV: new Vector3(0, 3, -10),
@@ -31,12 +31,15 @@ const SceneParams = {
     DEBUGGING: false,
     FROG_RADIUS: 1.2,
     LILYPAD_RADIUS: 2.2,
-    LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
+    LILYPAD_BOUNDING_OFFSET: new Vector3(-0.9, 0, -0.5),
 
-    LILYPAD_MAX_Y_OFF: 7,
+    LILYPAD_MAX_Y_OFF: 6,
 
+    // Number of initial pads to render
+    NUM_INITIAL_PADS: 2,
 
-}
+    // Furthest a pad can be
+    LILYPAD_MAX_JUMP_RADIUS: 20,
+};
 
 export default SceneParams;
-

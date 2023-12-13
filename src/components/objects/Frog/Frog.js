@@ -18,7 +18,7 @@ class Frog extends Group {
         super();
 
         // TiltUp animation
-        this.tiltUp = new TWEEN.Tween(this.rotation).to({z: 0.7}, 700);
+        this.tiltUp = new TWEEN.Tween(this.rotation).to({ z: 0.7 }, 700);
 
         // Init state
         this.state = {
@@ -30,7 +30,7 @@ class Frog extends Group {
             turn: (degrees) => this.turn(degrees),
             move: (distance) => this.move(distance),
             reset: () => {
-                this.tweens.forEach((tween) => tween.stop())
+                this.tweens.forEach((tween) => tween.stop());
                 this.tweens = [];
                 this.velocity = new Vector3();
                 this.onGround = true;
@@ -44,10 +44,11 @@ class Frog extends Group {
                     this.dot = undefined;
                     this.orignalDotPos = new Vector3();
                 }
+                this.lillyPadGenerator.reset();
             },
         };
         // tweens
-        this.tweens = [];        
+        this.tweens = [];
 
         // connecting lilly pad generator
         this.lillyPadGenerator = lillyPadGenerator;
@@ -94,7 +95,6 @@ class Frog extends Group {
         this.camera;
     }
 
-    
     jump(power) {
         if (this.onGround) {
             this.tweens.forEach((tween) => tween.stop());
@@ -109,7 +109,6 @@ class Frog extends Group {
                 )
             );
             this.onGround = false;
-            this.lillyPadGenerator.setNextLillyPad();
         }
     }
 
@@ -121,7 +120,7 @@ class Frog extends Group {
             .start();
 
         // add a little hop to the movement
-        if(this.onGround) {
+        if (this.onGround) {
             this.onGround = false;
             const hopHeight = 0.5;
             const hopDuration = 100;
@@ -175,11 +174,11 @@ class Frog extends Group {
             const downMovement = new TWEEN.Tween(this.position)
                 .to({ y: this.position.y }, hopDuration)
                 .easing(TWEEN.Easing.Quadratic.In);
-            
+
             // Fall down after little hop
             upMovement.onComplete(() => downMovement.start());
             upMovement.start();
-            this.tweens.push(moveXTween, moveYTween, upMovement, downMovement)
+            this.tweens.push(moveXTween, moveYTween, upMovement, downMovement);
         }
     }
 
@@ -192,7 +191,10 @@ class Frog extends Group {
     getWorldBoundingSphere() {
         const worldPosition = new Vector3();
         this.getWorldPosition(worldPosition);
-        const boundingSphereWorld = new Sphere(worldPosition, SceneParams.FROG_RADIUS); // Use the same radius as your local bounding sphere
+        const boundingSphereWorld = new Sphere(
+            worldPosition,
+            SceneParams.FROG_RADIUS
+        ); // Use the same radius as your local bounding sphere
         return boundingSphereWorld;
     }
 
@@ -205,14 +207,25 @@ class Frog extends Group {
         if (SceneParams.FIRSTPERSON) {
             this.getWorldPosition(frogPosition);
 
-            cameraOffsetPOV.copy(SceneParams.FIRSTPERSONPOV).add(new Vector3(0, this.rotation.z, 0));
-            
-            const lookPosition = frogPosition.clone().add(new Vector3(0, 2 + this.rotation.z * 1.5, 5));
+            cameraOffsetPOV
+                .copy(SceneParams.FIRSTPERSONPOV)
+                .add(new Vector3(0, this.rotation.z, 0));
+
+            const lookPosition = frogPosition
+                .clone()
+                .add(new Vector3(0, 2 + this.rotation.z * 1.5, 5));
             cameraOffsetLook.copy(lookPosition);
 
             // Update the dot position based on the look-at direction
             const dotDistance = 1; // Adjust the distance of the dot from the frog
-            const dotPosition = lookPosition.clone().add(cameraOffsetLook.clone().normalize().multiplyScalar(dotDistance));
+            const dotPosition = lookPosition
+                .clone()
+                .add(
+                    cameraOffsetLook
+                        .clone()
+                        .normalize()
+                        .multiplyScalar(dotDistance)
+                );
             if (this.dot) {
                 // this.dot.position.copy(this.worldToLocal(dotPosition));
             } else {
@@ -226,13 +239,15 @@ class Frog extends Group {
             }
             // console.log(this.orignalDotPos);
             camera.position.copy(frogPosition).add(cameraOffsetPOV);
-            // camera.lookAt(cameraOffsetLook);  
-            camera.lookAt(this.localToWorld(this.dot.position.clone()));  
+            // camera.lookAt(cameraOffsetLook);
+            camera.lookAt(this.localToWorld(this.dot.position.clone()));
         } else {
             this.getWorldPosition(frogPosition);
             cameraOffsetPOV.copy(SceneParams.THIRDPERSONPOV);
 
-            const lookPosition = frogPosition.clone().add(new Vector3(0, this.rotation.z, 0));
+            const lookPosition = frogPosition
+                .clone()
+                .add(new Vector3(0, this.rotation.z, 0));
             cameraOffsetLook.copy(lookPosition);
 
             // Remove the dot if it exists
@@ -242,9 +257,8 @@ class Frog extends Group {
                 this.orignalDotPos = new Vector3();
             }
             camera.position.copy(frogPosition).add(cameraOffsetPOV);
-            camera.lookAt(cameraOffsetLook);  
+            camera.lookAt(cameraOffsetLook);
         }
-                 
     }
 
     moveDot(distance, key) {
@@ -253,23 +267,26 @@ class Frog extends Group {
             if (key == 'w') {
                 if (this.dot.position.y < this.orignalDotPos.y + length) {
                     this.dot.position.y += distance;
-                } 
-            } else if(key == 'a') {
+                }
+            } else if (key == 'a') {
                 if (this.dot.position.z > this.orignalDotPos.z - length) {
                     this.dot.position.z -= distance;
-                } 
-            } else if(key == 's') {
+                }
+            } else if (key == 's') {
                 if (this.dot.position.y > this.orignalDotPos.y - length / 2) {
                     this.dot.position.y -= distance;
                 }
             } else if (key == 'd') {
                 if (this.dot.position.z < this.orignalDotPos.z + length) {
                     this.dot.position.z += distance;
-                } 
+                }
             } else if (key == 'r') {
-                this.dot.position.set(this.orignalDotPos.x, this.orignalDotPos.y, this.orignalDotPos.z);
+                this.dot.position.set(
+                    this.orignalDotPos.x,
+                    this.orignalDotPos.y,
+                    this.orignalDotPos.z
+                );
             }
-            
         }
     }
 
@@ -290,12 +307,10 @@ class Frog extends Group {
         if (this.position.y < -5) {
             // TODO: trigger lose screen
 
-            // reset position: 
+            // reset position:
             this.state.reset();
-
         }
     }
-    
 }
 
 export default Frog;
