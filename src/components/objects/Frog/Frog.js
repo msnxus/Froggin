@@ -217,7 +217,8 @@ class Frog extends Group {
             }
             // console.log(this.orignalDotPos);
             camera.position.copy(frogPosition).add(cameraOffsetPOV);
-            camera.lookAt(cameraOffsetLook);  
+            // camera.lookAt(cameraOffsetLook);  
+            camera.lookAt(this.localToWorld(this.dot.position.clone()));  
         } else {
             this.getWorldPosition(frogPosition);
             cameraOffsetPOV.copy(SceneParams.THIRDPERSONPOV);
