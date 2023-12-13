@@ -2,6 +2,7 @@
   "name": "froggin",
   "repository": "Froggin",
   "version": "0.1.0",
+  "homepage": "https://msnxus.github.io/Froggin",
   "title": "Froggin in my Frog",
   "description": "Hop from lilypad to lilypad!",
   "keywords": [
@@ -31,6 +32,7 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "babel-loader": "^8.2.2",
+    "css-loader": "^6.8.1",
     "file-loader": "^6.2.0",
     "gh-pages": "^3.2.3",
     "html-loader": "^4.2.0",
