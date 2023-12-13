@@ -74,4 +74,4 @@ const windowResizeHandler = () => {
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
 pages.init_fonts(document);
-pages.init_pages(document, canvas);
+pages.init_pages(window, document, canvas);
