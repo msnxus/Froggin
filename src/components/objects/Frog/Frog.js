@@ -37,6 +37,13 @@ class Frog extends Group {
                 this.position.x = 0;
                 this.position.y = 0;
                 this.position.z = 0;
+
+                // Reset or remove the dot
+                if (this.dot) {
+                    this.remove(this.dot);
+                    this.dot = undefined;
+                    this.orignalDotPos = new Vector3();
+                }
             },
         };
         // tweens
@@ -84,6 +91,7 @@ class Frog extends Group {
 
         // dot properties
         this.orignalDotPos = new Vector3();
+        this.camera;
     }
 
     
@@ -189,6 +197,7 @@ class Frog extends Group {
     }
 
     updateCamera(camera) {
+        this.camera = camera;
         const frogPosition = new Vector3();
         const cameraOffsetPOV = new Vector3();
         const cameraOffsetLook = new Vector3();
