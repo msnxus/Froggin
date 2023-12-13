@@ -13,10 +13,14 @@ module.exports = {
     target: 'web',
     devtool: 'source-map',
     stats: {
-        warnings: false
+        warnings: false,
     },
     module: {
         rules: [
+            {
+                test: /\.html$/i,
+                loader: 'html-loader',
+            },
             {
                 test: /\.js$/,
                 use: 'babel-loader',

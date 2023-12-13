@@ -6,15 +6,19 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, SphereGeometry,
+import {
+    WebGLRenderer,
+    PerspectiveCamera,
+    Vector3,
+    SphereGeometry,
     MeshBasicMaterial,
-    Mesh, } from 'three';
+    Mesh,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene } from 'scenes';
+import { SeedScene, MenuScene } from 'scenes';
 import SceneParams from './params';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import * as pages from "./pages.js"
-
+import * as pages from './pages.js';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
@@ -24,12 +28,11 @@ const renderer = new WebGLRenderer({ antialias: true });
 // menu scene
 const menuScene = new MenuScene();
 const menuCamera = new PerspectiveCamera();
-const menuRenderer = new WebGLRenderer({antialias: true});
+const menuRenderer = new WebGLRenderer({ antialias: true });
 const menuCanvas = menuRenderer.domElement;
 menuCanvas.id = 'menuCanvas';
 
-
-// Set up camera 
+// Set up camera
 // ------------------------------ CHANGE CAMERA SETTINGS HERE ------------------------------
 // camera.position.set(0, 5, -10);
 // camera.lookAt(new Vector3(0, 0, 0));
