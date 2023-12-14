@@ -102,3 +102,4 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 - ~~procedural scene generation~~ NICO
 - audio. AYO
 - ~~finish up parabola~~ RYAN
+- generate two lillypads each time we need to. AYO
