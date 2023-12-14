@@ -18,7 +18,7 @@ class Frog extends Group {
         super();
 
         // TiltUp animation
-        this.tiltUp = new TWEEN.Tween(this.rotation).to({ z: 0.7 }, 700);
+        this.tiltUp = new TWEEN.Tween(this.rotation).to({ z: 0.7 }, SceneParams.MAX_JUMP_TIME);
 
         // Init state
         this.state = {
