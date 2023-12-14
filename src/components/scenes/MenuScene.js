@@ -12,16 +12,12 @@ class MenuScene extends Scene {
 
         // Init state
         this.state = {
-            gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 0,
             updateList: [],
         };
 
         // Set background to a nice color
         this.background = new Color(0x7ec0f0);
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
     }
 
     addToUpdateList(object) {

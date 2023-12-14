@@ -26,7 +26,6 @@ class Frog extends Group {
 
         // Init state
         this.state = {
-            gui: parent.state.gui,
             bob: true,
             holdingTurn: false,
             jump: (power) => this.jump(power), // or this.jump.bind(this)
@@ -88,11 +87,6 @@ class Frog extends Group {
 
         // Add self to parent's update list
         parent.addToUpdateList(this);
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'bob');
-        this.state.gui.add(this.state, 'jump');
-        this.state.gui.add(this.state, 'reset');
 
         // dot properties
         this.orignalDotPos = new Vector3();

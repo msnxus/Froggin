@@ -13,7 +13,6 @@ class SeedScene extends Scene {
 
         // Init state
         this.state = {
-            gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 0,
             updateList: [],
         };
@@ -38,9 +37,6 @@ class SeedScene extends Scene {
             pond,
             this.AimGuide
         );
-
-        // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
 
         // Event listeners
         this.keyDownTime = 0;
