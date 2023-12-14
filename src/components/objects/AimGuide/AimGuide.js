@@ -39,10 +39,10 @@ class AimGuide extends Group {
         this.isHittingPad = false;
         this.isActive = false;
 
-        this.extension = null; // Property to hold the extension tween
-        this.jumpCurveTween1 = null; // holds line extension obviously :D
-        this.jumpCurveTween2 = null; // second one
-        this.collisionLineTween = null;
+        this.extension = new TWEEN.Tween(); // Property to hold the extension tween
+        this.jumpCurveTween1 = new TWEEN.Tween(); // holds line extension obviously :D
+        this.jumpCurveTween2 = new TWEEN.Tween(); // second one
+        this.collisionLineTween = new TWEEN.Tween();
 
         this.jumpArc1 = new Line(); // Create a line to represent the jump arc
         this.jumpArc2 = new Line(); // second one
