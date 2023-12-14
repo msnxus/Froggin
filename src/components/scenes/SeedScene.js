@@ -4,6 +4,7 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
 import SceneParams from '../../params';
+import AimGuide from '../objects/AimGuide/AimGuide';
 
 class SeedScene extends Scene {
     constructor() {
@@ -27,9 +28,10 @@ class SeedScene extends Scene {
         // Add meshes to scene
         this.lillyPadGenerator = new LillyPadGenerator();
         this.frog = new Frog(this, this.lillyPadGenerator);
+        this.AimGuide = new AimGuide();
         const lights = new BasicLights();
         const pond = new Pond();
-        this.add(this.lillyPadGenerator, this.frog, lights, pond);
+        this.add(this.lillyPadGenerator, this.frog, lights, pond, this.AimGuide);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -47,23 +49,13 @@ class SeedScene extends Scene {
     handleKeyDown(event) {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
+            this.AimGuide.startExtension(this.frog.position, this.frog.rotation);
             // Frog tiltup TWEEN
             this.frog.tiltUp.start();
         } else if (event.key === 'f') {
             SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
             SceneParams.ENABLEPANNING = !SceneParams.ENABLEPANNING;
-        } else if (event.key === ' ') {
-            let duration = Math.min(
-                700,
-                new Date().getTime() - this.keyDownTime
-            );
-        } else if (
-            event.key === 'w' ||
-            event.key === 'a' ||
-            event.key === 's' ||
-            event.key === 'd' ||
-            event.key === 'r'
-        ) {
+        } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
             this.frog.moveDot(0.2, event.key);
         } else if (event.key === 'l') {
             this.frog.position.y += 5;
@@ -123,13 +115,14 @@ class SeedScene extends Scene {
 
         if (event.key === ' ') {
             const keyUpTime = new Date().getTime();
-            let duration = Math.min(700, keyUpTime - this.keyDownTime);
+            let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
 
+            this.AimGuide.endExtension();
             this.frog.tiltUp.stop();
             this.frog.rotation.z = 0;
 
             // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.jump(duration); // Adjust this line as per your code structure
+            this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
         }

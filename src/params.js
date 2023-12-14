@@ -23,17 +23,21 @@ const SceneParams = {
 
     // Camera setting
     FIRSTPERSON: false,
-    THIRDPERSONPOV: new Vector3(0, 3, -10),
+    THIRDPERSONPOV: new Vector3(0, 8, -15),
     FIRSTPERSONPOV: new Vector3(0, 1, 0),
     ENABLEPANNING: false,
 
     // bounding spheres
     DEBUGGING: false,
     FROG_RADIUS: 1.2,
-    LILYPAD_RADIUS: 2.2,
-    LILYPAD_BOUNDING_OFFSET: new Vector3(-0.9, 0, -0.5),
+    LILYPAD_RADIUS: 2.5,
+    LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
 
-    LILYPAD_MAX_Y_OFF: 6,
+    LILYPAD_MAX_Y_OFF: 5,
+
+    // How long until max jump heigh/dist
+    MAX_JUMP_TIME: 1400,
+    
 
     // Number of initial pads to render
     NUM_INITIAL_PADS: 2,
