@@ -5,11 +5,14 @@ import SceneParams from '../../../params';
 import Fly from '../Fly/Fly';
 
 class LillyPadGenerator extends Group {
-    constructor() {
+    constructor(parent) {
         super();
 
         // Construct initial lilly pad nodes
         const firstPad = new LillyPad(undefined, 0);
+
+        this.scene = parent;
+
         this.previous = [];
         this.current = firstPad;
         this.next = [];
@@ -26,10 +29,36 @@ class LillyPadGenerator extends Group {
         ];
     }
 
+    generateFly(padPosition) {
+        // generate an offset from the pad position that adds
+        // some height and some random angle and distance
+        if (Math.random() > 1 - SceneParams.FLY_SPAWN_CHANCE) {
+            const offset = new Vector3(0, 0, 0);
+            offset.add(
+                new Vector3(0, Math.random() * SceneParams.LILYPAD_MAX_Y_OFF, 0)
+            );
+            offset.add(
+                new Vector3(
+                    Math.random() * SceneParams.LILYPAD_MAX_JUMP_RADIUS,
+                    0,
+                    0
+                ).applyAxisAngle(
+                    new Vector3(0, 1, 0),
+                    Math.random() * (Math.PI / 2) - Math.PI / 4
+                )
+            );
+
+            // add the offset to the pad position and generate a fly
+            const fly = new Fly(padPosition);
+            this.scene.add(fly);
+        }
+    }
+
     initPads(amount) {
         let curr = this.current;
         for (let i = 0; i < amount; i++) {
-            const next = curr.generateNextPad();
+            const next = curr.generateNextPad(this.scene);
+            this.generateFly(next.position);
             curr = next;
             this.next.push(next);
             this.add(next);
@@ -46,36 +75,13 @@ class LillyPadGenerator extends Group {
         this.previous = [];
     }
 
-    generateFly(padPosition) {
-        // generate an offset from the pad position that adds
-        // some height and some random angle and distance
-        const offset = new Vector3(0, 0, 0);
-        offset.add(
-            new Vector3(0, Math.random() * SceneParams.LILYPAD_MAX_Y_OFF, 0)
-        );
-        offset.add(
-            new Vector3(
-                Math.random() * SceneParams.LILYPAD_MAX_JUMP_RADIUS,
-                0,
-                0
-            ).applyAxisAngle(
-                new Vector3(0, 1, 0),
-                Math.random() * (Math.PI / 2) - Math.PI / 4
-            )
-        );
-
-        // add the offset to the pad position and generate a fly
-        const fly = new Fly();
-        // fly.addToPosition(offset)
-        this.add(fly);
-    }
-
     setNextLillyPad(newCurrent) {
         if (this.current !== newCurrent) {
-            this.generateFly(this.current.position.clone());
-
             // Generate new pad at the end of the range
-            const newNext = this.next[this.next.length - 1].generateNextPad();
+            const newNext = this.next[this.next.length - 1].generateNextPad(
+                this.scene
+            );
+            this.generateFly(newNext.position);
 
             // Add current pad to previous as well as any skipped pads
             const delta = newCurrent.index - this.current.index;

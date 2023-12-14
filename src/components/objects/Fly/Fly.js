@@ -23,14 +23,15 @@ class Fly extends Group {
         this.moving = false;
         this.disappearing = false;
 
+        this.rotation.y = Math.random() * Math.PI * 2;
         if (initialPos) {
-            this.position = initialPos;
+            this.addToPosition(initialPos);
         }
 
         const loader = new GLTFLoader();
         // Fly by jeremy [CC-BY] via Poly Pizza
         loader.load(MODEL, (gltf) => {
-            let scale = 1000;
+            let scale = 0.15;
             gltf.scene.scale.set(scale, scale, scale);
             this.add(gltf.scene);
         });
@@ -39,7 +40,7 @@ class Fly extends Group {
         const radius = SceneParams.FLY_RADIUS;
         const flyOffset = SceneParams.FLY_BOUNDING_OFFSET;
         this.boundingSphere = new Sphere(
-            this.position.clone().add(flyOffset),
+            initialPos.clone().add(flyOffset),
             radius
         ); // Adjust radius as needed
         // For debugging: create a mesh to visualize the bounding sphere
@@ -50,55 +51,20 @@ class Fly extends Group {
                 wireframe: true,
             });
             this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
-            this.boundingSphereMesh.position.copy(this.position).add(flyOffset);
+            this.boundingSphereMesh.position.add(flyOffset);
 
             this.add(this.boundingSphereMesh);
         }
 
-        // Tween setup
-        this.initTweens();
-
-        this.moving = true;
+        // this.moving = true;
         this.startMovement();
 
         // this.material.transparent = true;
         // this.material.opacity = 0.5;
     }
 
-    initTweens() {
-        const moveDuration = 1000; // Shorter duration for quicker, more erratic movements
-
-        // Move Right
-        this.moveRight = new TWEEN.Tween(this.position)
-            .to({ x: this.position.x + 3 }, moveDuration)
-            .easing(TWEEN.Easing.Quadratic.InOut)
-            .onComplete(() => this.moveLeft.start());
-
-        // Move Left
-        this.moveLeft = new TWEEN.Tween(this.position)
-            .to({ x: this.position.x - 3 }, moveDuration)
-            .easing(TWEEN.Easing.Quadratic.InOut)
-            .onComplete(() => this.moveUp.start());
-
-        // Move Up
-        this.moveUp = new TWEEN.Tween(this.position)
-            .to({ y: this.position.y + 2 }, moveDuration)
-            .easing(TWEEN.Easing.Quadratic.InOut)
-            .onComplete(() => this.moveDown.start());
-
-        // Move Down
-        this.moveDown = new TWEEN.Tween(this.position)
-            .to({ y: this.position.y - 2 }, moveDuration)
-            .easing(TWEEN.Easing.Quadratic.InOut)
-            .onComplete(() => this.moveRight.start());
-    }
-
     addToPosition(offset) {
         this.position.add(offset);
-        // this.boundingSphere.center.add(offset);
-        if (SceneParams.DEBUGGING) {
-            // this.boundingSphereMesh.position.add(offset);
-        }
     }
 
     getWorldBoundingSphere() {
@@ -135,7 +101,32 @@ class Fly extends Group {
     }
 
     startMovement() {
-        this.moveRight.start();
+        const moveDuration = () => Math.random() * 500 + 500; // Duration of each movement
+
+        // Randomize the movement within a certain range
+        const randomX = () => Math.random() * 6 - 3; // Random X between -3 and 3
+        const randomY = () => Math.random() * 4 - 2; // Random Y between -2 and 2
+        const randomZ = () => Math.random() * 6 - 3; // Random Y between -2 and 2
+        const randomRotation = () =>
+            Math.random() * Math.PI * 0.5 - Math.PI * 0.25; // Limit the rotation
+
+        const moveAndRotate = () => {
+            new TWEEN.Tween(this.position)
+                .to(
+                    {
+                        x: this.position.x + randomX(),
+                        y: this.position.y + randomY(),
+                        z: this.position.z + randomZ(),
+                    },
+                    moveDuration()
+                )
+                .easing(TWEEN.Easing.Quadratic.InOut)
+                .onComplete(moveAndRotate)
+                .start();
+        };
+
+        // Start the first movement
+        moveAndRotate();
     }
 
     stopMovement() {

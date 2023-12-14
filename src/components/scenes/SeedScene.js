@@ -6,6 +6,7 @@ import { BasicLights } from 'lights';
 import SceneParams from '../../params';
 import AimGuide from '../objects/AimGuide/AimGuide';
 import { AudioLoader, Audio, AudioListener } from 'three';
+
 class SeedScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -25,15 +26,13 @@ class SeedScene extends Scene {
         // this.fog = new FogExp2(this.fogColor, 0.015);
 
         // Add meshes to scene
-        this.lillyPadGenerator = new LillyPadGenerator();
-        this.fly = new Fly();
+        this.lillyPadGenerator = new LillyPadGenerator(this);
         this.frog = new Frog(this, this.lillyPadGenerator);
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
 
         this.pond = new Pond(this.frog);
-        this.add(this.lillyPadGenerator, this.fly, this.frog, lights, this.pond, this.AimGuide);
-
+        this.add(this.lillyPadGenerator, this.frog, lights, this.pond, this.AimGuide);
 
         // Event listeners
         this.keyDownTime = 0;
