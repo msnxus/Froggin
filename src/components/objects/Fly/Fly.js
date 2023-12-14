@@ -7,20 +7,17 @@ import {
     Mesh,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './lilly-pad.glb';
+import MODEL from './fly.glb';
 import SceneParams from '../../../params';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min';
 
-class LillyPad extends Group {
-    constructor(initialPos, index) {
+class Fly extends Group {
+    constructor(initialPos) {
         // Call parent Group() constructor
         super();
 
-        const loader = new GLTFLoader();
-
         // Properties
-        this.name = 'lilly-pad';
-        this.index = index;
+        this.name = 'fly';
 
         // Pad types
         this.moving = false;
@@ -29,32 +26,32 @@ class LillyPad extends Group {
         if (initialPos) {
             this.position = initialPos;
         }
-        // Lilly Pad by Jarlan Perez [CC-BY] via Poly Pizza
+
+        const loader = new GLTFLoader();
+        // Fly by jeremy [CC-BY] via Poly Pizza
         loader.load(MODEL, (gltf) => {
-            let scale = 15;
+            let scale = 1000;
             gltf.scene.scale.set(scale, scale, scale);
             this.add(gltf.scene);
         });
         debugger;
 
         // collisions
-        const radius = SceneParams.LILYPAD_RADIUS;
-        const lilypadOffset = SceneParams.LILYPAD_BOUNDING_OFFSET;
+        const radius = SceneParams.FLY_RADIUS;
+        const flyOffset = SceneParams.FLY_BOUNDING_OFFSET;
         this.boundingSphere = new Sphere(
-            this.position.clone().add(lilypadOffset),
+            this.position.clone().add(flyOffset),
             radius
         ); // Adjust radius as needed
         // For debugging: create a mesh to visualize the bounding sphere
         if (SceneParams.DEBUGGING) {
             const sphereGeom = new SphereGeometry(radius, 16, 16);
             const sphereMat = new MeshBasicMaterial({
-                color: 'blue',
+                color: 'green',
                 wireframe: true,
             });
             this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
-            this.boundingSphereMesh.position
-                .copy(this.position)
-                .add(lilypadOffset);
+            this.boundingSphereMesh.position.copy(this.position).add(flyOffset);
 
             this.add(this.boundingSphereMesh);
         }
@@ -62,34 +59,39 @@ class LillyPad extends Group {
         // Tween setup
         this.initTweens();
 
-        if (Math.round(Math.random()) > 0.5 && this.index != 0) {
-            this.moving = true;
-            this.startMovement();
-        }
+        this.moving = true;
+        this.startMovement();
 
         // this.material.transparent = true;
         // this.material.opacity = 0.5;
     }
 
     initTweens() {
-        const moveDuration = 3000;
-        this.moveRight = new TWEEN.Tween(this.position)
-            .to(
-                {
-                    z: this.position.z + 5,
-                },
-                moveDuration
-            )
-            .easing(TWEEN.Easing.Exponential.InOut);
+        const moveDuration = 1000; // Shorter duration for quicker, more erratic movements
 
+        // Move Right
+        this.moveRight = new TWEEN.Tween(this.position)
+            .to({ x: this.position.x + 3 }, moveDuration)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onComplete(() => this.moveLeft.start());
+
+        // Move Left
         this.moveLeft = new TWEEN.Tween(this.position)
-            .to(
-                {
-                    z: this.position.z - 5,
-                },
-                moveDuration
-            )
-            .easing(TWEEN.Easing.Exponential.InOut);
+            .to({ x: this.position.x - 3 }, moveDuration)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onComplete(() => this.moveUp.start());
+
+        // Move Up
+        this.moveUp = new TWEEN.Tween(this.position)
+            .to({ y: this.position.y + 2 }, moveDuration)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onComplete(() => this.moveDown.start());
+
+        // Move Down
+        this.moveDown = new TWEEN.Tween(this.position)
+            .to({ y: this.position.y - 2 }, moveDuration)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onComplete(() => this.moveRight.start());
     }
 
     addToPosition(offset) {
@@ -135,14 +137,14 @@ class LillyPad extends Group {
 
     startMovement() {
         this.moveRight.start();
-        this.moveRight.onComplete(() => this.moveLeft.start());
-        this.moveLeft.onComplete(() => this.moveRight.start());
     }
 
     stopMovement() {
         this.moveRight.stop();
         this.moveLeft.stop();
+        this.moveUp.stop();
+        this.moveDown.stop();
     }
 }
 
-export default LillyPad;
+export default Fly;

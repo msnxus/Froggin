@@ -36,6 +36,9 @@ const SceneParams = {
 
     LILYPAD_MAX_Y_OFF: 5,
 
+    FLY_RADIUS: 0.5,
+    FLY_BOUNDING_OFFSET: new Vector3(0, 0, 0),
+    
     // How long until max jump heigh/dist
     MAX_JUMP_TIME: 1400,
     

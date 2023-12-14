@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Camera, Box3, Vector3, FogExp2 } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Frog, LillyPadGenerator, Pond } from 'objects';
+import { Frog, LillyPadGenerator, Pond, Fly } from 'objects';
 import { BasicLights } from 'lights';
 import SceneParams from '../../params';
 import AimGuide from '../objects/AimGuide/AimGuide';
@@ -26,12 +26,13 @@ class SeedScene extends Scene {
 
         // Add meshes to scene
         this.lillyPadGenerator = new LillyPadGenerator();
+        this.fly = new Fly();
         this.frog = new Frog(this, this.lillyPadGenerator);
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
 
         this.pond = new Pond(this.frog);
-        this.add(this.lillyPadGenerator, this.frog, lights, this.pond, this.AimGuide);
+        this.add(this.lillyPadGenerator, this.fly, this.frog, lights, this.pond, this.AimGuide);
 
 
         // Event listeners
