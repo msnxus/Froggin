@@ -5,7 +5,7 @@ import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
 import SceneParams from '../../params';
 import AimGuide from '../objects/AimGuide/AimGuide';
-
+import { AudioLoader, Audio, AudioListener } from 'three';
 class SeedScene extends Scene {
     constructor() {
         // Call parent Scene() constructor
@@ -168,7 +168,20 @@ class SeedScene extends Scene {
                 ) {
                     frog.collide(pad);
                     // Handle collision here (e.g., stop the frog, trigger a score increase, etc.)
+
                     if (this.lillyPadGenerator.current !== pad) {
+                        const listener = new AudioListener();
+                        const sound = new Audio(listener);
+                        const audioLoader = new AudioLoader();
+                        audioLoader.load(
+                            'https://raw.githubusercontent.com/msnxus/Froggin/ca5fd1b232fd4bd2651bed0fd66330a447b1134c/src/sounds/land.wav',
+                            function (buffer) {
+                                sound.setBuffer(buffer);
+                                sound.setLoop(false);
+                                sound.setVolume(0.5);
+                                sound.play();
+                            }
+                        );
                         this.lillyPadGenerator.setNextLillyPad(pad);
                     }
                     console.log(pad.index);

@@ -11,6 +11,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './Frog.glb';
 import SceneParams from '../../../params';
+import { AudioLoader, Audio, AudioListener } from 'three';
 
 class Frog extends Group {
     constructor(parent, lillyPadGenerator) {
@@ -18,7 +19,10 @@ class Frog extends Group {
         super();
 
         // TiltUp animation
-        this.tiltUp = new TWEEN.Tween(this.rotation).to({ z: 0.7 }, SceneParams.MAX_JUMP_TIME);
+        this.tiltUp = new TWEEN.Tween(this.rotation).to(
+            { z: 0.7 },
+            SceneParams.MAX_JUMP_TIME
+        );
 
         // Init state
         this.state = {
@@ -97,6 +101,18 @@ class Frog extends Group {
 
     jump(power) {
         if (this.onGround) {
+            const listener = new AudioListener();
+            const sound = new Audio(listener);
+            const audioLoader = new AudioLoader();
+            audioLoader.load(
+                'https://raw.githubusercontent.com/msnxus/Froggin/ca5fd1b232fd4bd2651bed0fd66330a447b1134c/src/sounds/jump.wav',
+                function (buffer) {
+                    sound.setBuffer(buffer);
+                    sound.setLoop(false);
+                    sound.setVolume(1);
+                    sound.play();
+                }
+            );
             this.tweens.forEach((tween) => tween.stop());
             this.tweens = [];
             let totalRotation = this.rotation.y - Math.PI / 2;
@@ -308,6 +324,18 @@ class Frog extends Group {
             // TODO: trigger lose screen
 
             // reset position:
+            const listener = new AudioListener();
+            const sound = new Audio(listener);
+            const audioLoader = new AudioLoader();
+            audioLoader.load(
+                'https://raw.githubusercontent.com/msnxus/Froggin/ca5fd1b232fd4bd2651bed0fd66330a447b1134c/src/sounds/death.wav',
+                function (buffer) {
+                    sound.setBuffer(buffer);
+                    sound.setLoop(false);
+                    sound.setVolume(0.5);
+                    sound.play();
+                }
+            );
             this.state.reset();
         }
     }
