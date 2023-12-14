@@ -42,6 +42,8 @@ class SeedScene extends Scene {
         // Set up the event listhis.teners
         window.addEventListener('keydown', this.handleKeyDown);
         window.addEventListener('keyup', this.handleKeyUp);
+
+        this.hiScore = 0;
     }
 
     handleKeyDown(event) {
@@ -181,7 +183,10 @@ class SeedScene extends Scene {
                     }
                     pad.stopMovement();
                     // update score
+                    this.hiScore = Math.max(this.hiScore, pad.index);
                     document.getElementById('score-content').innerText = pad.index;
+                    document.getElementById('hi-score-content').innerText = this.hiScore;
+
                     break;
                 }
             }

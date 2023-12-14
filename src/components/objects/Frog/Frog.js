@@ -40,7 +40,7 @@ class Frog extends Group {
                 this.position.x = 0;
                 this.position.y = 0;
                 this.position.z = 0;
-
+                this.dead = false;
                 // Reset or remove the dot
                 if (this.dot) {
                     this.remove(this.dot);
@@ -48,8 +48,20 @@ class Frog extends Group {
                     this.orignalDotPos = new Vector3();
                 }
                 this.lillyPadGenerator.reset();
+                this.frozen = false;
             },
+
+            freeze: () => {
+                this.tweens.forEach((tween) => tween.stop());
+                this.tweens = [];
+                this.velocity = new Vector3();
+                this.onGround = true;
+                this.frozen = true;
+            }
         };
+
+        this.dead = false;
+        this.frozen = false;
         // tweens
         this.tweens = [];
 
@@ -94,7 +106,7 @@ class Frog extends Group {
     }
 
     jump(power) {
-        if (this.onGround) {
+        if (this.onGround && !this.frozen) {
             const listener = new AudioListener();
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
@@ -123,6 +135,9 @@ class Frog extends Group {
     }
 
     turn(degrees) {
+        if (this.frozen) {
+            return;
+        }
         const turnDuration = 500; // milliseconds to turn
         const turning = new TWEEN.Tween(this.rotation)
             .to({ y: this.rotation.y + degrees }, turnDuration)
@@ -154,7 +169,7 @@ class Frog extends Group {
     }
 
     move(distance, totalRotation) {
-        if (this.onGround) {
+        if (this.onGround && !this.frozen) {
             this.onGround = false;
             const moveDuration = 1000;
             totalRotation -= Math.PI / 2;
@@ -321,7 +336,8 @@ class Frog extends Group {
         this.boundingSphere.center.copy(this.position);
         TWEEN.update();
 
-        if (this.position.y < -5) {
+        if (this.position.y < -5 && !this.dead) {
+            this.dead = true;
             // set score to 0
             document.getElementById('score-content').innerText = 0;
 
@@ -329,12 +345,17 @@ class Frog extends Group {
             let deathScreen = document.getElementById('death');
             deathScreen.style.visibility = 'visible';
             deathScreen.style.opacity = 1;
-            this.velocity = new Vector3();
+
+            // freeze the froggy
+            this.state.freeze();
+
+            // death screen fadeout and reset froggy after 500 ms
             setTimeout(() => {
                 document.getElementById('death').style.opacity = 0
                 this.state.reset();
             }, 500);
-            // reset position:
+
+            // audio
             const listener = new AudioListener();
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
