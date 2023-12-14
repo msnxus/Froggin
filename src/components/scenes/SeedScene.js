@@ -31,7 +31,13 @@ class SeedScene extends Scene {
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
         const pond = new Pond();
-        this.add(this.lillyPadGenerator, this.frog, lights, pond, this.AimGuide);
+        this.add(
+            this.lillyPadGenerator,
+            this.frog,
+            lights,
+            pond,
+            this.AimGuide
+        );
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -49,13 +55,22 @@ class SeedScene extends Scene {
     handleKeyDown(event) {
         if (event.key === ' ' && this.keyDownTime === 0) {
             this.keyDownTime = new Date().getTime();
-            this.AimGuide.startExtension(this.frog.position, this.frog.rotation);
+            this.AimGuide.startExtension(
+                this.frog.position,
+                this.frog.rotation
+            );
             // Frog tiltup TWEEN
             this.frog.tiltUp.start();
         } else if (event.key === 'f') {
             SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
             SceneParams.ENABLEPANNING = !SceneParams.ENABLEPANNING;
-        } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
+        } else if (
+            event.key === 'w' ||
+            event.key === 'a' ||
+            event.key === 's' ||
+            event.key === 'd' ||
+            event.key === 'r'
+        ) {
             this.frog.moveDot(0.2, event.key);
         } else if (event.key === 'l') {
             this.frog.position.y += 5;
@@ -115,7 +130,10 @@ class SeedScene extends Scene {
 
         if (event.key === ' ') {
             const keyUpTime = new Date().getTime();
-            let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
+            let duration = Math.min(
+                SceneParams.MAX_JUMP_TIME,
+                keyUpTime - this.keyDownTime
+            );
 
             this.AimGuide.endExtension();
             this.frog.tiltUp.stop();
@@ -150,7 +168,9 @@ class SeedScene extends Scene {
                 ) {
                     frog.collide(pad);
                     // Handle collision here (e.g., stop the frog, trigger a score increase, etc.)
-                    this.lillyPadGenerator.setNextLillyPad(pad);
+                    if (this.lillyPadGenerator.current !== pad) {
+                        this.lillyPadGenerator.setNextLillyPad(pad);
+                    }
                     console.log(pad.index);
                     pad.stopMovement();
                     break;
@@ -162,8 +182,9 @@ class SeedScene extends Scene {
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = -this.frog.rotation.y - Math.PI / 2;
-        this.fog.color = this.fogColor.clone().multiplyScalar(Math.cos(this.frog.position.y / 80));
-
+        this.fog.color = this.fogColor
+            .clone()
+            .multiplyScalar(Math.cos(this.frog.position.y / 80));
 
         if (!this.frog.onGround) {
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
