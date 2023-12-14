@@ -1,5 +1,7 @@
 import MENU from './menu.html';
 import DEATH from './death.html';
+import SCORE from './score.html';
+
 import styles from './styles.css';
 
 // initialize menu
@@ -14,6 +16,11 @@ export function init_pages(window, document) {
     death.innerHTML = DEATH;
     death.style.visibility = 'hidden';
     document.body.appendChild(death);
+
+
+    let score = document.createElement('div');
+    score.innerHTML = SCORE;
+    document.body.appendChild(score);
 
     // append styles
     let style = document.createElement('style');

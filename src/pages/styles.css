@@ -139,3 +139,18 @@
     height: auto;
     opacity: 0.5;
 }
+
+#score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1em;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    background: #0000008a;
+    margin: 1rem;
+    border-radius: 1rem;
+	backdrop-filter: blur(20px);
+}

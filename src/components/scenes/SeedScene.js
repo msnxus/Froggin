@@ -184,8 +184,9 @@ class SeedScene extends Scene {
                         );
                         this.lillyPadGenerator.setNextLillyPad(pad);
                     }
-                    console.log(pad.index);
                     pad.stopMovement();
+                    // update score
+                    document.getElementById('score-content').innerText = pad.index;
                     break;
                 }
             }

@@ -321,6 +321,9 @@ class Frog extends Group {
         TWEEN.update();
 
         if (this.position.y < -5) {
+            // set score to 0
+            document.getElementById('score-content').innerText = 0;
+
             // TODO: trigger lose screen
             let deathScreen = document.getElementById('death');
             deathScreen.style.visibility = 'visible';
