@@ -1,4 +1,5 @@
 import MENU from './menu.html';
+import DEATH from './death.html';
 import styles from './styles.css';
 
 // initialize menu
@@ -8,6 +9,10 @@ export function init_pages(window, document) {
     let menu = document.createElement('div');
     menu.innerHTML = MENU;
     document.body.appendChild(menu);
+
+    let death = document.createElement('div');
+    death.innerHTML = DEATH;
+    document.body.appendChild(death);
 
     // append styles
     let style = document.createElement('style');
@@ -19,9 +24,8 @@ export function init_pages(window, document) {
     // event listener for page change
     window.addEventListener('keyup', (event) => {
         if (event.key == 'p') {
-            let vis = document.getElementById('menu').style.visibility;
-            document.getElementById('menu').style.visibility =
-                vis == 'hidden' ? 'visible' : 'hidden';
+            let opac = document.getElementById('menu').style.opacity;
+            document.getElementById('menu').style.opacity = opac == '' ? 0 : '';
         }
     });
 }
