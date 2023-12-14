@@ -18,7 +18,7 @@ class LillyPadGenerator extends Group {
     }
 
     getPads() {
-        console.log(this.previous.map((p) => p.index));
+        // console.log(this.previous.map((p) => p.index));
         return [...this.previous, this.current, ...this.next];
     }
 
