@@ -94,11 +94,11 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 
 
 ## TODO final:
-- on screen score TYLER
-- death screen TYLER
+- ~~score screen~~ TYLER
+- ~~death screen~~ TYLER
 - flies
 - tongue
-- optimize collision detection. AYO 
-- procedural scene generation. NICO
+- ~~optimize collision detection~~ AYO 
+- ~~procedural scene generation~~ NICO
 - audio. AYO
-- finish up parabola. RYAN
+- ~~finish up parabola~~ RYAN
