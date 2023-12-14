@@ -12,6 +12,7 @@ export function init_pages(window, document) {
 
     let death = document.createElement('div');
     death.innerHTML = DEATH;
+    death.style.visibility = 'hidden';
     document.body.appendChild(death);
 
     // append styles

@@ -322,7 +322,14 @@ class Frog extends Group {
 
         if (this.position.y < -5) {
             // TODO: trigger lose screen
-
+            let deathScreen = document.getElementById('death');
+            deathScreen.style.visibility = 'visible';
+            deathScreen.style.opacity = 1;
+            this.velocity = new Vector3();
+            setTimeout(() => {
+                document.getElementById('death').style.opacity = 0
+                this.state.reset();
+            }, 500);
             // reset position:
             const listener = new AudioListener();
             const sound = new Audio(listener);
@@ -336,7 +343,6 @@ class Frog extends Group {
                     sound.play();
                 }
             );
-            this.state.reset();
         }
     }
 }

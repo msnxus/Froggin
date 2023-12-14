@@ -98,7 +98,7 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 - death screen TYLER
 - flies
 - tongue
-- optimize collision detection. AYO
+- optimize collision detection. AYO 
 - procedural scene generation. NICO
-- audio.
+- audio. AYO
 - finish up parabola. RYAN
