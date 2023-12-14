@@ -71,7 +71,8 @@ class Frog extends Group {
 
         // collisions
         const radius = SceneParams.FROG_RADIUS;
-        this.boundingSphere = new Sphere(this.position, radius); // Adjust radius as needed
+        const boundingPos = this.position.clone().add(SceneParams.FROG_BOUNDING_OFFSET);
+        this.boundingSphere = new Sphere(boundingPos, radius); // Adjust radius as needed
 
         // For debugging: create a mesh to visualize the bounding sphere
         if (SceneParams.DEBUGGING) {
@@ -82,7 +83,7 @@ class Frog extends Group {
             });
             this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
             this.add(this.boundingSphereMesh);
-            this.boundingSphereMesh.position.copy(this.position);
+            this.boundingSphereMesh.position.copy(this.position).add(SceneParams.FROG_BOUNDING_OFFSET);
         }
         // Load object
         // Frog by Poly by Google [CC-BY] via Poly Pizza
@@ -330,7 +331,7 @@ class Frog extends Group {
             this.velocity.add(new Vector3(0, -SceneParams.GRAVITY, 0));
         }
 
-        this.boundingSphere.center.copy(this.position);
+        this.boundingSphere.center.copy(this.position).add(SceneParams.FROG_BOUNDING_OFFSET);
         TWEEN.update();
 
         if (this.position.y < -5 && !this.dead) {

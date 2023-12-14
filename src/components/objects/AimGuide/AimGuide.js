@@ -37,6 +37,7 @@ class AimGuide extends Group {
         this.tempTarget = new Mesh(sphereGeomTemp, sphereMatTemp);
 
         this.isHittingPad = false;
+        this.isActive = false;
 
         this.extension = null; // Property to hold the extension tween
         this.jumpCurveTween1 = null; // holds line extension obviously :D
@@ -172,6 +173,7 @@ class AimGuide extends Group {
     }
 
     clear() {
+        this.endExtension();
         this.remove(this.jumpArc1);
         this.remove(this.jumpArc2);
         this.remove(this.target);

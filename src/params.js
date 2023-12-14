@@ -30,6 +30,7 @@ const SceneParams = {
     // bounding spheres
     DEBUGGING: false, // also affect aimguide
     FROG_RADIUS: 1.2,
+    FROG_BOUNDING_OFFSET: new Vector3(-0.3, 0, 0),
     LILYPAD_RADIUS: 2.5,
     LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
 

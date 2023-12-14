@@ -48,12 +48,9 @@ class SeedScene extends Scene {
 
     handleKeyDown(event) {
         if (event.key === ' ' && this.keyDownTime === 0) {
-            this.keyDownTime = new Date().getTime();
-            this.AimGuide.startExtension(this.frog.position, this.frog.rotation);
-            // Frog tiltup TWEEN
-            this.frog.tiltUp.start();
             if(this.frog.onGround) {
                 this.keyDownTime = new Date().getTime();
+                this.AimGuide.isActive = true;
                 this.AimGuide.startExtension(this.frog.position, this.frog.rotation, this.lillyPadGenerator.getPads());
                 // Frog tiltup TWEEN
                 this.frog.tiltUp.start();
@@ -118,6 +115,7 @@ class SeedScene extends Scene {
                 event.key == keyMap.ArrowLeft ||
                 event.key == keyMap.ArrowRight
             ) {
+                if(this.AimGuide.isActive) this.AimGuide.clear();
                 this.frog.state.holdingTurn = false;
             }
         }
@@ -126,6 +124,7 @@ class SeedScene extends Scene {
             const keyUpTime = new Date().getTime();
             let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
 
+            this.AimGuide.isActive = false;
             this.AimGuide.endExtension();
             this.frog.tiltUp.stop();
             this.frog.rotation.z = 0;
