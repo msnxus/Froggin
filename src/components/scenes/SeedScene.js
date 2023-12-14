@@ -5,6 +5,7 @@ import { Frog, LillyPadGenerator, Pond, Fly } from 'objects';
 import { BasicLights } from 'lights';
 import SceneParams from '../../params';
 import AimGuide from '../objects/AimGuide/AimGuide';
+import Tongue from '../objects/Tongue/Tongue';
 import { AudioLoader, Audio, AudioListener } from 'three';
 
 class SeedScene extends Scene {
@@ -29,10 +30,12 @@ class SeedScene extends Scene {
         this.lillyPadGenerator = new LillyPadGenerator(this);
         this.frog = new Frog(this, this.lillyPadGenerator);
         this.AimGuide = new AimGuide();
+        this.Tongue = new Tongue();
         const lights = new BasicLights();
 
         this.pond = new Pond(this.frog);
-        this.add(this.lillyPadGenerator, this.frog, lights, this.pond, this.AimGuide);
+        this.add(this.lillyPadGenerator, this.fly, this.frog, lights, this.pond, this.AimGuide, this.Tongue);
+
 
         // Event listeners
         this.keyDownTime = 0;
@@ -47,15 +50,16 @@ class SeedScene extends Scene {
     }
 
     handleKeyDown(event) {
-        if (event.key === ' ' && this.keyDownTime === 0) {
+        if (event.key === ' ' && this.keyDownTime === 0 && !SceneParams.FIRSTPERSON) {
             if(this.frog.onGround) {
                 this.keyDownTime = new Date().getTime();
                 this.AimGuide.isActive = true;
-                this.AimGuide.startExtension(this.frog.position, this.frog.rotation, this.lillyPadGenerator.getPads());
+                this.AimGuide.startExtension(this.frog.position.clone().add(SceneParams.FLY_BOUNDING_OFFSET), this.frog.rotation, this.lillyPadGenerator.getPads());
                 // Frog tiltup TWEEN
                 this.frog.tiltUp.start();
             }
-        } else if (event.key === 'f') {
+        }
+        else if (event.key === 'f') {
             SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
             SceneParams.ENABLEPANNING = !SceneParams.ENABLEPANNING;
         } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
@@ -120,7 +124,7 @@ class SeedScene extends Scene {
             }
         }
 
-        if (event.key === ' ') {
+        if (event.key === ' ' && !SceneParams.FIRSTPERSON) {
             const keyUpTime = new Date().getTime();
             let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
 
@@ -133,6 +137,9 @@ class SeedScene extends Scene {
             this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
+        }
+        else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
+            this.Tongue.extend(this.frog.position, this.frog.rotation);
         }
     }
 
@@ -197,8 +204,11 @@ class SeedScene extends Scene {
 
         // this.fog.color = this.fogColor.clone().multiplyScalar(Math.cos(this.frog.position.y / 1000));
 
-
         if (!this.frog.onGround) {
+            // if frog dies
+            if(this.frog.position.y < -3) {
+                this.AimGuide.clear();
+            }
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
         }
         if(this.frog.generateNewTerrain(this.pond)) {
