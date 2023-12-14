@@ -34,7 +34,6 @@ class Fly extends Group {
             gltf.scene.scale.set(scale, scale, scale);
             this.add(gltf.scene);
         });
-        debugger;
 
         // collisions
         const radius = SceneParams.FLY_RADIUS;

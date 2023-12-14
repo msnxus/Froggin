@@ -35,7 +35,6 @@ class LillyPad extends Group {
             gltf.scene.scale.set(scale, scale, scale);
             this.add(gltf.scene);
         });
-        debugger;
 
         // collisions
         const radius = SceneParams.LILYPAD_RADIUS;
