@@ -182,10 +182,13 @@ class SeedScene extends Scene {
                         this.lillyPadGenerator.setNextLillyPad(pad);
                     }
                     pad.stopMovement();
+
                     // update score
-                    this.hiScore = Math.max(this.hiScore, pad.index);
+                    let hiScore = localStorage.getItem('high-score', 0)
+
+                    localStorage.setItem('high-score', Math.max(hiScore, pad.index));
                     document.getElementById('score-content').innerText = pad.index;
-                    document.getElementById('hi-score-content').innerText = this.hiScore;
+                    document.getElementById('hi-score-content').innerText = Math.max(hiScore, pad.index);
 
                     break;
                 }
@@ -208,7 +211,6 @@ class SeedScene extends Scene {
             this.pond = pond;
             this.add(this.pond);
             // this.add(pond);
-            console.log(this.pond);
         }
         // Call update for each object in the updateList
         for (const obj of updateList) {

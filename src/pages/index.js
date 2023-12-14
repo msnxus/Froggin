@@ -21,6 +21,7 @@ export function init_pages(window, document) {
     let score = document.createElement('div');
     score.innerHTML = SCORE;
     document.body.appendChild(score);
+    document.getElementById('hi-score-content').innerText = localStorage.getItem('high-score', 0);
 
     // append styles
     let style = document.createElement('style');
