@@ -136,6 +136,13 @@ class Frog extends Group {
         }
     }
 
+    generateNewTerrain(pond) {
+        const dist = Math.sqrt(Math.pow(this.position.x - pond.offset.x, 2) + Math.pow(this.position.z - pond.offset.z, 2));
+        if(dist >= 180) {
+            return true;
+        } else return false;
+    }
+
     move(distance, totalRotation) {
         if (this.onGround) {
             this.onGround = false;

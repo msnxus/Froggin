@@ -19,19 +19,19 @@ class SeedScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
-        this.fogColor = new Color(0xd192a4);
+        this.background = new Color(0x7ec0ee); 
+        // this.fogColor = new Color(0xd192a4);
 
         // Add fog
-        this.fog = new FogExp2(this.fogColor, 0.015);
+        // this.fog = new FogExp2(this.fogColor, 0.015);
 
         // Add meshes to scene
         this.lillyPadGenerator = new LillyPadGenerator();
         this.frog = new Frog(this, this.lillyPadGenerator);
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
-        const pond = new Pond();
-        this.add(this.lillyPadGenerator, this.frog, lights, pond, this.AimGuide);
+        this.pond = new Pond(this.frog);
+        this.add(this.lillyPadGenerator, this.frog, lights, this.pond, this.AimGuide);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
@@ -58,6 +58,9 @@ class SeedScene extends Scene {
         } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
             this.frog.moveDot(0.2, event.key);
         } else if (event.key === 'l') {
+            this.frog.position.y += 0.5;
+            this.frog.position.x += 5;
+        } else if (event.key === 'h') {
             this.frog.position.y += 5;
         }
 
@@ -162,11 +165,18 @@ class SeedScene extends Scene {
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = -this.frog.rotation.y - Math.PI / 2;
-        this.fog.color = this.fogColor.clone().multiplyScalar(Math.cos(this.frog.position.y / 80));
+        // this.fog.color = this.fogColor.clone().multiplyScalar(Math.cos(this.frog.position.y / 1000));
 
 
         if (!this.frog.onGround) {
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
+        }
+        if(this.frog.generateNewTerrain(this.pond)) {
+            const pond = new Pond(this.frog);
+            this.pond = pond;
+            this.add(this.pond);
+            // this.add(pond);
+            console.log(this.pond);
         }
         // Call update for each object in the updateList
         for (const obj of updateList) {
