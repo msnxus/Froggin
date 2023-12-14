@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Camera, Box3, Vector3 } from 'three';
+import { Scene, Color, Camera, Box3, Vector3, FogExp2 } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Pond } from 'objects';
 import { BasicLights } from 'lights';
@@ -19,6 +19,10 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
+        this.fogColor = new Color(0xd192a4);
+
+        // Add fog
+        this.fog = new FogExp2(this.fogColor, 0.015);
 
         // Add meshes to scene
         this.lillyPadGenerator = new LillyPadGenerator();
@@ -61,6 +65,8 @@ class SeedScene extends Scene {
             event.key === 'r'
         ) {
             this.frog.moveDot(0.2, event.key);
+        } else if (event.key === 'l') {
+            this.frog.position.y += 5;
         }
 
         const keyMap = {
@@ -163,6 +169,8 @@ class SeedScene extends Scene {
     update(timeStamp) {
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = -this.frog.rotation.y - Math.PI / 2;
+        this.fog.color = this.fogColor.clone().multiplyScalar(Math.cos(this.frog.position.y / 80));
+
 
         if (!this.frog.onGround) {
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
