@@ -1,18 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
 #menu {
     position: absolute;
     left: 50%;
     top: 50%;
+	background: rgba(0, 0, 0, 0.45);
+	backdrop-filter: blur(20px);
     transform: translate(-50%, -50%);
-    width: 50vw;   /* 50% of the viewport width */
-    height: 50vh;  /* 50% of the viewport height */
+    width: 40vw;
+    padding: 2em;
     text-align: center;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: white;
-    border-radius: 10px;
-    border: 4px solid black;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    overflow: hidden;
+    transition: opacity 0.25s ease-in-out;
 }
 
+.menu-frog-image {
+    max-width: 20rem; 
+    height: auto;
+}
+
+.name {
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.game-description {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0 0 1em 0;
+    line-height: 1.6;
+}
+
+.instructions {
+    text-align: left;
+    margin: 2em 0;
+    border: 1px solid white;
+    padding: 10px;
+
+}
+
+.instructions ul {
+    padding: 0;
+    list-style-type: none;
+}
+
+.instructions li {
+    line-height: 1.6;
+    margin: 0.5em 0;
+    position: relative;
+    padding-left: 1.4em;
+}
+
+.instructions li:before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: white;
+    font-size: 1.2em;
+}
+
+#death {
+    position: absolute;
+    left: 0;
+    width: 100vw;
+    height: 100vh;;
+    top: 0;
+	background: rgba(0, 0, 0, 0.45);
+	backdrop-filter: grayscale(1) blur(2px);
+    font-family: 'Roboto', sans-serif;
+    color: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.death-content {
+    position: relative;
+    /* background-color: rgba(0, 0, 0, 0.45); */
+    width: 100%;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.death-text {
+    color: rgb(211, 18, 18);
+    font-size: 3rem;
+    text-transform: uppercase;
+    font-family:'Times New Roman', Times, serif;
+    letter-spacing: 0.5rem;
+    position: relative; /* Ensures text appears above the gradient */
+    z-index: 1; /* Ensures text is on top */
+}
+
+
+.death-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.5) 20%, /* Adjust these percentages to control the fade effect */
+        rgba(0, 0, 0, 0.5) 80%,
+        rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none; /* Ensures clicks pass through to elements underneath */
+}
+
+.death-frog-image {
+    position: absolute;
+    top: 27%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 20rem;
+    height: auto;
+    opacity: 0.5;
+}
+
+#score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1em;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    background: #0000008a;
+    margin: 1rem;
+    border-radius: 1rem;
+	backdrop-filter: blur(20px);
+}

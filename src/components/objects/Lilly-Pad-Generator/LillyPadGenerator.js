@@ -18,8 +18,11 @@ class LillyPadGenerator extends Group {
     }
 
     getPads() {
-        // console.log(this.previous.map((p) => p.index));
-        return [...this.previous, this.current, ...this.next];
+        return [
+            ...this.previous.slice(this.previous.length - 3),
+            this.current,
+            ...this.next.slice(0, 2),
+        ];
     }
 
     initPads(amount) {
@@ -51,12 +54,21 @@ class LillyPadGenerator extends Group {
             const delta = newCurrent.index - this.current.index;
             if (delta > 0) {
                 this.previous.push(this.current);
-                for (let i = 0; i < delta - 1; i++) {
-                    this.previous.push(this.next[i]);
-                }
+                this.previous.push(...this.next.slice(0, delta - 1));
+                this.next = this.next.slice(delta);
             } else if (delta < 0) {
+                this.next = [
+                    ...this.previous.slice(this.previous.length + (delta + 1)),
+                    this.current,
+                    ...this.next,
+                ];
+                this.previous = this.previous.slice(
+                    0,
+                    this.previous.length + delta
+                );
             }
 
+            this.current = newCurrent;
             this.next.push(newNext);
             this.add(newNext);
         }

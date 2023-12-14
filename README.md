@@ -91,3 +91,14 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 - moving / disappearing lilypads. AYO
 - dragonfly. TYLER
 - gun. NICO
+
+
+## TODO final:
+- on screen score TYLER
+- death screen TYLER
+- flies
+- tongue
+- optimize collision detection. AYO 
+- procedural scene generation. NICO
+- audio. AYO
+- finish up parabola. RYAN
