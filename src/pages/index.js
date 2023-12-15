@@ -3,6 +3,7 @@ import DEATH from './death.html';
 import SCORE from './score.html';
 
 import styles from './styles.css';
+import { AudioLoader, Audio, AudioListener } from 'three';
 
 // initialize menu
 export function init_pages(window, document) {
@@ -35,6 +36,19 @@ export function init_pages(window, document) {
         if (event.key == 'p') {
             let opac = document.getElementById('menu').style.opacity;
             document.getElementById('menu').style.opacity = opac == '' ? 0 : '';
+            // audio
+            const listener = new AudioListener();
+            const sound = new Audio(listener);
+            const audioLoader = new AudioLoader();
+            audioLoader.load(
+                'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/death.wav',
+                function (buffer) {
+                    sound.setBuffer(buffer);
+                    sound.setLoop(false);
+                    sound.setVolume(0.2);
+                    sound.play();
+                }
+            );
         }
     });
 }

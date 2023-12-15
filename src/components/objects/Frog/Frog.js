@@ -367,7 +367,7 @@ class Frog extends Group {
                 function (buffer) {
                     sound.setBuffer(buffer);
                     sound.setLoop(false);
-                    sound.setVolume(0.5);
+                    sound.setVolume(0.2);
                     sound.play();
                 }
             );
