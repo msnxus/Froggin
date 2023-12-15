@@ -52,7 +52,7 @@ const SceneParams = {
     NUM_INITIAL_PADS: 2,
 
     // Furthest a pad can be
-    LILYPAD_MAX_JUMP_RADIUS: 25,
+    LILYPAD_MAX_JUMP_RADIUS: 20,
 };
 
 export default SceneParams;
