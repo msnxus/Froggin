@@ -24,7 +24,7 @@ const SceneParams = {
     // Camera setting
     FIRSTPERSON: false,
     THIRDPERSONPOV: new Vector3(0, 8, -15),
-    FIRSTPERSONPOV: new Vector3(0, 1, 0),
+    FIRSTPERSONPOV: new Vector3(0, 1, -0.5),
     ENABLEPANNING: false,
 
     // bounding spheres

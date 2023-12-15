@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Camera, Box3, Vector3, FogExp2, TextureLoader } from 'three';
+import { Scene, Color, Camera, Box3, Vector3, FogExp2, TextureLoader, Quaternion } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Terrain, Fly } from 'objects';
 import { BasicLights } from 'lights';
@@ -32,7 +32,6 @@ class SeedScene extends Scene {
         this.lillyPadGenerator = new LillyPadGenerator(this);
         this.frog = new Frog(this, this.lillyPadGenerator);
         this.AimGuide = new AimGuide();
-        this.Tongue = new Tongue();
         const lights = new BasicLights();
 
         this.terrain = new Terrain(this.frog);
@@ -58,57 +57,78 @@ class SeedScene extends Scene {
             if(this.frog.onGround) {
                 this.keyDownTime = new Date().getTime();
                 this.AimGuide.isActive = true;
-                this.AimGuide.startExtension(this.frog.position.clone().add(SceneParams.FLY_BOUNDING_OFFSET), this.frog.rotation, this.lillyPadGenerator.getPads());
+                this.AimGuide.startExtension(this.frog.position.clone(), this.frog.rotation, this.lillyPadGenerator.getPads());
                 // Frog tiltup TWEEN
                 this.frog.tiltUp.start();
             }
         }
-        else if (event.key === 'f') {
-            SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
-        } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
-            this.frog.moveDot(0.2, event.key);
-        } else if (event.key === 'l') {
-            if (SceneParams.DEBUGGING) {
+
+        if (this.keyDownTime == 0) {
+            if (event.key === 'f') {
+                if (SceneParams.FIRSTPERSON) {
+                    SceneParams.FIRSTPERSON = false;
+                    this.frog.rotation.z = 0;
+                }
+                else {
+                    SceneParams.FIRSTPERSON = true;
+                }
+            } else if (SceneParams.FIRSTPERSON && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd')) {
+                this.moveDot(event.key);
+            } else if (event.key === 'l') {
                 this.frog.position.y += 0.5;
                 this.frog.position.x += 5;
-            }
-            
-        } else if (event.key === 'h') {
-            if (SceneParams.DEBUGGING) {
+            } else if (event.key === 'h') {
                 this.frog.position.y += 5;
             }
-        }
 
-        const keyMap = {
-            ArrowUp: 'ArrowUp',
-            ArrowDown: 'ArrowDown',
-            ArrowLeft: 'ArrowLeft',
-            ArrowRight: 'ArrowRight',
-        };
+            const keyMap = {
+                ArrowUp: 'ArrowUp',
+                ArrowDown: 'ArrowDown',
+                ArrowLeft: 'ArrowLeft',
+                ArrowRight: 'ArrowRight',
+            };
 
-        const rotationAmount = Math.PI / 30;
-        const movementAmount = 0.5;
+            const rotationAmount = Math.PI / 30;
+            const movementAmount = 0.5;
 
-        if (Object.keys(keyMap).find((v) => v == event.key)) {
-            if (event.key == keyMap.ArrowDown) {
-                this.frog.move(-movementAmount, this.frog.rotation.y);
-            } else if (event.key == keyMap.ArrowUp) {
-                this.frog.move(movementAmount, this.frog.rotation.y);
-            } else if (event.key == keyMap.ArrowLeft) {
-                if (this.frog.state.holdingTurn) {
-                    this.frog.turn(rotationAmount * 4);
-                } else {
-                    this.frog.state.holdingTurn = true;
-                    this.frog.turn(rotationAmount);
-                }
-            } else if (event.key == keyMap.ArrowRight) {
-                if (this.frog.state.holdingTurn) {
-                    this.frog.turn(-rotationAmount * 4);
-                } else {
-                    this.frog.state.holdingTurn = true;
-                    this.frog.turn(-rotationAmount);
+            if (Object.keys(keyMap).find((v) => v == event.key)) {
+                if (event.key == keyMap.ArrowDown) {
+                    this.frog.move(-movementAmount, this.frog.rotation.y);
+                } else if (event.key == keyMap.ArrowUp) {
+                    this.frog.move(movementAmount, this.frog.rotation.y);
+                } else if (event.key == keyMap.ArrowLeft) {
+                    if (this.frog.state.holdingTurn) {
+                        this.frog.turn(rotationAmount * 4);
+                    } else {
+                        this.frog.state.holdingTurn = true;
+                        this.frog.turn(rotationAmount);
+                    }
+                } else if (event.key == keyMap.ArrowRight) {
+                    if (this.frog.state.holdingTurn) {
+                        this.frog.turn(-rotationAmount * 4);
+                    } else {
+                        this.frog.state.holdingTurn = true;
+                        this.frog.turn(-rotationAmount);
+                    }
                 }
             }
+        }
+    }
+
+    moveDot(key) {
+        let factor = 8;
+        if (key == 'w') {
+            if (this.frog.rotation.z < 0.15) {
+                new TWEEN.Tween(this.frog.rotation).to({z: this.frog.rotation.z + 0.01 * factor}, 100).start();
+            }
+        } else if (key == 'a') {
+            new TWEEN.Tween(this.frog.rotation).to({y: this.frog.rotation.y + 0.01 * factor}, 100).start();
+        } else if (key == 's') {
+            if (this.frog.rotation.z > -0.25) {
+                new TWEEN.Tween(this.frog.rotation).to({z: this.frog.rotation.z - 0.01 * factor}, 100).start();
+            }
+        } else if (key == 'd') {
+            new TWEEN.Tween(this.frog.rotation).to({y: this.frog.rotation.y - 0.01 * factor}, 100).start();
         }
     }
 
@@ -127,7 +147,6 @@ class SeedScene extends Scene {
                 event.key == keyMap.ArrowLeft ||
                 event.key == keyMap.ArrowRight
             ) {
-                if(this.AimGuide.isActive) this.AimGuide.clear();
                 this.frog.state.holdingTurn = false;
             }
         }
@@ -148,7 +167,7 @@ class SeedScene extends Scene {
             this.keyDownTime = 0; // Reset the keyDownTime
         }
         else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
-            this.Tongue.extend(this.frog.position, this.frog.rotation);
+            this.frog.tongue.extend(this.frog.dot.position);
         }
     }
 
