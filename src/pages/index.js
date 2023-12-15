@@ -43,7 +43,7 @@ export function init_pages(window, document) {
             const listener = new AudioListener();
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
-            if (started = false) {
+            if (started == false) {
                 started = true;
                 audioLoader.load(
                     'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/music.mp3',
