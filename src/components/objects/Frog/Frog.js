@@ -356,7 +356,7 @@ class Frog extends Group {
             setTimeout(() => {
                 document.getElementById('death').style.opacity = 0
                 this.state.reset();
-            }, 500);
+            }, 800); 
 
             // audio
             const listener = new AudioListener();

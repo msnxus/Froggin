@@ -63,7 +63,7 @@ class AimGuide extends Group {
         let curvePoints1 = [];
         let curvePoints2 = [];
         let collisionArc = [];
-        const segments = 200; // segments in parabola
+        const segments = 500; // segments in parabola
         const tiltAmount = 0.15; // Adjust the amount of tilt as needed
         const jumpheight = 9; // Jump height modifier
 

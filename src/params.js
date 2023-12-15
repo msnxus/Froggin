@@ -28,17 +28,17 @@ const SceneParams = {
     ENABLEPANNING: false,
 
     // bounding spheres
-    DEBUGGING: true, // also affect aimguide
-    FROG_RADIUS: 1.2,
-    FROG_BOUNDING_OFFSET: new Vector3(-0.3, 0, 0),
+    DEBUGGING: false, // also affect aimguide
+    FROG_RADIUS: 1.3,
+    FROG_BOUNDING_OFFSET: new Vector3(-0.2, 0, 0),
     LILYPAD_RADIUS: 2.5,
     LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
 
     LILYPAD_MAX_Y_OFF: 5,
 
     FLY_RADIUS: 0.5,
-    FLY_BOUNDING_OFFSET: new Vector3(0, 0, 0),
-    
+    FLY_BOUNDING_OFFSET: new Vector3(0, 0.3, -0.2),
+    FLY_SPAWN_CHANCE: 0.1,
     // How long until max jump heigh/dist
     MAX_JUMP_TIME: 1400,
     

@@ -21,7 +21,6 @@ class LillyPad extends Group {
         // Properties
         this.name = 'lilly-pad';
         this.index = index;
-
         // Pad types
         this.moving = false;
         this.disappearing = false;
@@ -110,7 +109,7 @@ class LillyPad extends Group {
         return boundingSphereWorld;
     }
 
-    generateNextPad() {
+    generateNextPad(scene) {
         const radius =
             SceneParams.LILYPAD_MAX_JUMP_RADIUS -
             Math.random() * (SceneParams.LILYPAD_MAX_JUMP_RADIUS / 4);
@@ -131,6 +130,8 @@ class LillyPad extends Group {
             Math.round(Math.random()) > 0.5 && this.index != 0 ? false : true;
         return newPad;
     }
+
+
 
     startMovement() {
         this.moveRight.start();
