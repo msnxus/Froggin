@@ -31,6 +31,7 @@ export function init_pages(window, document) {
 
     // --------------------------------------------------
 
+    let count = 0; // increment count on every p press but only play music when count is 0.
     // event listener for page change
     window.addEventListener('keyup', (event) => {
         if (event.key == 'p') {
@@ -40,15 +41,18 @@ export function init_pages(window, document) {
             const listener = new AudioListener();
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
-            audioLoader.load(
-                'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/death.wav',
-                function (buffer) {
-                    sound.setBuffer(buffer);
-                    sound.setLoop(false);
-                    sound.setVolume(0.2);
-                    sound.play();
-                }
-            );
+            if (count == 0) {
+                audioLoader.load(
+                    'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/music.mp3',
+                    function (buffer) {
+                        sound.setBuffer(buffer);
+                        sound.setLoop(true);
+                        sound.setVolume(0.2);
+                        sound.play();
+                    }
+                );
+            }
+            count++;
         }
     });
 }
