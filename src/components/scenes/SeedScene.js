@@ -53,62 +53,64 @@ class SeedScene extends Scene {
     }
 
     handleKeyDown(event) {
-        if (event.key === ' ' && this.keyDownTime === 0 && !SceneParams.FIRSTPERSON) {
-            if(this.frog.onGround) {
-                this.keyDownTime = new Date().getTime();
-                this.AimGuide.isActive = true;
-                this.AimGuide.startExtension(this.frog.position.clone(), this.frog.rotation, this.lillyPadGenerator.getPads());
-                // Frog tiltup TWEEN
-                this.frog.tiltUp.start();
-            }
-        }
-
-        if (this.keyDownTime == 0) {
-            if (event.key === 'f') {
-                if (SceneParams.FIRSTPERSON) {
-                    SceneParams.FIRSTPERSON = false;
-                    this.frog.rotation.z = 0;
+        if (!SceneParams.PAUSED) { // only allow inputs if the game is not paused
+            if (event.key === ' ' && this.keyDownTime === 0 && !SceneParams.FIRSTPERSON) {
+                if(this.frog.onGround) {
+                    this.keyDownTime = new Date().getTime();
+                    this.AimGuide.isActive = true;
+                    this.AimGuide.startExtension(this.frog.position.clone(), this.frog.rotation, this.lillyPadGenerator.getPads());
+                    // Frog tiltup TWEEN
+                    this.frog.tiltUp.start();
                 }
-                else {
-                    SceneParams.FIRSTPERSON = true;
-                }
-            } else if (SceneParams.FIRSTPERSON && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd')) {
-                this.moveDot(event.key);
-            } else if (event.key === 'l') {
-                this.frog.position.y += 0.5;
-                this.frog.position.x += 5;
-            } else if (event.key === 'h') {
-                this.frog.position.y += 5;
             }
 
-            const keyMap = {
-                ArrowUp: 'ArrowUp',
-                ArrowDown: 'ArrowDown',
-                ArrowLeft: 'ArrowLeft',
-                ArrowRight: 'ArrowRight',
-            };
-
-            const rotationAmount = Math.PI / 30;
-            const movementAmount = 0.5;
-
-            if (Object.keys(keyMap).find((v) => v == event.key)) {
-                if (event.key == keyMap.ArrowDown) {
-                    this.frog.move(-movementAmount, this.frog.rotation.y);
-                } else if (event.key == keyMap.ArrowUp) {
-                    this.frog.move(movementAmount, this.frog.rotation.y);
-                } else if (event.key == keyMap.ArrowLeft) {
-                    if (this.frog.state.holdingTurn) {
-                        this.frog.turn(rotationAmount * 4);
-                    } else {
-                        this.frog.state.holdingTurn = true;
-                        this.frog.turn(rotationAmount);
+            if (this.keyDownTime == 0) {
+                if (event.key === 'f') {
+                    if (SceneParams.FIRSTPERSON) {
+                        SceneParams.FIRSTPERSON = false;
+                        this.frog.rotation.z = 0;
                     }
-                } else if (event.key == keyMap.ArrowRight) {
-                    if (this.frog.state.holdingTurn) {
-                        this.frog.turn(-rotationAmount * 4);
-                    } else {
-                        this.frog.state.holdingTurn = true;
-                        this.frog.turn(-rotationAmount);
+                    else {
+                        SceneParams.FIRSTPERSON = true;
+                    }
+                } else if (SceneParams.FIRSTPERSON && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd')) {
+                    this.moveDot(event.key);
+                } else if (event.key === 'l') {
+                    this.frog.position.y += 0.5;
+                    this.frog.position.x += 5;
+                } else if (event.key === 'h') {
+                    this.frog.position.y += 5;
+                }
+
+                const keyMap = {
+                    ArrowUp: 'ArrowUp',
+                    ArrowDown: 'ArrowDown',
+                    ArrowLeft: 'ArrowLeft',
+                    ArrowRight: 'ArrowRight',
+                };
+
+                const rotationAmount = Math.PI / 30;
+                const movementAmount = 0.5;
+
+                if (Object.keys(keyMap).find((v) => v == event.key)) {
+                    if (event.key == keyMap.ArrowDown) {
+                        this.frog.move(-movementAmount, this.frog.rotation.y);
+                    } else if (event.key == keyMap.ArrowUp) {
+                        this.frog.move(movementAmount, this.frog.rotation.y);
+                    } else if (event.key == keyMap.ArrowLeft) {
+                        if (this.frog.state.holdingTurn) {
+                            this.frog.turn(rotationAmount * 4);
+                        } else {
+                            this.frog.state.holdingTurn = true;
+                            this.frog.turn(rotationAmount);
+                        }
+                    } else if (event.key == keyMap.ArrowRight) {
+                        if (this.frog.state.holdingTurn) {
+                            this.frog.turn(-rotationAmount * 4);
+                        } else {
+                            this.frog.state.holdingTurn = true;
+                            this.frog.turn(-rotationAmount);
+                        }
                     }
                 }
             }
@@ -133,41 +135,43 @@ class SeedScene extends Scene {
     }
 
     handleKeyUp(event, frog) {
-        if (event.target.tagName === 'INPUT') return;
+        if (!SceneParams.PAUSED) {
+            if (event.target.tagName === 'INPUT') return;
 
-        const keyMap = {
-            ArrowUp: 'ArrowUp',
-            ArrowDown: 'ArrowDown',
-            ArrowLeft: 'ArrowLeft',
-            ArrowRight: 'ArrowRight',
-        };
+            const keyMap = {
+                ArrowUp: 'ArrowUp',
+                ArrowDown: 'ArrowDown',
+                ArrowLeft: 'ArrowLeft',
+                ArrowRight: 'ArrowRight',
+            };
 
-        if (Object.keys(keyMap).find((v) => v == event.key)) {
-            if (
-                event.key == keyMap.ArrowLeft ||
-                event.key == keyMap.ArrowRight
-            ) {
-                this.frog.state.holdingTurn = false;
+            if (Object.keys(keyMap).find((v) => v == event.key)) {
+                if (
+                    event.key == keyMap.ArrowLeft ||
+                    event.key == keyMap.ArrowRight
+                ) {
+                    this.frog.state.holdingTurn = false;
+                }
             }
-        }
 
-        if (event.key === ' ' && !SceneParams.FIRSTPERSON) {
-            const keyUpTime = new Date().getTime();
-            let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
+            if (event.key === ' ' && !SceneParams.FIRSTPERSON) {
+                const keyUpTime = new Date().getTime();
+                let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
 
-            this.AimGuide.isActive = false;
-            this.AimGuide.endExtension();
-            this.frog.tiltUp.stop();
-            this.frog.rotation.z = 0;
-            console.log(this.terrain.name);
+                this.AimGuide.isActive = false;
+                this.AimGuide.endExtension();
+                this.frog.tiltUp.stop();
+                this.frog.rotation.z = 0;
+                console.log(this.terrain.name);
 
-            // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
-            this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
+                // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
+                this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
 
-            this.keyDownTime = 0; // Reset the keyDownTime
-        }
-        else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
-            this.frog.tongue.extend(this.frog.dot.position);
+                this.keyDownTime = 0; // Reset the keyDownTime
+            }
+            else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
+                this.frog.tongue.extend(this.frog.dot.position);
+            }
         }
     }
 

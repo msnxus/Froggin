@@ -41,7 +41,9 @@ const SceneParams = {
     FLY_SPAWN_CHANCE: 0.1,
     // How long until max jump heigh/dist
     MAX_JUMP_TIME: 1400,
-    
+
+    // Game settings
+    PAUSED: true,
 
     // Number of initial pads to render
     NUM_INITIAL_PADS: 2,

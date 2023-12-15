@@ -4,6 +4,7 @@ import SCORE from './score.html';
 
 import styles from './styles.css';
 import { AudioLoader, Audio, AudioListener } from 'three';
+import SceneParams from '../params';
 
 // initialize menu
 export function init_pages(window, document) {
@@ -31,17 +32,19 @@ export function init_pages(window, document) {
 
     // --------------------------------------------------
 
-    let count = 0; // increment count on every p press but only play music when count is 0.
+    let started = false; // increment count on every p press but only play music when count is 0.
     // event listener for page change
     window.addEventListener('keyup', (event) => {
         if (event.key == 'p') {
+            SceneParams.PAUSED = !SceneParams.PAUSED
             let opac = document.getElementById('menu').style.opacity;
             document.getElementById('menu').style.opacity = opac == '' ? 0 : '';
             // audio
             const listener = new AudioListener();
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
-            if (count == 0) {
+            if (started = false) {
+                started = true;
                 audioLoader.load(
                     'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/music.mp3',
                     function (buffer) {
@@ -52,7 +55,7 @@ export function init_pages(window, document) {
                     }
                 );
             }
-            count++;
+            
         }
     });
 }
