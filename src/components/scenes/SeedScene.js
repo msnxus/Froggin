@@ -124,7 +124,7 @@ class SeedScene extends Scene {
         } else if (key == 'a') {
             new TWEEN.Tween(this.frog.rotation).to({y: this.frog.rotation.y + 0.01 * factor}, 100).start();
         } else if (key == 's') {
-            if (this.frog.rotation.z > -0.25) {
+            if (this.frog.rotation.z > -0.4) {
                 new TWEEN.Tween(this.frog.rotation).to({z: this.frog.rotation.z - 0.01 * factor}, 100).start();
             }
         } else if (key == 'd') {
