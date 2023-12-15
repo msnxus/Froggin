@@ -46,11 +46,11 @@ class Terrain extends Group {
             }
             if(SCENES[randNum] == DESERT) {
                 gltf.scene.scale.set(desertScale, desertScale, desertScale);
-                gltf.scene.position.set(95, -20, 0).add(this.offset);
+                gltf.scene.position.set(95, -25, 0).add(this.offset);
             }
             if(SCENES[randNum] == WATERFALL) {
                 gltf.scene.scale.set(scale, scale, scale);
-                gltf.scene.position.set(95, -5, -10).add(this.offset);
+                gltf.scene.position.set(95, -10, -10).add(this.offset);
                 gltf.scene.rotation.y = Math.PI / 2;
 
             }
