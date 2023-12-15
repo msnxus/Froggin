@@ -18,6 +18,7 @@ class Terrain extends Group {
         const loader = new GLTFLoader();
         
         this.offset = frog.position.clone();
+        // WATERFALL -> Waterfall scene by Nikki Morin [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/dkbjOPcyB2l)
         // ROCKPOND -> Pond by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/5rf3YuZfJAW)
         // GRASSPOND -> Pond by Jarlan Perez [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1XazZeNBWG_)
         // WOODS -> Nature by 3Donimus [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0nsE2b8uXZy)
