@@ -19,18 +19,19 @@ import { SeedScene, MenuScene } from 'scenes';
 import SceneParams from './params';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import * as pages from './pages/';
+import * as dat from 'dat.gui';
 
 // Initialize core ThreeJS components
 const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
-// menu scene
-const menuScene = new MenuScene();
-// const menuCamera = new PerspectiveCamera();
-// const menuRenderer = new WebGLRenderer({ antialias: true });
-// const menuCanvas = renderer.domElement;
-// menuCanvas.id = 'menuCanvas';
+// gui
+const gui = new dat.GUI();
+gui.add(SceneParams, 'BOUNDING_BOXES', false, true).onChange((value) => {  
+    SceneParams.BOUNDING_BOXES = value;
+    scene.toggleBounding(value)
+})
 
 // Set up camera
 // ------------------------------ CHANGE CAMERA SETTINGS HERE ------------------------------

@@ -43,19 +43,16 @@ class LillyPad extends Group {
             radius
         ); // Adjust radius as needed
         // For debugging: create a mesh to visualize the bounding sphere
-        if (SceneParams.DEBUGGING) {
-            const sphereGeom = new SphereGeometry(radius, 16, 16);
-            const sphereMat = new MeshBasicMaterial({
-                color: 'blue',
-                wireframe: true,
-            });
-            this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
-            this.boundingSphereMesh.position
-                .copy(this.position)
-                .add(lilypadOffset);
+        const sphereGeom = new SphereGeometry(radius, 16, 16);
+        const sphereMat = new MeshBasicMaterial({
+            color: 'blue',
+            wireframe: true,
+        });
+        this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
+        this.boundingSphereMesh.position.copy(this.position).add(lilypadOffset);
 
-            this.add(this.boundingSphereMesh);
-        }
+        this.add(this.boundingSphereMesh);
+        this.boundingSphereMesh.visible = SceneParams.BOUNDING_BOXES;
 
         // Tween setup
         this.initTweens();
@@ -93,7 +90,7 @@ class LillyPad extends Group {
     addToPosition(offset) {
         this.position.add(offset);
         // this.boundingSphere.center.add(offset);
-        if (SceneParams.DEBUGGING) {
+        if (SceneParams.BOUNDING_BOXES) {
             // this.boundingSphereMesh.position.add(offset);
         }
     }
@@ -130,8 +127,6 @@ class LillyPad extends Group {
             Math.round(Math.random()) > 0.5 && this.index != 0 ? false : true;
         return newPad;
     }
-
-
 
     startMovement() {
         this.moveRight.start();

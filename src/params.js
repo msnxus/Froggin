@@ -28,7 +28,7 @@ const SceneParams = {
     ENABLEPANNING: false,
 
     // bounding spheres
-    DEBUGGING: false, // also affect aimguide
+    BOUNDING_BOXES: false, // also affect aimguide
     FROG_RADIUS: 1.3,
     FROG_BOUNDING_OFFSET: new Vector3(-0.3, 0, 0),
     LILYPAD_RADIUS: 2.5,

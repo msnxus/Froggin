@@ -1,5 +1,14 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Camera, Box3, Vector3, FogExp2, TextureLoader, Quaternion } from 'three';
+import {
+    Scene,
+    Color,
+    Camera,
+    Box3,
+    Vector3,
+    FogExp2,
+    TextureLoader,
+    Quaternion,
+} from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Terrain, Fly } from 'objects';
 import { BasicLights } from 'lights';
@@ -20,8 +29,10 @@ class SeedScene extends Scene {
         };
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee); 
-        this.background = new TextureLoader().load("https://raw.githubusercontent.com/msnxus/Froggin/main/src/components/scenes/stars.jpg");
+        this.background = new Color(0x7ec0ee);
+        this.background = new TextureLoader().load(
+            'https://raw.githubusercontent.com/msnxus/Froggin/main/src/components/scenes/stars.jpg'
+        );
 
         // this.fogColor = new Color(0xd192a4);
 
@@ -36,9 +47,13 @@ class SeedScene extends Scene {
 
         this.terrain = new Terrain(this.frog);
         this.scenes = [this.terrain];
-        this.add(this.lillyPadGenerator, this.frog, lights, this.terrain, this.AimGuide);
-        
-
+        this.add(
+            this.lillyPadGenerator,
+            this.frog,
+            lights,
+            this.terrain,
+            this.AimGuide
+        );
 
         // Event listeners
         this.keyDownTime = 0;
@@ -53,11 +68,19 @@ class SeedScene extends Scene {
     }
 
     handleKeyDown(event) {
-        if (event.key === ' ' && this.keyDownTime === 0 && !SceneParams.FIRSTPERSON) {
-            if(this.frog.onGround) {
+        if (
+            event.key === ' ' &&
+            this.keyDownTime === 0 &&
+            !SceneParams.FIRSTPERSON
+        ) {
+            if (this.frog.onGround) {
                 this.keyDownTime = new Date().getTime();
                 this.AimGuide.isActive = true;
-                this.AimGuide.startExtension(this.frog.position.clone(), this.frog.rotation, this.lillyPadGenerator.getPads());
+                this.AimGuide.startExtension(
+                    this.frog.position.clone(),
+                    this.frog.rotation,
+                    this.lillyPadGenerator.getPads()
+                );
                 // Frog tiltup TWEEN
                 this.frog.tiltUp.start();
             }
@@ -68,11 +91,16 @@ class SeedScene extends Scene {
                 if (SceneParams.FIRSTPERSON) {
                     SceneParams.FIRSTPERSON = false;
                     this.frog.rotation.z = 0;
-                }
-                else {
+                } else {
                     SceneParams.FIRSTPERSON = true;
                 }
-            } else if (SceneParams.FIRSTPERSON && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd')) {
+            } else if (
+                SceneParams.FIRSTPERSON &&
+                (event.key === 'w' ||
+                    event.key === 'a' ||
+                    event.key === 's' ||
+                    event.key === 'd')
+            ) {
                 this.moveDot(event.key);
             } else if (event.key === 'l') {
                 this.frog.position.y += 0.5;
@@ -119,16 +147,24 @@ class SeedScene extends Scene {
         let factor = 8;
         if (key == 'w') {
             if (this.frog.rotation.z < 0.15) {
-                new TWEEN.Tween(this.frog.rotation).to({z: this.frog.rotation.z + 0.01 * factor}, 100).start();
+                new TWEEN.Tween(this.frog.rotation)
+                    .to({ z: this.frog.rotation.z + 0.01 * factor }, 100)
+                    .start();
             }
         } else if (key == 'a') {
-            new TWEEN.Tween(this.frog.rotation).to({y: this.frog.rotation.y + 0.01 * factor}, 100).start();
+            new TWEEN.Tween(this.frog.rotation)
+                .to({ y: this.frog.rotation.y + 0.01 * factor }, 100)
+                .start();
         } else if (key == 's') {
             if (this.frog.rotation.z > -0.4) {
-                new TWEEN.Tween(this.frog.rotation).to({z: this.frog.rotation.z - 0.01 * factor}, 100).start();
+                new TWEEN.Tween(this.frog.rotation)
+                    .to({ z: this.frog.rotation.z - 0.01 * factor }, 100)
+                    .start();
             }
         } else if (key == 'd') {
-            new TWEEN.Tween(this.frog.rotation).to({y: this.frog.rotation.y - 0.01 * factor}, 100).start();
+            new TWEEN.Tween(this.frog.rotation)
+                .to({ y: this.frog.rotation.y - 0.01 * factor }, 100)
+                .start();
         }
     }
 
@@ -153,7 +189,10 @@ class SeedScene extends Scene {
 
         if (event.key === ' ' && !SceneParams.FIRSTPERSON) {
             const keyUpTime = new Date().getTime();
-            let duration = Math.min(SceneParams.MAX_JUMP_TIME, keyUpTime - this.keyDownTime);
+            let duration = Math.min(
+                SceneParams.MAX_JUMP_TIME,
+                keyUpTime - this.keyDownTime
+            );
 
             this.AimGuide.isActive = false;
             this.AimGuide.endExtension();
@@ -165,8 +204,7 @@ class SeedScene extends Scene {
             this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
 
             this.keyDownTime = 0; // Reset the keyDownTime
-        }
-        else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
+        } else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
             this.frog.tongue.extend(this.frog.dot.position);
         }
     }
@@ -214,15 +252,44 @@ class SeedScene extends Scene {
                     pad.stopMovement();
 
                     // update score
-                    let hiScore = localStorage.getItem('high-score', 0)
+                    let hiScore = localStorage.getItem('high-score', 0);
 
-                    localStorage.setItem('high-score', Math.max(hiScore, pad.index));
-                    document.getElementById('score-content').innerText = pad.index;
-                    document.getElementById('hi-score-content').innerText = Math.max(hiScore, pad.index);
+                    localStorage.setItem(
+                        'high-score',
+                        Math.max(hiScore, pad.index)
+                    );
+                    document.getElementById('score-content').innerText =
+                        pad.index;
+                    document.getElementById('hi-score-content').innerText =
+                        Math.max(hiScore, pad.index);
 
                     break;
                 }
             }
+        }
+    }
+
+    toggleBounding(value) {
+        if (value) {
+            this.frog.boundingSphereMesh.visible = true;
+            this.lillyPadGenerator.getPads().forEach((pad) => {
+                pad.boundingSphereMesh.visible = true;
+            });
+            this.children.forEach((child) => {
+                if (child.name == 'fly') {
+                    child.boundingSphereMesh.visible = true;
+                }
+            });
+        } else {
+            this.frog.boundingSphereMesh.visible = false;
+            this.lillyPadGenerator.getPads().forEach((pad) => {
+                pad.boundingSphereMesh.visible = false;
+            });
+            this.children.forEach((child) => {
+                if (child.name == 'fly') {
+                    child.boundingSphereMesh.visible = false;
+                }
+            });
         }
     }
 
@@ -234,17 +301,17 @@ class SeedScene extends Scene {
 
         if (!this.frog.onGround) {
             // if frog dies
-            if(this.frog.position.y < -3) {
+            if (this.frog.position.y < -3) {
                 this.AimGuide.clear();
             }
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
         }
-        if(this.frog.generateNewTerrain(this.scenes)) {
+        if (this.frog.generateNewTerrain(this.scenes)) {
             const terrain = new Terrain(this.frog);
             this.scenes.push(terrain);
             this.terrain = terrain;
             this.add(this.terrain);
-            console.log("new terain");
+            console.log('new terain');
         }
         // Call update for each object in the updateList
         for (const obj of updateList) {
