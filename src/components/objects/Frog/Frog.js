@@ -5,6 +5,7 @@ import {
     SphereGeometry,
     MeshBasicMaterial,
     Mesh,
+    Quaternion,
     Scene,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -12,6 +13,7 @@ import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './Frog.glb';
 import SceneParams from '../../../params';
 import { AudioLoader, Audio, AudioListener } from 'three';
+import Tongue from '../Tongue/Tongue';
 
 class Frog extends Group {
     constructor(parent, lillyPadGenerator) {
@@ -20,6 +22,10 @@ class Frog extends Group {
 
         // TiltUp animation
         this.tiltUp = new TWEEN.Tween(this.rotation).to({z: 1}, SceneParams.MAX_JUMP_TIME);
+
+        // Tongue
+        this.tongue = new Tongue();
+        this.add(this.tongue);
 
         // Init state
         this.state = {
@@ -243,39 +249,30 @@ class Frog extends Group {
             this.getWorldPosition(frogPosition);
 
             cameraOffsetPOV
-                .copy(SceneParams.FIRSTPERSONPOV)
-                .add(new Vector3(0, this.rotation.z, 0));
+                .copy(SceneParams.FIRSTPERSONPOV);
 
-            const lookPosition = frogPosition
-                .clone()
-                .add(new Vector3(0, 2 + this.rotation.z * 1.5, 5));
-            cameraOffsetLook.copy(lookPosition);
+            const distance = 5;
+            const dotDirection = new Vector3(0, 2, 5);
+            const dotDistance = dotDirection.clone().normalize().multiplyScalar(distance);
 
-            // Update the dot position based on the look-at direction
-            const dotDistance = 1; // Adjust the distance of the dot from the frog
-            const dotPosition = lookPosition
-                .clone()
-                .add(
-                    cameraOffsetLook
-                        .clone()
-                        .normalize()
-                        .multiplyScalar(dotDistance)
-                );
-            if (this.dot) {
-                // this.dot.position.copy(this.worldToLocal(dotPosition));
-            } else {
+            // Create a quaternion representing a 90-degree rotation around the Y-axis
+            const quaternion = new Quaternion();
+            quaternion.setFromAxisAngle(new Vector3(0, 1, 0), Math.PI / 2); // 90 degrees in radians
+
+            // Apply the quaternion rotation to the vector
+            dotDistance.applyQuaternion(quaternion);
+        
+            if (!this.dot) {
                 // Create the dot if it doesn't exist
                 const dotGeometry = new SphereGeometry(0.05); // Adjust the radius as needed
                 const dotMaterial = new MeshBasicMaterial({ color: 0x000000 });
                 this.dot = new Mesh(dotGeometry, dotMaterial);
-                this.dot.position.copy(this.worldToLocal(dotPosition));
+                this.dot.position.copy(dotDistance);
                 this.orignalDotPos = this.dot.position.clone();
                 this.add(this.dot);
             }
-            // console.log(this.orignalDotPos);
             camera.position.copy(frogPosition).add(cameraOffsetPOV);
-            camera.lookAt(cameraOffsetLook);
-            // camera.lookAt(this.localToWorld(this.dot.position.clone()));
+            camera.lookAt(this.localToWorld(this.dot.position.clone()));
         } else {
             this.getWorldPosition(frogPosition);
             cameraOffsetPOV.copy(SceneParams.THIRDPERSONPOV);
@@ -283,7 +280,7 @@ class Frog extends Group {
             const lookPosition = frogPosition
                 .clone()
                 .add(new Vector3(0, this.rotation.z, 0));
-            cameraOffsetLook.copy(lookPosition);
+            cameraOffsetLook.copy(lookPosition).add(new Vector3(0,1,0));
 
             // Remove the dot if it exists
             if (this.dot) {
@@ -296,33 +293,8 @@ class Frog extends Group {
         }
     }
 
-    moveDot(distance, key) {
-        if (SceneParams.FIRSTPERSON) {
-            const length = 3;
-            if (key == 'w') {
-                if (this.dot.position.y < this.orignalDotPos.y + length) {
-                    this.dot.position.y += distance;
-                }
-            } else if (key == 'a') {
-                if (this.dot.position.z > this.orignalDotPos.z - length) {
-                    this.dot.position.z -= distance;
-                }
-            } else if (key == 's') {
-                if (this.dot.position.y > this.orignalDotPos.y - length / 2) {
-                    this.dot.position.y -= distance;
-                }
-            } else if (key == 'd') {
-                if (this.dot.position.z < this.orignalDotPos.z + length) {
-                    this.dot.position.z += distance;
-                }
-            } else if (key == 'r') {
-                this.dot.position.set(
-                    this.orignalDotPos.x,
-                    this.orignalDotPos.y,
-                    this.orignalDotPos.z
-                );
-            }
-        }
+    getDotPosition() {
+        return this.position.clone().add(this.dot.position);
     }
 
     update(timeStamp) {

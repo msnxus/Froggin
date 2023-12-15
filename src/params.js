@@ -24,13 +24,13 @@ const SceneParams = {
     // Camera setting
     FIRSTPERSON: false,
     THIRDPERSONPOV: new Vector3(0, 8, -15),
-    FIRSTPERSONPOV: new Vector3(0, 1, 0),
+    FIRSTPERSONPOV: new Vector3(0, 1, -0.5),
     ENABLEPANNING: false,
 
     // bounding spheres
     DEBUGGING: false, // also affect aimguide
     FROG_RADIUS: 1.3,
-    FROG_BOUNDING_OFFSET: new Vector3(-0.2, 0, 0),
+    FROG_BOUNDING_OFFSET: new Vector3(-0.3, 0, 0),
     LILYPAD_RADIUS: 2.5,
     LILYPAD_BOUNDING_OFFSET:  new Vector3(-.9, 0, -.5),
 
@@ -47,7 +47,7 @@ const SceneParams = {
     NUM_INITIAL_PADS: 2,
 
     // Furthest a pad can be
-    LILYPAD_MAX_JUMP_RADIUS: 20,
+    LILYPAD_MAX_JUMP_RADIUS: 25,
 };
 
 export default SceneParams;
