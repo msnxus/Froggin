@@ -280,7 +280,7 @@ class Frog extends Group {
             const lookPosition = frogPosition
                 .clone()
                 .add(new Vector3(0, this.rotation.z, 0));
-            cameraOffsetLook.copy(lookPosition);
+            cameraOffsetLook.copy(lookPosition).add(new Vector3(0,1,0));
 
             // Remove the dot if it exists
             if (this.dot) {
