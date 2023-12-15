@@ -180,7 +180,7 @@ class SeedScene extends Scene {
                         const sound = new Audio(listener);
                         const audioLoader = new AudioLoader();
                         audioLoader.load(
-                            'https://raw.githubusercontent.com/msnxus/Froggin/ca5fd1b232fd4bd2651bed0fd66330a447b1134c/src/sounds/land.wav',
+                            'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/land.wav',
                             function (buffer) {
                                 sound.setBuffer(buffer);
                                 sound.setLoop(false);

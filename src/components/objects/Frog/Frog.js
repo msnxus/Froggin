@@ -109,7 +109,7 @@ class Frog extends Group {
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
             audioLoader.load(
-                'https://raw.githubusercontent.com/msnxus/Froggin/ca5fd1b232fd4bd2651bed0fd66330a447b1134c/src/sounds/jump.wav',
+                'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/jump.wav',
                 function (buffer) {
                     sound.setBuffer(buffer);
                     sound.setLoop(false);
@@ -363,7 +363,7 @@ class Frog extends Group {
             const sound = new Audio(listener);
             const audioLoader = new AudioLoader();
             audioLoader.load(
-                'https://raw.githubusercontent.com/msnxus/Froggin/ca5fd1b232fd4bd2651bed0fd66330a447b1134c/src/sounds/death.wav',
+                'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/death.wav',
                 function (buffer) {
                     sound.setBuffer(buffer);
                     sound.setLoop(false);
