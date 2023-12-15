@@ -22,7 +22,7 @@ class Terrain extends Group {
         // GRASSPOND -> Pond by Jarlan Perez [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1XazZeNBWG_)
         // WOODS -> Nature by 3Donimus [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0nsE2b8uXZy)
         // DESERT -> Desert by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/a1HnTCHfE34)
-        const SCENES = [DESERT, WOODS, GRASSPOND, WATERFALL];
+        const SCENES = [DESERT, WOODS, WATERFALL, GRASSPOND];
         const randNum = Math.floor(Math.random() * SCENES.length);
         this.name = SCENES[randNum];
 
@@ -39,6 +39,7 @@ class Terrain extends Group {
             if(SCENES[randNum] == GRASSPOND) {
                 gltf.scene.scale.set(grassScale, scale, grassScale);
                 gltf.scene.position.set(100, -10, 0).add(this.offset);
+                gltf.scene.rotation.y = Math.PI / 2;
             }
             if(SCENES[randNum] == WOODS) {
                 gltf.scene.scale.set(woodsScale, scale, woodsScale);
@@ -46,7 +47,7 @@ class Terrain extends Group {
             }
             if(SCENES[randNum] == DESERT) {
                 gltf.scene.scale.set(desertScale, desertScale, desertScale);
-                gltf.scene.position.set(95, -10, 0).add(this.offset);
+                gltf.scene.position.set(95, -20, 0).add(this.offset);
             }
             if(SCENES[randNum] == WATERFALL) {
                 gltf.scene.scale.set(scale, scale, scale);
