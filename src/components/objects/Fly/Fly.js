@@ -43,18 +43,17 @@ class Fly extends Group {
             initialPos.clone().add(flyOffset),
             radius
         ); // Adjust radius as needed
-        // For debugging: create a mesh to visualize the bounding sphere
-        if (SceneParams.DEBUGGING) {
-            const sphereGeom = new SphereGeometry(radius, 16, 16);
-            const sphereMat = new MeshBasicMaterial({
-                color: 'green',
-                wireframe: true,
-            });
-            this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
-            this.boundingSphereMesh.position.add(flyOffset);
+    // For debugging: create a mesh to visualize the bounding sphere
+        const sphereGeom = new SphereGeometry(radius, 16, 16);
+        const sphereMat = new MeshBasicMaterial({
+            color: 'green',
+            wireframe: true,
+        });
+        this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
+        this.boundingSphereMesh.position.add(flyOffset);
 
-            this.add(this.boundingSphereMesh);
-        }
+        this.add(this.boundingSphereMesh);
+        this.boundingSphereMesh.visible = SceneParams.BOUNDING_BOXES;
 
         // this.moving = true;
         this.startMovement();

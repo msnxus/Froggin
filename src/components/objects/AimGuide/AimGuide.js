@@ -90,7 +90,7 @@ class AimGuide extends Group {
             collisionArc.push(point3);
         }
 
-        if (SceneParams.DEBUGGING) {
+        if (SceneParams.BOUNDING_BOXES) {
             this.add(this.collisionLine);
         }
         this.collisionLineTween = this.createCollisionArcTween(this.collisionLine, position, collisionArc, SceneParams.MAX_JUMP_TIME, lillyPads);

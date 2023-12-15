@@ -21,7 +21,10 @@ class Frog extends Group {
         super();
 
         // TiltUp animation
-        this.tiltUp = new TWEEN.Tween(this.rotation).to({z: 1}, SceneParams.MAX_JUMP_TIME);
+        this.tiltUp = new TWEEN.Tween(this.rotation).to(
+            { z: 1 },
+            SceneParams.MAX_JUMP_TIME
+        );
 
         // Tongue
         this.tongue = new Tongue();
@@ -60,7 +63,7 @@ class Frog extends Group {
                 this.velocity = new Vector3();
                 this.onGround = true;
                 this.frozen = true;
-            }
+            },
         };
 
         this.dead = false;
@@ -77,20 +80,24 @@ class Frog extends Group {
 
         // collisions
         const radius = SceneParams.FROG_RADIUS;
-        const boundingPos = this.position.clone().add(SceneParams.FROG_BOUNDING_OFFSET);
+        const boundingPos = this.position
+            .clone()
+            .add(SceneParams.FROG_BOUNDING_OFFSET);
         this.boundingSphere = new Sphere(boundingPos, radius); // Adjust radius as needed
 
         // For debugging: create a mesh to visualize the bounding sphere
-        if (SceneParams.DEBUGGING) {
-            const sphereGeom = new SphereGeometry(radius, 16, 16);
-            const sphereMat = new MeshBasicMaterial({
-                color: 0xff0000,
-                wireframe: true,
-            });
-            this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
-            this.add(this.boundingSphereMesh);
-            this.boundingSphereMesh.position.copy(this.position).add(SceneParams.FROG_BOUNDING_OFFSET);
-        }
+        const sphereGeom = new SphereGeometry(radius, 16, 16);
+        const sphereMat = new MeshBasicMaterial({
+            color: 0xff0000,
+            wireframe: true,
+        });
+        this.boundingSphereMesh = new Mesh(sphereGeom, sphereMat);
+        this.add(this.boundingSphereMesh);
+        this.boundingSphereMesh.position
+            .copy(this.position)
+            .add(SceneParams.FROG_BOUNDING_OFFSET);
+        this.boundingSphereMesh.visible = SceneParams.BOUNDING_BOXES;
+        
         // Load object
         // Frog by Poly by Google [CC-BY] via Poly Pizza
         const loader = new GLTFLoader();
@@ -168,13 +175,15 @@ class Frog extends Group {
     generateNewTerrain(scenes) {
         let gen = false;
         for (const terrain of scenes) {
-            const dist = Math.sqrt(Math.pow(this.position.x - terrain.offset.x, 2) + Math.pow(this.position.z - terrain.offset.z, 2));
-            if(dist >= 180) {
+            const dist = Math.sqrt(
+                Math.pow(this.position.x - terrain.offset.x, 2) +
+                    Math.pow(this.position.z - terrain.offset.z, 2)
+            );
+            if (dist >= 180) {
                 gen = true;
             } else return false;
         }
         return gen;
-        
     }
 
     move(distance, totalRotation) {
@@ -248,12 +257,14 @@ class Frog extends Group {
         if (SceneParams.FIRSTPERSON) {
             this.getWorldPosition(frogPosition);
 
-            cameraOffsetPOV
-                .copy(SceneParams.FIRSTPERSONPOV);
+            cameraOffsetPOV.copy(SceneParams.FIRSTPERSONPOV);
 
             const distance = 5;
             const dotDirection = new Vector3(0, 2, 5);
-            const dotDistance = dotDirection.clone().normalize().multiplyScalar(distance);
+            const dotDistance = dotDirection
+                .clone()
+                .normalize()
+                .multiplyScalar(distance);
 
             // Create a quaternion representing a 90-degree rotation around the Y-axis
             const quaternion = new Quaternion();
@@ -261,7 +272,7 @@ class Frog extends Group {
 
             // Apply the quaternion rotation to the vector
             dotDistance.applyQuaternion(quaternion);
-        
+
             if (!this.dot) {
                 // Create the dot if it doesn't exist
                 const dotGeometry = new SphereGeometry(0.05); // Adjust the radius as needed
@@ -280,7 +291,7 @@ class Frog extends Group {
             const lookPosition = frogPosition
                 .clone()
                 .add(new Vector3(0, this.rotation.z, 0));
-            cameraOffsetLook.copy(lookPosition).add(new Vector3(0,1,0));
+            cameraOffsetLook.copy(lookPosition).add(new Vector3(0, 1, 0));
 
             // Remove the dot if it exists
             if (this.dot) {
@@ -308,7 +319,9 @@ class Frog extends Group {
             this.velocity.add(new Vector3(0, -SceneParams.GRAVITY, 0));
         }
 
-        this.boundingSphere.center.copy(this.position).add(SceneParams.FROG_BOUNDING_OFFSET);
+        this.boundingSphere.center
+            .copy(this.position)
+            .add(SceneParams.FROG_BOUNDING_OFFSET);
         TWEEN.update();
 
         if (this.position.y < -5 && !this.dead) {
@@ -326,9 +339,9 @@ class Frog extends Group {
 
             // death screen fadeout and reset froggy after 500 ms
             setTimeout(() => {
-                document.getElementById('death').style.opacity = 0
+                document.getElementById('death').style.opacity = 0;
                 this.state.reset();
-            }, 800); 
+            }, 800);
 
             // audio
             const listener = new AudioListener();
