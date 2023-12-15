@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Camera, Box3, Vector3, WebGLRenderer } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Frog, LillyPadGenerator, Pond } from 'objects';
+import { Frog, LillyPadGenerator, Terrain } from 'objects';
 import { BasicLights } from 'lights';
 import SceneParams from '../../params';
 

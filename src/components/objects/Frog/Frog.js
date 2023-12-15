@@ -159,11 +159,16 @@ class Frog extends Group {
         }
     }
 
-    generateNewTerrain(pond) {
-        const dist = Math.sqrt(Math.pow(this.position.x - pond.offset.x, 2) + Math.pow(this.position.z - pond.offset.z, 2));
-        if(dist >= 180) {
-            return true;
-        } else return false;
+    generateNewTerrain(scenes) {
+        let gen = false;
+        for (const terrain of scenes) {
+            const dist = Math.sqrt(Math.pow(this.position.x - terrain.offset.x, 2) + Math.pow(this.position.z - terrain.offset.z, 2));
+            if(dist >= 180) {
+                gen = true;
+            } else return false;
+        }
+        return gen;
+        
     }
 
     move(distance, totalRotation) {
@@ -269,8 +274,8 @@ class Frog extends Group {
             }
             // console.log(this.orignalDotPos);
             camera.position.copy(frogPosition).add(cameraOffsetPOV);
-            // camera.lookAt(cameraOffsetLook);
-            camera.lookAt(this.localToWorld(this.dot.position.clone()));
+            camera.lookAt(cameraOffsetLook);
+            // camera.lookAt(this.localToWorld(this.dot.position.clone()));
         } else {
             this.getWorldPosition(frogPosition);
             cameraOffsetPOV.copy(SceneParams.THIRDPERSONPOV);

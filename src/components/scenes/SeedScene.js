@@ -1,7 +1,7 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, Camera, Box3, Vector3, FogExp2 } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import { Frog, LillyPadGenerator, Pond, Fly } from 'objects';
+import { Frog, LillyPadGenerator, Terrain, Fly } from 'objects';
 import { BasicLights } from 'lights';
 import SceneParams from '../../params';
 import AimGuide from '../objects/AimGuide/AimGuide';
@@ -31,8 +31,10 @@ class SeedScene extends Scene {
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
 
-        this.pond = new Pond(this.frog);
-        this.add(this.lillyPadGenerator, this.fly, this.frog, lights, this.pond, this.AimGuide);
+        this.terrain = new Terrain(this.frog);
+        this.scenes = [this.terrain];
+        this.add(this.lillyPadGenerator, this.fly, this.frog, lights, this.terrain, this.AimGuide);
+        
 
 
         // Event listeners
@@ -58,14 +60,18 @@ class SeedScene extends Scene {
             }
         } else if (event.key === 'f') {
             SceneParams.FIRSTPERSON = !SceneParams.FIRSTPERSON;
-            SceneParams.ENABLEPANNING = !SceneParams.ENABLEPANNING;
         } else if (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd' || event.key === 'r') {
             this.frog.moveDot(0.2, event.key);
         } else if (event.key === 'l') {
-            this.frog.position.y += 0.5;
-            this.frog.position.x += 5;
+            if (SceneParams.DEBUGGING) {
+                this.frog.position.y += 0.5;
+                this.frog.position.x += 5;
+            }
+            
         } else if (event.key === 'h') {
-            this.frog.position.y += 5;
+            if (SceneParams.DEBUGGING) {
+                this.frog.position.y += 5;
+            }
         }
 
         const keyMap = {
@@ -129,6 +135,7 @@ class SeedScene extends Scene {
             this.AimGuide.endExtension();
             this.frog.tiltUp.stop();
             this.frog.rotation.z = 0;
+            console.log(this.terrain.name);
 
             // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
             this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
@@ -202,11 +209,12 @@ class SeedScene extends Scene {
         if (!this.frog.onGround) {
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
         }
-        if(this.frog.generateNewTerrain(this.pond)) {
-            const pond = new Pond(this.frog);
-            this.pond = pond;
-            this.add(this.pond);
-            // this.add(pond);
+        if(this.frog.generateNewTerrain(this.scenes)) {
+            const terrain = new Terrain(this.frog);
+            this.scenes.push(terrain);
+            this.terrain = terrain;
+            this.add(this.terrain);
+            console.log("new terain");
         }
         // Call update for each object in the updateList
         for (const obj of updateList) {
