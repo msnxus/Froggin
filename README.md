@@ -112,3 +112,6 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 - GRASSPOND -> Pond by Jarlan Perez [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1XazZeNBWG_)
 - WOODS -> Nature by 3Donimus [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0nsE2b8uXZy)
 - DESERT -> Desert by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/a1HnTCHfE34)
+- Frog -> Frog by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0QZHgL_V-Pj)
+- Lily Pad -> Lily Pad by Jarlan Perez [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/2SPd7jqCmPF)
+- Fly -> Fly by jeremy [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/f8kM9xA_5sV)
