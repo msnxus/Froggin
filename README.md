@@ -103,3 +103,12 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 - audio. AYO
 - ~~finish up parabola~~ RYAN
 - generate two lillypads each time we need to. AYO
+
+## CREDITS:
+- "Game Music from https://www.zapsplat.com"
+- Sound effects from https://freesound.org/ 
+- WATERFALL -> Waterfall scene by Nikki Morin [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/dkbjOPcyB2l)
+- ROCKPOND -> Pond by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/5rf3YuZfJAW)
+- GRASSPOND -> Pond by Jarlan Perez [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1XazZeNBWG_)
+- WOODS -> Nature by 3Donimus [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0nsE2b8uXZy)
+- DESERT -> Desert by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/a1HnTCHfE34)

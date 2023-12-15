@@ -1,7 +1,6 @@
 import { Group, Vector3 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import WATERFALL from './waterfall.glb';
-import ROCKPOND from './rockPond.glb';
 import GRASSPOND from './grassPond.glb';
 import WOODS from './woods.glb';
 import DESERT from './desert.glb';
@@ -19,7 +18,6 @@ class Terrain extends Group {
         
         this.offset = frog.position.clone();
         // WATERFALL -> Waterfall scene by Nikki Morin [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/dkbjOPcyB2l)
-        // ROCKPOND -> Pond by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/5rf3YuZfJAW)
         // GRASSPOND -> Pond by Jarlan Perez [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/1XazZeNBWG_)
         // WOODS -> Nature by 3Donimus [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/0nsE2b8uXZy)
         // DESERT -> Desert by Poly by Google [CC-BY] (https://creativecommons.org/licenses/by/3.0/) via Poly Pizza (https://poly.pizza/m/a1HnTCHfE34)
