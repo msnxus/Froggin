@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, Camera, Box3, Vector3, FogExp2 } from 'three';
+import { Scene, Color, Camera, Box3, Vector3, FogExp2, TextureLoader } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import { Frog, LillyPadGenerator, Terrain, Fly } from 'objects';
 import { BasicLights } from 'lights';
@@ -21,6 +21,8 @@ class SeedScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee); 
+        this.background = new TextureLoader().load("https://raw.githubusercontent.com/msnxus/Froggin/main/src/components/scenes/stars.jpg");
+
         // this.fogColor = new Color(0xd192a4);
 
         // Add fog
