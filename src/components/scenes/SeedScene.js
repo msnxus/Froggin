@@ -35,7 +35,7 @@ class SeedScene extends Scene {
 
         this.terrain = new Terrain(this.frog);
         this.scenes = [this.terrain];
-        this.add(this.lillyPadGenerator, this.fly, this.frog, lights, this.terrain, this.AimGuide);
+        this.add(this.lillyPadGenerator, this.frog, lights, this.terrain, this.AimGuide);
         
 
 
