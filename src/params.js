@@ -46,6 +46,9 @@ const SceneParams = {
     // Hacks (pressing l or h)
     HACKS_l_k: false,
 
+    // Terrain visible?
+    TERRAIN: true,
+
     // Game settings
     PAUSED: true,
     
@@ -53,7 +56,7 @@ const SceneParams = {
     TONGUE_COLLISION_RANGE: 25,
 
     // Number of initial pads to render
-    NUM_INITIAL_PADS: 2,
+    NUM_INITIAL_PADS: 10,
 
     // Furthest a pad can be
     LILYPAD_MAX_JUMP_RADIUS: 20,
