@@ -29,6 +29,10 @@ class LillyPadGenerator extends Group {
         ];
     }
 
+    getAllPads() {
+        return [...this.previous, this.current, ...this.next];
+    }
+
     generateFly(padPosition) {
         // generate an offset from the pad position that adds
         // some height and some random angle and distance

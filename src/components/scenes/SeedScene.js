@@ -31,6 +31,7 @@ class SeedScene extends Scene {
         };
 
         this.camera = null;
+        this.fliesScore = 0
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
@@ -153,7 +154,7 @@ class SeedScene extends Scene {
     moveDot(key) {
         let factor = 8;
         if (key == 'w') {
-            if (this.frog.rotation.z < 0.15) {
+            if (this.frog.rotation.z < 0.4) {
                 new TWEEN.Tween(this.frog.rotation)
                     .to({ z: this.frog.rotation.z + 0.01 * factor }, 100)
                     .start();
@@ -163,7 +164,7 @@ class SeedScene extends Scene {
                 .to({ y: this.frog.rotation.y + 0.01 * factor }, 100)
                 .start();
         } else if (key == 's') {
-            if (this.frog.rotation.z > -0.4) {
+            if (this.frog.rotation.z > -0.5) {
                 new TWEEN.Tween(this.frog.rotation)
                     .to({ z: this.frog.rotation.z - 0.01 * factor }, 100)
                     .start();
@@ -233,7 +234,9 @@ class SeedScene extends Scene {
 
                             if (intersect.length && intersect[0].distance > 0 && intersect[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
                                 // intersection
-                                console.log("INTERSECTION");
+                                this.remove(child);
+                                this.fliesScore += 3;
+                                this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
                                 const listener = new AudioListener();
                                 const sound = new Audio(listener);
                                 const audioLoader = new AudioLoader();
@@ -300,12 +303,12 @@ class SeedScene extends Scene {
 
                     localStorage.setItem(
                         'high-score',
-                        Math.max(hiScore, pad.index)
+                        Math.max(hiScore, pad.index + this.fliesScore)
                     );
                     document.getElementById('score-content').innerText =
-                        pad.index;
+                        pad.index + this.fliesScore;
                     document.getElementById('hi-score-content').innerText =
-                        Math.max(hiScore, pad.index);
+                        Math.max(hiScore, pad.index + this.fliesScore);
 
                     break;
                 }
@@ -316,7 +319,7 @@ class SeedScene extends Scene {
     toggleBounding(value) {
         if (value) {
             this.frog.boundingSphereMesh.visible = true;
-            this.lillyPadGenerator.getPads().forEach((pad) => {
+            this.lillyPadGenerator.getAllPads().forEach((pad) => {
                 pad.boundingSphereMesh.visible = true;
             });
             this.children.forEach((child) => {

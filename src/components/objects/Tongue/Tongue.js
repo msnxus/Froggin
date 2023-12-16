@@ -57,7 +57,7 @@ class Tongue extends Group {
             this.tongue.lookAt(dotPosition);
             this.add(this.tongue);
     
-            const extendDuration = 200; // Duration for extending in milliseconds
+            const extendDuration = 50; // Duration for extending in milliseconds
     
             this.motion = new TWEEN.Tween({ progress: 0 })
                 .to({ progress: 1 }, extendDuration) // Tween duration: duration (ms)
@@ -83,7 +83,7 @@ class Tongue extends Group {
     }
 
     retract(position) {
-        const retractDuration = 200;
+        const retractDuration = 150;
         const initPosition = position.clone();
         const distance = 6.5;
     
