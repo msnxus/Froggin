@@ -1,6 +1,9 @@
 ## Youtube Video Link
 https://youtu.be/tUl-VPF1PkI
 
+## Writeup Link
+https://docs.google.com/document/d/1KLVc6gF3ilO1SPWKjl3dRvcgzWwNsQDRhPOUnM_bIng/edit?usp=sharing
+
 ## CREDITS:
 - "Game Music from https://www.zapsplat.com"
 - Sound effects from https://freesound.org/ 
