@@ -329,7 +329,7 @@ class SeedScene extends Scene {
             });
         } else {
             this.frog.boundingSphereMesh.visible = false;
-            this.lillyPadGenerator.getPads().forEach((pad) => {
+            this.lillyPadGenerator.getAllPads().forEach((pad) => {
                 pad.boundingSphereMesh.visible = false;
             });
             this.children.forEach((child) => {
