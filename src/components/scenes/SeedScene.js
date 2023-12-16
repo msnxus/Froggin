@@ -8,6 +8,9 @@ import {
     FogExp2,
     TextureLoader,
     Intersection,
+    PlaneGeometry,
+    Mesh,
+    MeshBasicMaterial,
     Raycaster,
     Quaternion,
 } from 'three';
@@ -50,7 +53,17 @@ class SeedScene extends Scene {
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
 
-        this.terrain = new Terrain(this.frog, true);
+
+        const planeGeometry = new PlaneGeometry(100000, 100000); // Adjust the size as needed
+        const material = new MeshBasicMaterial({ color: 0x6EB5FF }); // Light blue color
+        const water = new Mesh(planeGeometry, material);
+        water.position.y = -2;
+        water.rotation.x = -Math.PI / 2; // Rotates it to be parallel to the ground
+        this.water = water;
+        this.add(this.water);
+        this.water.visible = false;
+
+        this.terrain = new Terrain(this.frog);
         this.scenes = [this.terrain];
         this.add(
             this.lillyPadGenerator,
@@ -151,6 +164,21 @@ class SeedScene extends Scene {
         }
     }
 
+    toggleTerrain(value) {
+        if (value) {
+            this.scenes.forEach((terrain) => {
+                terrain.visible = true;
+            });
+            this.water.visible = false;
+        }
+        else {
+            this.scenes.forEach((terrain) => {
+                terrain.visible = false;
+            });
+            this.water.visible = true;
+        }
+    }
+
     moveDot(key) {
         let factor = 8;
         if (key == 'w') {
@@ -246,7 +274,7 @@ class SeedScene extends Scene {
                             if (intersect.length && intersect[0].distance > 0 && intersect[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
                                 // intersection
                                 this.remove(child);
-                                this.fliesScore += 3;
+                                this.fliesScore += 2;
                                 this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
                                 const listener = new AudioListener();
                                 const sound = new Audio(listener);
@@ -370,6 +398,7 @@ class SeedScene extends Scene {
             this.scenes.push(terrain);
             this.terrain = terrain;
             this.add(this.terrain);
+            this.terrain.visible = SceneParams.TERRAIN;
         }
         // Call update for each object in the updateList
         for (const obj of updateList) {

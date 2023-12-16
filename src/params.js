@@ -38,12 +38,16 @@ const SceneParams = {
 
     FLY_RADIUS: 1.5,
     FLY_BOUNDING_OFFSET: new Vector3(0, 0.3, -0.2),
-    FLY_SPAWN_CHANCE: 0.15,
+    FLY_SPAWN_CHANCE: 0.2,
+    FLY_SCORE_REWARD: 2,
     // How long until max jump heigh/dist
     MAX_JUMP_TIME: 1400,
 
     // Hacks (pressing l or h)
     HACKS_l_k: false,
+
+    // Terrain visible?
+    TERRAIN: true,
 
     // Game settings
     PAUSED: true,
@@ -52,7 +56,7 @@ const SceneParams = {
     TONGUE_COLLISION_RANGE: 25,
 
     // Number of initial pads to render
-    NUM_INITIAL_PADS: 2,
+    NUM_INITIAL_PADS: 10,
 
     // Furthest a pad can be
     LILYPAD_MAX_JUMP_RADIUS: 20,

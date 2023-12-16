@@ -41,10 +41,8 @@ class Tongue extends Group {
             this.direction = dotPosition.clone().sub(initPosition).normalize();
             this.finalPosition = this.direction.multiplyScalar(distance);
     
-            // Create a material with pink color
             let material = new MeshBasicMaterial({ color: 0xff00ff }); // Pink color
     
-            // Define the geometry for the rectangle
             const width = 0.2; // Width of the rectangle
             const height = 0.05; // Height of the rectangle
             const depth = 0.05; // Depth of the rectangle
@@ -64,11 +62,7 @@ class Tongue extends Group {
                 .onUpdate(({ progress }) => {
                     let geometry = this.tongue.geometry;
                     let updatedGeometry = new BoxBufferGeometry(geometry.parameters.width, geometry.parameters.height, progress * distance);
-
-                    // Dispose the old geometry to release memory
                     geometry.dispose();
-
-                    // Apply the updated geometry to the tongue Mesh
                     this.tongue.geometry = updatedGeometry;
 
                     const currentPosition = initPosition.clone().lerp(this.finalPosition.clone().multiplyScalar(0.5), progress);
