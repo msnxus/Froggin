@@ -7,6 +7,8 @@ import {
     Vector3,
     FogExp2,
     TextureLoader,
+    Intersection,
+    Raycaster,
     Quaternion,
 } from 'three';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
@@ -27,6 +29,8 @@ class SeedScene extends Scene {
             rotationSpeed: 0,
             updateList: [],
         };
+        
+        this.camera = null;
 
         // Set background to a nice color
         this.background = new Color(0x7ec0ee);
@@ -195,8 +199,31 @@ class SeedScene extends Scene {
 
                 this.keyDownTime = 0; // Reset the keyDownTime
             } else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
+                if(!this.frog.tongue.extending) {
                 this.frog.tongue.extend(this.frog.dot.position);
                 }
+                // Collision with flies
+                this.children.forEach((child) => {
+                        if (child.name == 'fly') {
+                            // Define the raycaster
+                            let raycaster = new Raycaster();
+                            let direction = this.frog.localToWorld(this.frog.dot.position.clone());
+                            var origin = this.camera.position.clone();
+                            //console.log(origin);
+                            //console.log(direction);
+                            raycaster.set(origin, direction);
+                            
+                            let intersects = raycaster.intersectObject(child.getWorldBoundingSphere());
+                            
+                            if (intersects.length > 0) {
+                                if (intersects[0].distance > 0 && intersects[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
+                                    // Ray intersects with the sphere
+                                    console.log("Collision detected!");
+                                }
+                        }
+                    }
+                });
+            }
         }
     }
 
@@ -284,7 +311,8 @@ class SeedScene extends Scene {
         }
     }
 
-    update(timeStamp) {
+    update(timeStamp, camera) {
+        this.camera = camera;
         const { rotationSpeed, updateList } = this.state;
         this.rotation.y = -this.frog.rotation.y - Math.PI / 2;
 

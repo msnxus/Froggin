@@ -69,6 +69,16 @@ class Fly extends Group {
     getWorldBoundingSphere() {
         const worldPosition = new Vector3();
         this.getWorldPosition(worldPosition);
+        const boundingSphereWorld = new Sphere(
+            worldPosition,
+            SceneParams.FLY_RADIUS
+        ); // Use the same radius as your local bounding sphere
+        return boundingSphereWorld;
+    }
+
+    getWorldBoundingSphere() {
+        const worldPosition = new Vector3();
+        this.getWorldPosition(worldPosition);
         worldPosition.add(SceneParams.LILYPAD_BOUNDING_OFFSET);
         const boundingSphereWorld = new Sphere(
             worldPosition,

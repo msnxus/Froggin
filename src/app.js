@@ -63,7 +63,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     controls.enabled = SceneParams.ENABLEPANNING;
     scene.frog.updateCamera(camera);
     renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp);
+    scene.update && scene.update(timeStamp, camera);
     window.requestAnimationFrame(onAnimationFrameHandler);
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
