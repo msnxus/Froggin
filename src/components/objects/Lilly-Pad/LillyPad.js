@@ -120,7 +120,7 @@ class LillyPad extends Group {
             new Vector3(0, Math.random() * SceneParams.LILYPAD_MAX_Y_OFF, 0)
         );
 
-        const newPad = this.clone();
+        const newPad = this.clone(false);
         newPad.addToPosition(offset);
         newPad.index = this.index + 1;
         newPad.disappearing =
