@@ -215,28 +215,30 @@ class SeedScene extends Scene {
             } else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
                 if (!this.frog.tongue.extending) {
                     this.frog.tongue.extend(this.frog.dot.position);
-                }
+                
 
-                // https://stackoverflow.com/questions/63338784/three-js-getworldposition-target-is-now-required-error-message
-                let raycaster = new Raycaster();
-                var cameraPostion = new Vector3();
-                var cameraDirection = new Vector3();
-                this.camera.getWorldPosition(cameraPostion);
-                this.camera.getWorldDirection(cameraDirection);
-                raycaster.set(cameraPostion, cameraDirection);
+                    // https://stackoverflow.com/questions/63338784/three-js-getworldposition-target-is-now-required-error-message
+                    let raycaster = new Raycaster();
+                    var cameraPostion = new Vector3();
+                    var cameraDirection = new Vector3();
+                    this.camera.getWorldPosition(cameraPostion);
+                    this.camera.getWorldDirection(cameraDirection);
+                    raycaster.set(cameraPostion, cameraDirection);
 
-                // Collision with flies
-                this.children.forEach((child) => {
-                    if (child.name == 'fly') {
-                        // Define the raycaster
-                        // let childBounding = child.getWorldBoundingSphere()
-                        let intersect = raycaster.intersectObject(child);
+                    // Collision with flies
+                    this.children.forEach((child) => {
+                        if (child.name == 'fly') {
+                            // Define the raycaster
+                            // let childBounding = child.getWorldBoundingSphere()
+                            let intersect = raycaster.intersectObject(child);
 
-                        if (intersect.length) {
-                            console.log(intersect);
+                            if (intersect.length && intersect[0].distance > 0 && intersect[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
+                                // intersection
+                                console.log("INTERSECTION");
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         }
     }

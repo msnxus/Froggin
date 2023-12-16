@@ -36,7 +36,7 @@ const SceneParams = {
 
     LILYPAD_MAX_Y_OFF: 5,
 
-    FLY_RADIUS: 3,
+    FLY_RADIUS: 1.5,
     FLY_BOUNDING_OFFSET: new Vector3(0, 0.3, -0.2),
     FLY_SPAWN_CHANCE: 1,
     // How long until max jump heigh/dist
@@ -49,7 +49,7 @@ const SceneParams = {
     PAUSED: true,
     
     // Tongue
-    TONGUE_COLLISION_RANGE: 100000,
+    TONGUE_COLLISION_RANGE: 20,
 
     // Number of initial pads to render
     NUM_INITIAL_PADS: 2,
