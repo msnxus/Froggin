@@ -61,7 +61,7 @@ class SeedScene extends Scene {
         water.rotation.x = -Math.PI / 2; // Rotates it to be parallel to the ground
         this.water = water;
         this.add(this.water);
-        this.water.visible = false;
+        this.water.visible = true;
 
         this.terrain = new Terrain(this.frog);
         this.scenes = [this.terrain];
@@ -72,6 +72,7 @@ class SeedScene extends Scene {
             this.terrain,
             this.AimGuide
         );
+        this.terrain.visible = false;
 
         // Event listeners
         this.keyDownTime = 0;

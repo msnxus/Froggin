@@ -38,7 +38,7 @@ gui.add(SceneParams, 'BOUNDING_BOXES', false, true).onChange((value) => {
 gui.add(SceneParams, 'HACKS_l_k', false, true).onChange((value) => {
     SceneParams.HACKS_l_k = value;
 });
-gui.add(SceneParams, 'TERRAIN', true, false).onChange((value) => {
+gui.add(SceneParams, 'TERRAIN', false, true).onChange((value) => {
     SceneParams.TERRAIN = value;
     scene.toggleTerrain(value)
 });
