@@ -246,7 +246,7 @@ class SeedScene extends Scene {
                             if (intersect.length && intersect[0].distance > 0 && intersect[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
                                 // intersection
                                 this.remove(child);
-                                this.fliesScore += 3;
+                                this.fliesScore += 2;
                                 this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
                                 const listener = new AudioListener();
                                 const sound = new Audio(listener);
