@@ -29,7 +29,7 @@ class SeedScene extends Scene {
             rotationSpeed: 0,
             updateList: [],
         };
-        
+
         this.camera = null;
 
         // Set background to a nice color
@@ -72,12 +72,21 @@ class SeedScene extends Scene {
     }
 
     handleKeyDown(event) {
-        if (!SceneParams.PAUSED) { // only allow inputs if the game is not paused
-            if (event.key === ' ' && this.keyDownTime === 0 && !SceneParams.FIRSTPERSON) {
-                if(this.frog.onGround) {
+        if (!SceneParams.PAUSED) {
+            // only allow inputs if the game is not paused
+            if (
+                event.key === ' ' &&
+                this.keyDownTime === 0 &&
+                !SceneParams.FIRSTPERSON
+            ) {
+                if (this.frog.onGround) {
                     this.keyDownTime = new Date().getTime();
                     this.AimGuide.isActive = true;
-                    this.AimGuide.startExtension(this.frog.position.clone(), this.frog.rotation, this.lillyPadGenerator.getPads());
+                    this.AimGuide.startExtension(
+                        this.frog.position.clone(),
+                        this.frog.rotation,
+                        this.lillyPadGenerator.getPads()
+                    );
                     // Frog tiltup TWEEN
                     this.frog.tiltUp.start();
                 }
@@ -88,11 +97,16 @@ class SeedScene extends Scene {
                     if (SceneParams.FIRSTPERSON) {
                         SceneParams.FIRSTPERSON = false;
                         this.frog.rotation.z = 0;
-                    }
-                    else {
+                    } else {
                         SceneParams.FIRSTPERSON = true;
                     }
-                } else if (SceneParams.FIRSTPERSON && (event.key === 'w' || event.key === 'a' || event.key === 's' || event.key === 'd')) {
+                } else if (
+                    SceneParams.FIRSTPERSON &&
+                    (event.key === 'w' ||
+                        event.key === 'a' ||
+                        event.key === 's' ||
+                        event.key === 'd')
+                ) {
                     this.moveDot(event.key);
                 } else if (event.key === 'l' && SceneParams.HACKS_l_k) {
                     this.frog.position.y += 0.5;
@@ -188,38 +202,38 @@ class SeedScene extends Scene {
                     keyUpTime - this.keyDownTime
                 );
 
-                    this.AimGuide.isActive = false;
-                    this.AimGuide.endExtension();
-                    this.frog.tiltUp.stop();
-                    this.frog.rotation.z = 0;
-                    console.log(this.terrain.name);
+                this.AimGuide.isActive = false;
+                this.AimGuide.endExtension();
+                this.frog.tiltUp.stop();
+                this.frog.rotation.z = 0;
+                console.log(this.terrain.name);
 
-                    // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
-                    this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
+                // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
+                this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
 
                 this.keyDownTime = 0; // Reset the keyDownTime
             } else if (event.key == ' ' && SceneParams.FIRSTPERSON) {
-                if(!this.frog.tongue.extending) {
-                this.frog.tongue.extend(this.frog.dot.position);
+                if (!this.frog.tongue.extending) {
+                    this.frog.tongue.extend(this.frog.dot.position);
                 }
+
+                // https://stackoverflow.com/questions/63338784/three-js-getworldposition-target-is-now-required-error-message
+                let raycaster = new Raycaster();
+                var cameraPostion = new Vector3();
+                var cameraDirection = new Vector3();
+                this.camera.getWorldPosition(cameraPostion);
+                this.camera.getWorldDirection(cameraDirection);
+                raycaster.set(cameraPostion, cameraDirection);
+
                 // Collision with flies
                 this.children.forEach((child) => {
-                        if (child.name == 'fly') {
-                            // Define the raycaster
-                            let raycaster = new Raycaster();
-                            let direction = this.frog.localToWorld(this.frog.dot.position.clone());
-                            var origin = this.camera.position.clone();
-                            //console.log(origin);
-                            //console.log(direction);
-                            raycaster.set(origin, direction);
-                            
-                            let intersects = raycaster.intersectObject(child.getWorldBoundingSphere());
-                            
-                            if (intersects.length > 0) {
-                                if (intersects[0].distance > 0 && intersects[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
-                                    // Ray intersects with the sphere
-                                    console.log("Collision detected!");
-                                }
+                    if (child.name == 'fly') {
+                        // Define the raycaster
+                        // let childBounding = child.getWorldBoundingSphere()
+                        let intersect = raycaster.intersectObject(child);
+
+                        if (intersect.length) {
+                            console.log(intersect);
                         }
                     }
                 });
