@@ -37,8 +37,11 @@ export function init_pages(window, document) {
     window.addEventListener('keyup', (event) => {
         if (event.key == 'p') {
             SceneParams.PAUSED = !SceneParams.PAUSED
-            let opac = document.getElementById('menu').style.opacity;
-            document.getElementById('menu').style.opacity = opac == '' ? 0 : '';
+            let menu = document.getElementById('menu');
+            // menu.style.visibility = 'visible'
+            let opac = menu.style.opacity;
+            menu.style.opacity = opac == '' ? 0 : '';
+            
             // audio
             const listener = new AudioListener();
             const sound = new Audio(listener);

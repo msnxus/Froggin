@@ -340,6 +340,11 @@ class Frog extends Group {
             // death screen fadeout and reset froggy after 500 ms
             setTimeout(() => {
                 document.getElementById('death').style.opacity = 0;
+                setTimeout(() => {
+                    document.getElementById('death').style.visibility =
+                        'hidden';
+                }, 500);
+                
                 this.state.reset();
             }, 800);
 
