@@ -224,14 +224,25 @@ class SeedScene extends Scene {
                     this.camera.getWorldPosition(cameraPostion);
                     this.camera.getWorldDirection(cameraDirection);
                     raycaster.set(cameraPostion, cameraDirection);
-
+                    const listener = new AudioListener();
+                    const sound = new Audio(listener);
+                    const audioLoader = new AudioLoader();
+                    audioLoader.load(
+                        'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/lick.mp3',
+                        function (buffer) {
+                            sound.setBuffer(buffer);
+                            sound.setLoop(false);
+                            sound.setVolume(1);
+                            sound.play();
+                        }
+                    );
                     // Collision with flies
                     this.children.forEach((child) => {
                         if (child.name == 'fly') {
                             // Define the raycaster
                             // let childBounding = child.getWorldBoundingSphere()
                             let intersect = raycaster.intersectObject(child);
-
+                            
                             if (intersect.length && intersect[0].distance > 0 && intersect[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
                                 // intersection
                                 this.remove(child);
