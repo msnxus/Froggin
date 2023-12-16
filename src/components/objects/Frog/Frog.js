@@ -179,7 +179,7 @@ class Frog extends Group {
                 Math.pow(this.position.x - terrain.offset.x, 2) +
                     Math.pow(this.position.z - terrain.offset.z, 2)
             );
-            if (dist >= 180) {
+            if (dist >= 130) {
                 gen = true;
             } else return false;
         }

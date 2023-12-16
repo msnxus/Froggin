@@ -26,6 +26,9 @@ const scene = new SeedScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
+// reload feature
+let reload = {New_Game: function(){window.location.reload()}};
+
 // gui
 const gui = new dat.GUI();
 gui.add(SceneParams, 'BOUNDING_BOXES', false, true).onChange((value) => {  
@@ -35,6 +38,7 @@ gui.add(SceneParams, 'BOUNDING_BOXES', false, true).onChange((value) => {
 gui.add(SceneParams, 'HACKS_l_k', false, true).onChange((value) => {
     SceneParams.HACKS_l_k = value;
 });
+gui.add(reload, 'New_Game');
 
 // Set up camera
 // ------------------------------ CHANGE CAMERA SETTINGS HERE ------------------------------

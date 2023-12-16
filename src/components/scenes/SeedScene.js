@@ -206,7 +206,6 @@ class SeedScene extends Scene {
                 this.AimGuide.endExtension();
                 this.frog.tiltUp.stop();
                 this.frog.rotation.z = 0;
-                console.log(this.terrain.name);
 
                 // Assuming frog is accessible here, otherwise you need to pass it or reference it appropriately
                 this.frog.jump(700 * (duration / SceneParams.MAX_JUMP_TIME)); // Adjust this line as per your code structure
@@ -235,6 +234,18 @@ class SeedScene extends Scene {
                             if (intersect.length && intersect[0].distance > 0 && intersect[0].distance < SceneParams.TONGUE_COLLISION_RANGE) {
                                 // intersection
                                 console.log("INTERSECTION");
+                                const listener = new AudioListener();
+                                const sound = new Audio(listener);
+                                const audioLoader = new AudioLoader();
+                                audioLoader.load(
+                                    'https://raw.githubusercontent.com/msnxus/Froggin/main/src/sounds/gulp.wav',
+                                    function (buffer) {
+                                        sound.setBuffer(buffer);
+                                        sound.setLoop(false);
+                                        sound.setVolume(1);
+                                        sound.play();
+                                    }
+                                );
                             }
                         }
                     });
@@ -258,7 +269,6 @@ class SeedScene extends Scene {
             if (
                 frogWorldBoundingSphere.intersectsSphere(padWorldBoundingSphere)
             ) {
-                // console.log(frog.boundingSphere.center)
                 if (
                     frog.position.y - pad.position.y <= 0 &&
                     frog.velocity.y <= 0
@@ -346,7 +356,6 @@ class SeedScene extends Scene {
             this.scenes.push(terrain);
             this.terrain = terrain;
             this.add(this.terrain);
-            console.log('new terain');
         }
         // Call update for each object in the updateList
         for (const obj of updateList) {
