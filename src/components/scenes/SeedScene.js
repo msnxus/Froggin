@@ -50,7 +50,7 @@ class SeedScene extends Scene {
         this.AimGuide = new AimGuide();
         const lights = new BasicLights();
 
-        this.terrain = new Terrain(this.frog);
+        this.terrain = new Terrain(this.frog, true);
         this.scenes = [this.terrain];
         this.add(
             this.lillyPadGenerator,
@@ -365,7 +365,7 @@ class SeedScene extends Scene {
             }
             this.checkCollision(this.frog, this.lillyPadGenerator.getPads());
         }
-        if (this.frog.generateNewTerrain(this.scenes)) {
+        if (this.frog.generateNewTerrain(this.scenes, false)) {
             const terrain = new Terrain(this.frog);
             this.scenes.push(terrain);
             this.terrain = terrain;

@@ -10,7 +10,7 @@ import { WebGLAttributes } from 'three/src/renderers/webgl/WebGLAttributes';
 
 
 class Terrain extends Group {
-    constructor(frog) {
+    constructor(frog, first) {
         // Call parent Group() constructor
         super();
 
@@ -32,28 +32,53 @@ class Terrain extends Group {
             let woodsScale = 50;
             let desertScale = 0.2;
             
+            if (first) { // make the first scene close, make the next ones far
+                first = false;
+                gltf.scene.rotation.y = Math.PI;
+                if(SCENES[randNum] == GRASSPOND) {
+                    gltf.scene.scale.set(grassScale, scale, grassScale);
+                    gltf.scene.position.set(100, -10, 0).add(this.offset);
+                    gltf.scene.rotation.y = Math.PI / 2;
+                }
+                if(SCENES[randNum] == WOODS) {
+                    gltf.scene.scale.set(woodsScale, scale, woodsScale);
+                    gltf.scene.position.set(110, -20, 0).add(this.offset);
+                }
+                if(SCENES[randNum] == DESERT) {
+                    gltf.scene.scale.set(desertScale, desertScale, desertScale);
+                    gltf.scene.position.set(95, -25, 0).add(this.offset);
+                }
+                if(SCENES[randNum] == CAVE) {
+                    gltf.scene.scale.set(caveScale, caveScale, caveScale);
+                    gltf.scene.position.set(100, -20, 20).add(this.offset);
+                    gltf.scene.rotation.y = Math.PI / 2;
 
-            gltf.scene.rotation.y = Math.PI;
-            if(SCENES[randNum] == GRASSPOND) {
-                gltf.scene.scale.set(grassScale, scale, grassScale);
-                gltf.scene.position.set(100, -10, 0).add(this.offset);
-                gltf.scene.rotation.y = Math.PI / 2;
-            }
-            if(SCENES[randNum] == WOODS) {
-                gltf.scene.scale.set(woodsScale, scale, woodsScale);
-                gltf.scene.position.set(110, -20, 0).add(this.offset);
-            }
-            if(SCENES[randNum] == DESERT) {
-                gltf.scene.scale.set(desertScale, desertScale, desertScale);
-                gltf.scene.position.set(95, -25, 0).add(this.offset);
-            }
-            if(SCENES[randNum] == CAVE) {
-                gltf.scene.scale.set(caveScale, caveScale, caveScale);
-                gltf.scene.position.set(100, -20, 20).add(this.offset);
-                gltf.scene.rotation.y = Math.PI / 2;
+                }
+                this.add(gltf.scene);
+            } else {
+                gltf.scene.rotation.y = Math.PI;
+                if(SCENES[randNum] == GRASSPOND) {
+                    gltf.scene.scale.set(grassScale, scale, grassScale);
+                    gltf.scene.position.set(210, -10, 0).add(this.offset);
+                    gltf.scene.rotation.y = Math.PI / 2;
+                }
+                if(SCENES[randNum] == WOODS) {
+                    gltf.scene.scale.set(woodsScale, scale, woodsScale);
+                    gltf.scene.position.set(220, -20, 0).add(this.offset);
+                }
+                if(SCENES[randNum] == DESERT) {
+                    gltf.scene.scale.set(desertScale, desertScale, desertScale);
+                    gltf.scene.position.set(200, -25, 0).add(this.offset);
+                }
+                if(SCENES[randNum] == CAVE) {
+                    gltf.scene.scale.set(caveScale, caveScale, caveScale);
+                    gltf.scene.position.set(180, -20, 20).add(this.offset);
+                    gltf.scene.rotation.y = Math.PI / 2;
 
+                }
+                this.add(gltf.scene);
             }
-            this.add(gltf.scene);
+            
         });
         
         

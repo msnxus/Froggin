@@ -114,6 +114,9 @@ class Frog extends Group {
         // dot properties
         this.orignalDotPos = new Vector3();
         this.camera;
+
+        // first terrain
+        this.first = true;
     }
 
     jump(power) {
@@ -179,9 +182,19 @@ class Frog extends Group {
                 Math.pow(this.position.x - terrain.offset.x, 2) +
                     Math.pow(this.position.z - terrain.offset.z, 2)
             );
-            if (dist >= 130) {
-                gen = true;
-            } else return false;
+            if (this.first) {
+                if (dist >= 80) {
+                    this.first = false;
+                    gen = true;
+                } else {
+                    return false;
+                }
+            } else {
+                if (dist >= 150) {
+                    gen = true;
+                } else return false;
+            }
+            
         }
         return gen;
     }
